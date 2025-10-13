@@ -29,7 +29,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 
 #Train decision tree classifier model
-#ToDo: add hyperparameter tuning, pruning, others
+#ToDo: add hyperparameter tuning, pruning, pipeline with preprocessing
 model = DecisionTreeClassifier(
     criterion='entropy',
     max_depth=5,

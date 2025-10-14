@@ -33,12 +33,16 @@ def orchestrate(query):
     system_query = (
         f"""You are an assistant. 
         Use information in the context to answer the question.
-        If you use information from a document, include the document uri in your answer (source: uri).
+        If you use information from a document, cite it using its document id.
         If unsure, say you don't know."""
     )
+    
     llm_query = system_query + "\n\nContext:\n"
-    for (i,c) in enumerate(context):
-        llm_query += f"[{i}]: {c['text']} (source: {c['metadata'][source_uri_string]})\n\n"
+    for i,c in enumerate(context,start=1):
+        text = c['text']
+        uri = c['metadata'][source_uri_string]
+        doc_id = "[{}]: ".format(i)
+        llm_query += doc_id + f"{text} (source: {uri})\n\n"
 
     llm_query += f"Question: {query}" + "\n\nAnswer:"
     [llm_response,completion_reason] = call_llm(llm_query)

@@ -5,9 +5,9 @@ from context_retriever import KNOWLEDGE_BASE_ID
 
 BEDROCK_MODEL_ID = 'amazon.titan-text-lite-v1'
 bedrock = boto3.client('bedrock-runtime', region_name='us-east-1')
+source_uri_string = 'x-amz-bedrock-kb-source-uri'
 
 def call_llm(query):
-    print('CALL-LLM')
     body = json.dumps({
         "inputText": query,
         "textGenerationConfig": {
@@ -32,12 +32,15 @@ def orchestrate(query):
     context_size = 5
     context = retrieve_context(query,KNOWLEDGE_BASE_ID,context_size)
     system_query = (
-        f"You are an assistant. Use the information in the context to answer the question. If unsure, say you don't know."
+        f"""You are an assistant. 
+        Use information in the context to answer the question.
+        If you use information from a source, include the source in your answer.
+        If unsure, say you don't know."""
     )
     llm_query = system_query + "\nQuestion: " + query + "\nContext:\n"
-    for c in context:
-        llm_query += f"{c['text']}\n\n"
-    print(llm_query)
+    for (i,c) in enumerate(context):
+        llm_query += f"[{i}]: {c['text']} (source: {c['metadata'][source_uri_string]})\n\n"
+
     [llm_response,completion_reason] = call_llm(llm_query)
     #while completion_reason != 'FINISH':
         #do necessary actions

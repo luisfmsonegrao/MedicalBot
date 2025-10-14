@@ -1,14 +1,20 @@
-import os
+import os, sys
 import boto3
 import glob
 
-local_folder = "./../data/markdowns/"
+folder = os.path.dirname(os.path.abspath(sys.argv[0]))
+folder = os.path.abspath(os.path.join(folder,'../data/unique_markdowns'))
+
+#ToDo: fix relative paths
+#ToDo: Does removing special characters from diagnosis files help system performance?
+local_folder = os.path.dirname(os.path.abspath(sys.argv[0]))
+local_folder = os.path.abspath(os.path.join(local_folder,'../data/unique_markdowns'))
 bucket_name = "lneg-loka"
 s3 = boto3.client('s3')
 
 def upload_to_s3(local_path, bucket):
     key = os.path.basename(local_path)
-    key = f"diagnosis-docs/{key}"
+    key = f"unique_diagnosis-docs/{key}"
     s3.upload_file(local_path, bucket, key)
     return key
 

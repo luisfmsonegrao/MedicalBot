@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import io
 import boto3
 import joblib
-import os
+import os, sys
 
 #load preprocessed data
 bucket_name = "lneg-loka"
@@ -38,7 +38,8 @@ model = DecisionTreeClassifier(
 model.fit(X_train,y_train)
 
 #save model for later use
-model_dir = '.\..\models'
+curr_dir =os.path.dirname(os.path.abspath(sys.argv[0]))
+model_dir = os.path.abspath(os.path.join(curr_dir,"..\models\\"))
 model_name = 'decision_tree_classifier.joblib'
 joblib.dump(model,os.path.join(model_dir,model_name))
 

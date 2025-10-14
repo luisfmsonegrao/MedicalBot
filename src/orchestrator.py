@@ -28,19 +28,19 @@ def call_llm(query):
     return [response,completion_reason]
 
 def orchestrate(query):
-    print('HERE')
     context_size = 5
     context = retrieve_context(query,KNOWLEDGE_BASE_ID,context_size)
     system_query = (
         f"""You are an assistant. 
         Use information in the context to answer the question.
-        If you use information from a source, include the source in your answer.
+        If you use information from a document, include the document uri in your answer (source: uri).
         If unsure, say you don't know."""
     )
-    llm_query = system_query + "\nQuestion: " + query + "\nContext:\n"
+    llm_query = system_query + "\n\nContext:\n"
     for (i,c) in enumerate(context):
         llm_query += f"[{i}]: {c['text']} (source: {c['metadata'][source_uri_string]})\n\n"
 
+    llm_query += f"Question: {query}" + "\n\nAnswer:"
     [llm_response,completion_reason] = call_llm(llm_query)
     #while completion_reason != 'FINISH':
         #do necessary actions

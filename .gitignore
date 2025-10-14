@@ -2,4 +2,4 @@ data/
 data/markdowns/
 models/
 **/.gradio/
-**/pycache/
+**/__pycache__/

@@ -7,6 +7,7 @@ BEDROCK_MODEL_ID = 'amazon.titan-text-lite-v1'
 bedrock = boto3.client('bedrock-runtime', region_name='us-east-1')
 
 def call_llm(query):
+    print('CALL-LLM')
     body = json.dumps({
         "inputText": query,
         "textGenerationConfig": {
@@ -23,21 +24,24 @@ def call_llm(query):
     )
     payload = json.loads(output['body'].read())
     response = payload['results'][0]["outputText"]
-    return response
+    completion_reason = payload['results'][0]['completionReason']
+    return [response,completion_reason]
 
 def orchestrate(query):
+    print('HERE')
     context_size = 5
     context = retrieve_context(query,KNOWLEDGE_BASE_ID,context_size)
     system_query = (
-        "You are an assistant that uses the provided context to answer questions. You answer in natural English language. If you don't know the answer to a question you say you dont know."
+        f"You are an assistant. Use the information in the context to answer the question. If unsure, say you don't know."
     )
-    llm_query = system_query + "\nUser query: " + query + "\nContext:\n"
+    llm_query = system_query + "\nQuestion: " + query + "\nContext:\n"
     for c in context:
         llm_query += f"{c['text']}\n\n"
-    
     print(llm_query)
-    llm_response = call_llm(llm_query)
+    [llm_response,completion_reason] = call_llm(llm_query)
+    #while completion_reason != 'FINISH':
+        #do necessary actions
+        #update llm_query
+        #reprompt
     return llm_response
-
-
 

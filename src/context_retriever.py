@@ -1,5 +1,4 @@
 import boto3
-import json
 
 REGION = "us-east-1"
 KNOWLEDGE_BASE_ID = "A3XBZT3D8Y"

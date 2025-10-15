@@ -30,11 +30,11 @@ def transform_features(features):
     try:
         features['sex']=Sex[features['sex'].upper()].value
     except KeyError as e:
-       raise RuntimeError("Sex must be Male or Female")
+       raise KeyError("Sex must be Male or Female") from e
     try:
         features['smoker']=Smoker[features['smoker'].upper()].value
     except KeyError as e:
-        raise RuntimeError("Smoker must be YES or NO")
+        raise KeyError("Smoker must be YES or NO") from e
     return features
 
 def get_feature_values(features):
@@ -64,7 +64,8 @@ def is_prediction_request(query):
     Don't forget, answer only YES or NO.
     """
     [answer,_] = call_llm(prediction_query)
-    return "YES" in answer
+    #return "YES" in answer
+    return True
 
 def call_llm(query):
     body = json.dumps({
@@ -91,7 +92,11 @@ def orchestrate(query):
         features = extract_features(query)
         if not all(feature in features for feature in model_features):
             return f"Please provide feature values for {model_features} in the format feature_name=value"
-        features = transform_features(features)
+        try:
+            features = transform_features(features)
+        except KeyError as e:
+            return f"Invalid feature input: {str(e)}"
+        
         X = get_feature_values(features)
         pred = model.predict(X)
         return f"Model prediction for {target_variable_name}: Class {pred[0]}"

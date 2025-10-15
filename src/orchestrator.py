@@ -37,14 +37,13 @@ def orchestrate(query):
         If unsure, say you don't know."""
     )
     
-    llm_query = system_query + "\n\nContext:\n"
+    llm_query = system_query + "\nContext:\n"
     for i,c in enumerate(context,start=1):
         text = c['text']
         uri = c['metadata'][source_uri_string]
-        doc_id = "[{}]: ".format(i)
-        llm_query += doc_id + f"{text} (source: {uri})\n\n"
+        llm_query += "ref.{}: {} (source: {})\n".format(i,text,uri)
 
-    llm_query += f"Question: {query}" + "\n\nAnswer:"
+    llm_query += f"Question: {query}" + "\nAnswer:"
     [llm_response,completion_reason] = call_llm(llm_query)
     #while completion_reason != 'FINISH':
         #do necessary actions

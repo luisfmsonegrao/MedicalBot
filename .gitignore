@@ -3,3 +3,4 @@ data/markdowns/
 models/
 **/.gradio/
 **/__pycache__/
+/aws_lambda/

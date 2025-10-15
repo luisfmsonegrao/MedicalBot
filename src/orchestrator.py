@@ -77,7 +77,7 @@ def orchestrate(query):
     system_query = (
         f"""You are an assistant. 
         Use information in the context to answer the question.
-        If you use information from a document, cite it using its document id.
+        If you use information from a document, include its document id and its s3 uri in your answer.
         If unsure, say you don't know."""
     )
     

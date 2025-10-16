@@ -12,9 +12,9 @@ Datadoctor is an python-built agentic AI chatbot that uses `claude sonnet 3` to:
   - [Question answering + RAG](#Question-answering-+-RAG)
 
   ### Repo contents
-  - the DataDoctor agentic AI chatbot source code is in the `src` folder
-  - the folder `scripts` contains utility scripts used e.g. to train the predictive model, clean and upload data, etc.
-  - the `notebooks` folder contains several jupyter notebooks used for various ends, such as exploring the dataset or testing the agent's functionalities
+  - `\src` contains the DataDoctor agentic AI chatbot source code
+  - `\scripts` contains scripts used e.g. to train the predictive model, clean and upload data, etc.
+  - `\notebooks` contains several jupyter notebooks used for various ends, such as exploring the dataset or testing the agent's functionalities
 
 
   ### Detailed description

@@ -144,8 +144,7 @@ def _get_data(query):
 
     if state != 'SUCCEEDED':
         raise Exception(f"Athena query failed: {state}")
-
-    # Get results
+    
     results = athena.get_query_results(QueryExecutionId=execution_id)
     columns = [col['Label'] for col in results['ResultSet']['ResultSetMetadata']['ColumnInfo']]
     rows = [

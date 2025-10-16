@@ -41,8 +41,8 @@ def get_task(query):
     prompt = f"""
     You are an assistant. Execute the following steps:
 
-    Step 1 — Classify the query into one of the following 3 task classes: 'prediction', 'database query' or 'question answering'.
-
+    Step 1 — Classify the query into one of 3 task classes: 'prediction', 'database query' or 'question answering'.
+    
     Step 2 - return only valid JSON format according to the task class:
     
     Question Answering - use the following JSON format:
@@ -62,12 +62,14 @@ def get_task(query):
       }}
     }}
 
-    Database query - convert query into equivalent SQL statement for table {TABLE_NAME} with schema {table_schema}. Use the following JSON format:
+    Database query - convert query to SQL query for table {TABLE_NAME} using the table schema: {table_schema}.\n Use the following JSON format:
     {{
         "task": 'db_query_task'.
         "features":  SQL statement
     }}
     If the query is an aggregation operation, give the appropriate name to the new column.
+    Note that the table is anonymized, it does not contain patient names.
+
     Query: "{query}"
     """
     answer = call_llm(prompt)
@@ -75,6 +77,7 @@ def get_task(query):
         task = json.loads(answer)
     except json.JSONDecodeError:
         task = {"task": 'question_answering_task', "features": {}}
+    print(task)
     return task
 
 def _get_prediction(features):
@@ -127,6 +130,7 @@ def call_llm(query):
 
 
 def _get_data(query):
+    print(query)
     response = athena.start_query_execution(
         QueryString=query,
         QueryExecutionContext={'Database': ATHENA_DATABASE},

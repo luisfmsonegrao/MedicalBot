@@ -11,6 +11,7 @@
   - [Patient outcome classification model](#Patient-outcome-classification-model)
   - [Question answering + RAG](#Question-answering-+-RAG)
   - [Data retrieval and aggregation](#Data-retrieval-and-aggregation)
+  - [Using DataDoctor](#Using-DataDoctor)
 
   ### Repo contents
   - `\src` contains the `DataDoctor` agentic AI chatbot source code
@@ -53,4 +54,8 @@
   ### Data retrieval and aggregation
   The `DataDoctor` can answer user's data-specific questions by querying an `Amazon Athena` database.
   - the function `orchestrate` inside `orchestrator.py` defines `DataDoctor`'s behavior. Based on the foundation model's classification of the user query, the agent can decide to query the database. In this case, the foundation model converts the user query to its equivalent SQL statement.
+
+
+  ### Using `DataDoctor`
+  The user can interact with `DataDoctor` through a `Gradio` UI. The UI is defined in `datadoctor_ui.py` and can be launched by running the script from the command line. When the user submits a query through the UI, an AWS lamdba function is triggered and executes `orchestrate` from `orchestrator.py`. The answer to the user query is then displayed in the `Gradio` UI.
   

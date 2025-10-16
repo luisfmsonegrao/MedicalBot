@@ -1,6 +1,6 @@
 # DATADOCTOR AI AGENT
 
-Datadoctor is an python-built agentic AI chatbot that can:
+Datadoctor is an python-built agentic AI chatbot that uses `claude sonnet 3` to:
   - predict patient outcomes based on input feature values;
   - answer natural language questions about patients' medical records;
   - retrieve and aggregate anonymized patient data.
@@ -18,7 +18,7 @@ Datadoctor is an python-built agentic AI chatbot that can:
   ### Detailed description
 
   Datadoctor is an agentic AI Chatbot with several features:
-  - leverage an extensive anonymized medical dataset to determine which class of Chronic Obstructive Pulmonary disease is present.
+  - predict patient outcomes for Chronic Obstructive Pulmonary Disease class, leveraging an extensive anonymized medical dataset. This is achieved with a Decision Tree Classifier.
   - leverage an extensive database of patient medical records to answer natural language questions about patients' medical history.
   - retrieve and aggregate anonymized medical data.
 

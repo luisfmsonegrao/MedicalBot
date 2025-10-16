@@ -10,6 +10,7 @@ Datadoctor is an python-built agentic AI chatbot that uses `claude sonnet 3` to:
   - [Detailed description](#detailed-description)
   - [Patient outcome classification model](#Patient-outcome-classification-model)
   - [Question answering + RAG](#Question-answering-+-RAG)
+  - [Data retrieval and aggregation](#Data-retrieval-and-aggregation)
 
   ### Repo contents
   - `\src` contains the DataDoctor agentic AI chatbot source code
@@ -28,14 +29,14 @@ Datadoctor is an python-built agentic AI chatbot that uses `claude sonnet 3` to:
 
   ### Patient outcome classification model
   
-  The DataDoctor can access a trained Decision Tree Classifier to predict the class of Chronic Obstructive Pulmonary disease, based on user-provided feature values.
-  A `scikit-learn` Decision Tree Classifier was trained on the `patient_data` dataset using a subset of it's features to predict the class of Chronic Obstructive Pulmonary Disease for a given patient. 
-  ANOVA, Chi-Squared and other hypothesis tests revealed that none of the features in the dataset actually has significant discriminative power in identifying the class of Chronic Obstructive Pulmonary Disease.
+  The DataDoctor can use a trained `Scikit-Learn` Decision Tree Classifier to predict the class of Chronic Obstructive Pulmonary disease, based on user-provided feature values.
+  The Decision Tree Classifier was trained on the `patient_data` dataset using a subset of it's features to predict the class of Chronic Obstructive Pulmonary Disease for a given patient. 
+  ANOVA, Chi-Squared and other hypothesis tests revealed that none of the features in the dataset actually have significant discriminative power in identifying the class of Chronic Obstructive Pulmonary Disease.
   As such, no further effort was spent in improving the classification model, e.g. through model-selection, cross-validation or hyperparameter tuning. Furthermore, only features 'age', 'sex', 'smoker' and 'bmi'     were included in the model, to simplify subsequent efforts.
 
   - `preprocess_patient_data.py` was used to clean, filter and transform the dataset
   - `train_classification_model.py` was used to train the Decision Tree Classifier used by the DataDoctor agent.
-  - the function `orchestrate` inside `orchestrator.py` defines the DataDoctor's behavior. Based on the foundation model's classification of the user query, the agent decides whether to call the Decision Tree Classifier.
+  - the function `orchestrate` inside `orchestrator.py` defines DataDoctor's behavior. Based on the foundation model's classification of the user query, the agent can decide to call the Decision Tree Classifier. In this case, the necessary features are extracted from the user query by the foundation model.
 
 
   ### Question answering + RAG
@@ -45,5 +46,10 @@ Datadoctor is an python-built agentic AI chatbot that uses `claude sonnet 3` to:
   Upon routing a user question to the underlying foundation model, the DataDoctor first searches this vector database for relevant contextual information, then augments the user query with the retrieved context to aid the foundation model.
 
   - the medical record documents were cleaned with `clean_markdown_files.py` and `remove_duplicate_files.py`.
-  - the function `orchestrate` inside `orchestrator.py` defines the DataDoctor's behavior. Based on the foundation model's classification of the user query, the agent decides whether to call the foundation model again to answer the user's question.
+  - the function `orchestrate` inside `orchestrator.py` defines DataDoctor's behavior. Based on the foundation model's classification of the user query, the agent can decide to call the foundation model again to answer the user's question.
+
+
+  ### Data retrieval and aggregation
+  The DataDoctor can answer user's data-specific questions by querying an `Amazon Athena` database.
+  - the function `orchestrate` inside `orchestrator.py` defines DataDoctor's behavior. Based on the foundation model's classification of the user query, the agent can decide to query the database. In this case, the foundation model converts the user query to its equivalent SQL statement.
   

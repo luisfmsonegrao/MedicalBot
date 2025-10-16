@@ -30,5 +30,8 @@ Datadoctor is an python-built agentic AI chatbot that uses `claude sonnet 3` to:
   A `scikit-learn` Decision Tree Classifier was trained on the `patient_data` dataset using a subset of it's features to predict the class of Chronic Obstructive Pulmonary Disease for a given patient. 
   ANOVA, Chi-Squared and other hypothesis tests revealed that none of the features in the dataset actually has significant discriminative power in identifying the class of Chronic Obstructive Pulmonary Disease.
   As such, no further effort was spent in improving the classification model, e.g. through model-selection, cross-validation or hyperparameter tuning. Furthermore, only features 'age', 'sex', 'smoker' and 'bmi'     were included in the model, to simplify subsequent efforts.
+
+    - `preprocess_patient_data.py' was used to clean, filter and transform the dataset
+    - `train_classification_model.py` was used to train the Decision Tree Classifier used by the DataDoctor agent.
   
   

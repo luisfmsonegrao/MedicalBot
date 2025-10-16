@@ -1,21 +1,18 @@
 import json
 import boto3
-import joblib
 from context_retriever import retrieve_context
 from context_retriever import KNOWLEDGE_BASE_ID
 
 BEDROCK_MODEL_ID = 'anthropic.claude-3-sonnet-20240229-v1:0'
 bedrock = boto3.client('bedrock-runtime', region_name='us-east-1')
 source_uri_string = 'x-amz-bedrock-kb-source-uri'
-model = joblib.load(".\..\models\decision_tree_classifier_small.joblib")
 model_features = ['age','bmi','smoker','sex']
 target_variable_name = 'Chronic Obstructive Pulmonary Disease'
 
 def orchestrate(query):
     task = get_task(query)#maybe this step can use smaller model specialized to text classification
     if task.get('task') == 'prediction_task':
-        pred = _get_prediction(task)
-        return f"Model prediction for {target_variable_name} class: {pred[0]}"
+        return "Prediciton tasks are not supported in AWS Lambda yet."
 
     if task.get('task') == 'question_answering_task':
         answer = _get_answer(query)

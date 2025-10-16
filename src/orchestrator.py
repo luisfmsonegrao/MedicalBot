@@ -82,7 +82,6 @@ def get_task(query):
         task = json.loads(answer)
     except json.JSONDecodeError:
         task = {"task": 'question_answering_task', "features": {}}
-    print(task)
     return task
 
 def _get_prediction(features):

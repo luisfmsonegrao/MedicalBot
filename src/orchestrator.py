@@ -78,10 +78,7 @@ def get_task(query):
     Query: "{query}"
     """
     answer = call_llm(prompt)
-    try:
-        task = json.loads(answer)
-    except json.JSONDecodeError:
-        task = {"task": 'question_answering_task', "features": {}}
+    task = json.loads(answer)
     return task
 
 def _get_prediction(features):

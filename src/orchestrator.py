@@ -12,7 +12,7 @@ target_variable_name = 'Chronic Obstructive Pulmonary Disease'
 def orchestrate(query):
     task = get_task(query)#maybe this step can use smaller model specialized to text classification
     if task.get('task') == 'prediction_task':
-        return "Prediciton tasks are not supported in AWS Lambda yet."
+        return "Prediciton tasks are not supported in AWS Lambda yet." #No AWS Lambda Layer supporting python3.12 and scikit-learn available
 
     if task.get('task') == 'question_answering_task':
         answer = _get_answer(query)

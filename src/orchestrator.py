@@ -24,7 +24,6 @@ source_uri_string = 'x-amz-bedrock-kb-source-uri'
 
 def orchestrate(query):
     task = get_task(query)#maybe this step can use smaller model specialized to text classification
-    print(task)
     features = task.get('features',{})
     if task.get('task') == 'prediction_task':
         pred = _get_prediction(features)
@@ -52,7 +51,7 @@ def get_task(query):
       "features": {{}}
     }}
 
-    Prediction - extract features {model_features} from the query, if present, and use the following JSON format:
+    Prediction - extract features {model_features} from the query, if present. Use the following JSON format:
     {{
       "task": 'prediction_task',
       "features": {{
@@ -63,12 +62,12 @@ def get_task(query):
       }}
     }}
 
-    Database query - convert query into equivalent SQL statement for table {TABLE_NAME} with schema {table_schema}, and use the following JSON format:
+    Database query - convert query into equivalent SQL statement for table {TABLE_NAME} with schema {table_schema}. Use the following JSON format:
     {{
         "task": 'db_query_task'.
         "features":  SQL statement
     }}
-
+    If the query is an aggregation operation, give the appropriate name to the new column.
     Query: "{query}"
     """
     answer = call_llm(prompt)
@@ -145,9 +144,7 @@ def _get_data(query):
     if state != 'SUCCEEDED':
         raise Exception(f"Athena query failed: {state}")
 
-    # Get results
     results = athena.get_query_results(QueryExecutionId=execution_id)
-    print(results)
     columns = [col['Label'] for col in results['ResultSet']['ResultSetMetadata']['ColumnInfo']]
     rows = [
         [field.get('VarCharValue', None) for field in row['Data']]

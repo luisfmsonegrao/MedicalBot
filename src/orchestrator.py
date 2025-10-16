@@ -147,7 +147,6 @@ def _get_data(query):
 
     # Get results
     results = athena.get_query_results(QueryExecutionId=execution_id)
-    print(results)
     columns = [col['Label'] for col in results['ResultSet']['ResultSetMetadata']['ColumnInfo']]
     rows = [
         [field.get('VarCharValue', None) for field in row['Data']]

@@ -6,6 +6,7 @@ KNOWLEDGE_BASE_ID = "A3XBZT3D8Y"
 bedrock_agent = boto3.client('bedrock-agent-runtime',region_name=REGION)
 
 def retrieve_context(query,kb_id,top_k=5):
+    """Retrieve relevant context from Amazon Bedrock Knowledge database"""
     response = bedrock_agent.retrieve(
         knowledgeBaseId=kb_id,
         retrievalQuery={"text": query},

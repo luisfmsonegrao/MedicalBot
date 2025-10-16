@@ -23,21 +23,26 @@ source_uri_string = 'x-amz-bedrock-kb-source-uri'
 
 
 def orchestrate(query):
+    """Orchestrate DataDoctor agent"""
+
     task = get_task(query)#maybe this step can use smaller model specialized to text classification
     features = task.get('features',{})
-    if task.get('task') == 'prediction_task':
+    if task.get('task') == 'prediction':
         pred = _get_prediction(features)
         return f"Model prediction for {target_variable_name} class: {pred[0]}"
 
-    if task.get('task') == 'question_answering_task':
-        answer = _get_answer(query)
+    if task.get('task') == 'question_answering':
+        llm_query = _prepare_qa_query(query)
+        answer = call_llm(llm_query)
         return answer
     
-    if task.get('task') == 'db_query_task':
+    if task.get('task') == 'db_query':
         data = _get_data(features)
         return data
 
 def get_task(query):
+    """Classify intent of user's query"""
+
     prompt = f"""
     You are an assistant. Execute the following steps:
 
@@ -47,13 +52,13 @@ def get_task(query):
     
     Question Answering - use the following JSON format:
     {{
-      "task": 'question_answering_task',
+      "task": 'question_answering',
       "features": {{}}
     }}
 
     Prediction - extract features {model_features} from the query, if present. Use the following JSON format:
     {{
-      "task": 'prediction_task',
+      "task": 'prediction',
       "features": {{
          "age": number or null,
          "bmi": number or null,
@@ -64,7 +69,7 @@ def get_task(query):
 
     Database query - convert query to SQL query for table {TABLE_NAME} using the table schema: {table_schema}.\n Use the following JSON format:
     {{
-        "task": 'db_query_task'.
+        "task": 'db_query'.
         "features":  SQL statement
     }}
     If the query is an aggregation operation, give the appropriate name to the new column.
@@ -77,10 +82,11 @@ def get_task(query):
         task = json.loads(answer)
     except json.JSONDecodeError:
         task = {"task": 'question_answering_task', "features": {}}
-    print(task)
     return task
 
 def _get_prediction(features):
+    """Predict Chronic Obstructive Pulmonary Disease outcome based on user's query"""
+
     missing = [f for f in model_features if features.get(f) in (None, "", "null")]
     if missing:
             return f"Missing required features: {missing}. Please provide them in your query."
@@ -88,7 +94,9 @@ def _get_prediction(features):
     pred = model.predict(X)
     return pred
 
-def _get_answer(query):
+def _prepare_qa_query(query):
+    """Adapt user query for question answering with RAG from foundation model"""
+
     context_size=5
     context = retrieve_context(query,KNOWLEDGE_BASE_ID,context_size)
     system_query = (
@@ -105,10 +113,11 @@ def _get_answer(query):
         llm_query += "[{}]: {} (source: {})\n".format(i,text,uri)
 
     llm_query += f"Question: {query}" + "\nAnswer:"
-    answer = call_llm(llm_query)
-    return answer
+    return llm_query
 
 def call_llm(query):
+    """Query foundation LLM"""
+
     body = json.dumps({
         "anthropic_version": "bedrock-2023-05-31",
         "messages": [
@@ -130,7 +139,8 @@ def call_llm(query):
 
 
 def _get_data(query):
-    print(query)
+    """Query patient data from Amazon Athena database"""
+
     response = athena.start_query_execution(
         QueryString=query,
         QueryExecutionContext={'Database': ATHENA_DATABASE},

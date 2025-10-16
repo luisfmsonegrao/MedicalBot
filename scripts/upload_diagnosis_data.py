@@ -5,8 +5,6 @@ import glob
 folder = os.path.dirname(os.path.abspath(sys.argv[0]))
 folder = os.path.abspath(os.path.join(folder,'../data/unique_markdowns'))
 
-#ToDo: fix relative paths
-#ToDo: Does removing special characters from diagnosis files help system performance?
 local_folder = os.path.dirname(os.path.abspath(sys.argv[0]))
 local_folder = os.path.abspath(os.path.join(local_folder,'../data/unique_markdowns'))
 bucket_name = "lneg-loka"

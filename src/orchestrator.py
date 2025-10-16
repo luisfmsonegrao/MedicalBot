@@ -11,34 +11,80 @@ model = joblib.load(".\..\models\decision_tree_classifier_small.joblib")
 model_features = ['age','bmi','smoker','sex']
 target_variable_name = 'Chronic Obstructive Pulmonary Disease'
 
-def is_prediction_request(query):
+def orchestrate(query):
+    task = get_task(query)#maybe this step can use smaller model specialized to text classification
+    if task.get('task') == 'prediction_task':
+        pred = _get_prediction(task)
+        return f"Model prediction for {target_variable_name} class: {pred[0]}"
+
+    if task.get('task') == 'question_answering_task':
+        answer = _get_answer(query)
+        return answer
+    
+    if task.get('task') == 'db_query_task':
+        return "Database queries are not supported yet."
+
+def get_task(query):
     prompt = f"""
     You are an assistant.
 
-    TASK 1 — Determine if the user query is asking for a prediction based on feature values.
+    TASK 1 — Classify the query into one of the following 3 classes: prediction_task, db_query_task or question_answering_task.
+    If the query is not a prediction task, return only valid JSON in the following format:
+    {{
+      "task": 'db_query_task' or 'question_answering_task',
+      "features": {{}}
+    }}
 
-    TASK 2 — If the query is a prediction query, extract these features if present:
+    TASK 2 — If the query is a prediction_task, extract these features if present:
     {model_features}
-
     Return ONLY valid JSON in the following format:
     {{
-      "is_prediction": True or False,
+      "task": 'prediction_task',
       "features": {{
          "age": number or null,
          "bmi": number or null,
          "smoker": True | False | null,
-         "sex": True if value is Male" | False if value is "Female" | null
+         "sex": True if value is "Male" | False if value is "Female" | null
       }}
     }}
 
     Query: "{query}"
     """
-    [answer,_] = call_llm(prompt)
+    answer = call_llm(prompt)
     try:
-        result = json.loads(answer)
+        task = json.loads(answer)
     except json.JSONDecodeError:
-        result = {"is_prediction": False, "features": {}}
-    return result
+        task = {"task": 'question_answering_task', "features": {}}
+    return task
+
+def _get_prediction(task):
+    features = task.get('features',{})
+    missing = [f for f in model_features if features.get(f) in (None, "", "null")]
+    if missing:
+            return f"Missing required features: {missing}. Please provide them in your query."
+    X = [[float(v) for (k,v) in features.items()]]
+    pred = model.predict(X)
+    return pred
+
+def _get_answer(query):
+    context_size=5
+    context = retrieve_context(query,KNOWLEDGE_BASE_ID,context_size)
+    system_query = (
+        f"""You are an assistant. 
+        Use information in the context to answer the question.
+        If you use information from a document, include its document id and its s3 uri in your answer.
+        If unsure, say you don't know."""
+    )
+    
+    llm_query = system_query + "\nContext:\n"
+    for i,c in enumerate(context,start=1):
+        text = c['text']
+        uri = c['metadata'][source_uri_string]
+        llm_query += "[{}]: {} (source: {})\n".format(i,text,uri)
+
+    llm_query += f"Question: {query}" + "\nAnswer:"
+    answer = call_llm(llm_query)
+    return answer
 
 def call_llm(query):
     body = json.dumps({
@@ -58,40 +104,4 @@ def call_llm(query):
     )
     payload = json.loads(output['body'].read())
     response = payload['content'][0]['text']
-    completion_reason = payload.get('stop_reason', 'unknown')
-    return [response,completion_reason]
-
-def orchestrate(query):
-    task_context = is_prediction_request(query)
-    if task_context.get('is_prediction'):
-        features = task_context.get('features',{})
-        missing = [f for f in model_features if features.get(f) in (None, "", "null")]
-        if missing:
-                return f"Missing required features: {missing}. Please provide them in your query."
-        X = [[float(v) for (k,v) in features.items()]]
-        pred = model.predict(X)
-        return f"Model prediction for {target_variable_name}: Class {pred[0]}"
-
-    context_size = 5
-    context = retrieve_context(query,KNOWLEDGE_BASE_ID,context_size)
-    system_query = (
-        f"""You are an assistant. 
-        Use information in the context to answer the question.
-        If you use information from a document, include its document id and its s3 uri in your answer.
-        If unsure, say you don't know."""
-    )
-    
-    llm_query = system_query + "\nContext:\n"
-    for i,c in enumerate(context,start=1):
-        text = c['text']
-        uri = c['metadata'][source_uri_string]
-        llm_query += "[{}]: {} (source: {})\n".format(i,text,uri)
-
-    llm_query += f"Question: {query}" + "\nAnswer:"
-    [llm_response,completion_reason] = call_llm(llm_query)
-    #while completion_reason != 'FINISH':
-        #do necessary actions
-        #update llm_query
-        #query again
-    return llm_response
-
+    return response

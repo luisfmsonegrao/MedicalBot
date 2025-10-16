@@ -58,4 +58,6 @@
 
   ### Using `DataDoctor`
   The user can interact with `DataDoctor` through a `Gradio` UI. The UI is defined in `datadoctor_ui.py` and can be launched by running the script from the command line. When the user submits a query through the UI, an AWS lamdba function is triggered and executes `orchestrate` from `orchestrator.py`. The answer to the user query is then displayed in the `Gradio` UI.
+
+  Note: the AWS Lambda version of DataDoctor cannot currently make predictions using the classifier, because no Amazon Lambda Layer supporting python3.12 and scikit-learn is available.
   

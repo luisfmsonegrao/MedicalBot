@@ -6,5 +6,8 @@ Datadoctor is an python-built agentic AI chatbot that can:
   - retrieve and aggregate anonymized patient data.
 
   ## Table of Contents
-- [Detailed description]
+- [Detailed description](#detailed-description)
+
+
+  ### Detailed description
 

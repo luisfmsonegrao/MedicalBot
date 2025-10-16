@@ -1,6 +1,6 @@
 import json
 import boto3
-import joblib
+#import joblib #No AWS Lambda Layer with python3.12 and scikit-learn available
 import pandas as pd
 import time
 from context_retriever import retrieve_context
@@ -15,20 +15,20 @@ ATHENA_OUTPUT = f"s3://{s3_bucket}/datadoctor-query-results/"
 TABLE_NAME = 'patient_data'
 table_schema = get_table_schema(ATHENA_DATABASE,TABLE_NAME)
 athena = boto3.client('athena',region_name = 'us-east-1')
-model = joblib.load(".\..\models\decision_tree_classifier_small.joblib")
+#model = joblib.load(".\..\models\decision_tree_classifier_small.joblib")
 model_features = ['age','bmi','smoker','sex']
-target_variable_name = 'Chronic Obstructive Pulmonary Disease'
+#target_variable_name = 'Chronic Obstructive Pulmonary Disease'
 source_uri_string = 'x-amz-bedrock-kb-source-uri'
 
 
 
 def orchestrate(query):
     task = get_task(query)#maybe this step can use smaller model specialized to text classification
-    print(task)
     features = task.get('features',{})
     if task.get('task') == 'prediction_task':
-        pred = _get_prediction(features)
-        return f"Model prediction for {target_variable_name} class: {pred[0]}"
+        # = _get_prediction(features)
+        #return f"Model prediction for {target_variable_name} class: {pred[0]}"
+        return "Prediction tasks are not supported in AWS Lambda yet."
 
     if task.get('task') == 'question_answering_task':
         answer = _get_answer(query)
@@ -78,13 +78,13 @@ def get_task(query):
         task = {"task": 'question_answering_task', "features": {}}
     return task
 
-def _get_prediction(features):
-    missing = [f for f in model_features if features.get(f) in (None, "", "null")]
-    if missing:
-            return f"Missing required features: {missing}. Please provide them in your query."
-    X = [[float(v) for (k,v) in features.items()]]
-    pred = model.predict(X)
-    return pred
+#def _get_prediction(features):
+#    missing = [f for f in model_features if features.get(f) in (None, "", "null")]
+#    if missing:
+#            return f"Missing required features: {missing}. Please provide them in your query."
+#    X = [[float(v) for (k,v) in features.items()]]
+#    pred = model.predict(X)
+#  return pred
 
 def _get_answer(query):
     context_size=5

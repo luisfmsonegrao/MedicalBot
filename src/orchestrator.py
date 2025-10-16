@@ -63,12 +63,12 @@ def get_task(query):
       }}
     }}
 
-    Database query - convert query into equivalent SQL statement for table {TABLE_NAME} with schema {table_schema}, and use the following JSON format:
+    Database query - convert query into equivalent SQL statement for table {TABLE_NAME} with schema {table_schema}. Use the following JSON format:
     {{
         "task": 'db_query_task'.
         "features":  SQL statement
     }}
-
+    If the query is an aggregation operation, give the appropriate name to the new column.
     Query: "{query}"
     """
     answer = call_llm(prompt)

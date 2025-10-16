@@ -43,9 +43,8 @@ def copy_unique_markdown_files(src_folder, dest_folder):
 
     print(f"Copied {copied_count} unique markdown files to '{dest_folder}'.")
 
-# Example usage:
-curr_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
-source_folder = os.path.abspath(os.path.join(curr_dir,"../data/markdowns/"))
-destination_folder = os.path.abspath(os.path.join(curr_dir,"../data/unique_markdowns/"))
-
-copy_unique_markdown_files(source_folder, destination_folder)
+if __name__ == '__main__':
+    curr_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
+    source_folder = os.path.abspath(os.path.join(curr_dir,"../data/markdowns/"))
+    destination_folder = os.path.abspath(os.path.join(curr_dir,"../data/unique_markdowns/"))
+    copy_unique_markdown_files(source_folder, destination_folder)

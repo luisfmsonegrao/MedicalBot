@@ -10,10 +10,11 @@ def chat_fn(user_message,history):
     return history,history
 
 with gr.Blocks() as demo:
-    gr.Markdown("# 🤖 Bedrock RAG Chat via Lambda")
+    gr.Markdown("# 👩‍⚕️🩺 DataDoctor")
     chatbot = gr.Chatbot()
     msg = gr.Textbox(placeholder="Ask something...")
     msg.submit(chat_fn, [msg, chatbot], [chatbot, chatbot])
+    chatbot.like(None)
 
 if __name__ == "__main__":
     demo.launch(share=True)

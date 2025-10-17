@@ -1,6 +1,6 @@
 # **DataDoctor** AI AGENT
 
-**DataDoctor** is a python-built agentic AI chatbot that uses `claude sonnet 3` to:
+**DataDoctor** is a python agentic AI chatbot that uses `claude sonnet 3` to:
   - predict patient outcomes based on input feature values;
   - answer natural language questions based on patients' medical records;
   - retrieve and aggregate anonymized patient data.

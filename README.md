@@ -79,3 +79,10 @@
 
   Note: the AWS Lambda version of DataDoctor cannot currently make predictions using the classifier, because no Amazon Lambda Layer supporting python3.12 and scikit-learn is available.
   
+  ### Future work
+  A series of features will be added to `DataDoctor` in the future:
+  - enable storage and usage of user interaction history with `DataDoctor`
+  - enable storage and usage of user feedback on quality of `DataDoctor` answers
+  - enable more complex data analysis tasks, e.g. plotting
+  - implement version control of dataset and model
+  - add regression model to predict values of alanine aminotransferases

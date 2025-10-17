@@ -29,7 +29,7 @@ def orchestrate(query):
     features = task.get('features',{})
     if task.get('task') == 'prediction':
         pred = _get_prediction(features)
-        return f"Model prediction for {target_variable_name} class: {pred[0]}"
+        return f"Model prediction for {target_variable_name} class: {pred}"
 
     if task.get('task') == 'question_answering':
         llm_query = _prepare_qa_query(query)
@@ -62,8 +62,8 @@ def get_task(query):
       "features": {{
          "age": number or null,
          "bmi": number or null,
-         "smoker": True | False | null,
-         "sex": True if value is "Male" | False if value is "Female" | null
+         "smoker": true | false | null,
+         "sex": true if value is "Male" | false if value is "Female" | null
       }}
     }}
 
@@ -78,6 +78,7 @@ def get_task(query):
     Query: "{query}"
     """
     answer = call_llm(prompt)
+    print(answer)
     task = json.loads(answer)
     return task
 

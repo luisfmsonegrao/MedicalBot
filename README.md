@@ -14,7 +14,7 @@
   - [Question answering + RAG](#Question-answering-+-RAG)
   - [Data retrieval and aggregation](#Data-retrieval-and-aggregation)
   - [Using **DataDoctor**](#Using-DataDoctor)
-  - [Future work](#Future-work)
+  - [Upcoming features](#Upcoming-features)
 
   ### Repo contents
   - `\src` contains the **DataDoctor** agentic AI chatbot source code.
@@ -30,12 +30,12 @@
   ### Detailed **DataDoctor** description
 
   **DataDoctor** is an agentic AI Chatbot with several features:
-  - predict patient outcomes for Chronic Obstructive Pulmonary Disease class, leveraging an extensive `patient_data` dataset. This is achieved with a Decision Tree Classifier.
-  - answer natural language questions about patients' medical history, leveraging an extensive database of textual patient medical records and citing relevant sources.
+  - predict patient outcomes for Chronic Obstructive Pulmonary Disease class, leveraging the `patient_data` dataset. This is achieved with a Decision Tree Classifier.
+  - answer natural language questions about patients' medical history, leveraging a database of textual patient medical records and citing relevant sources.
   - retrieve and aggregate anonymized medical data from the `patient_data` dataset.
   - a `Gradio` GUI allows users to interact with the agent by writing natural language queries in a text box. It allows users to provide feedback on the quality of the agent's answers via 'thumbs-up' and 'thumbs-down' buttons. This feedback is currently not processed.
 
-  The high-level behaviour of the **DataDoctor**  is defined in the `orchestrate` function inside `orchestrator.py`. An augmented user query is first passed to the foundation model for task classification and feature extraction. Based on the foundation model's classification   of the user query as a prediction task, question answering task or database query task, the **DataDoctor**  may invoke the classification model, it may query the Athena database, or it may invoke the foundation model once more for question answering.
+  The high-level behaviour of the **DataDoctor**  is defined in the `orchestrate` function inside `orchestrator.py`. An augmented user query is first passed to the foundation model for task classification and feature extraction. Based on the foundation model's classification of the user query as a prediction task, question answering task or database query task, the **DataDoctor**  may invoke the classification model, it may query the Athena database, or it may invoke the foundation model once more for question answering.
 
 
   ### Tech-stack summary
@@ -66,7 +66,7 @@
 
   ### Question answering + RAG
 
-  The **DataDoctor** can answer natural language questions about patients' medical history based on an extensive set of textual medical records. In this case, the **DataDoctor** includes citations and source s3 URI of relevant information sources.
+  The **DataDoctor** can answer natural language questions about patients' medical history based on a knowledge base of textual medical records. In this case, the **DataDoctor** includes citations and source s3 URI of relevant information sources.
   The medical records were cleaned, chunked, embedded with `amazon.titan-embed-text-v2:0` and uploaded to an Amazon Bedrock Knowledge Base.
 
   - the medical record documents were cleaned with `clean_markdown_files.py` and `remove_duplicate_files.py`.
@@ -90,7 +90,7 @@
   
   **Note**: If you clone this repo locally and try to run **DataDoctor** , you do not have the necessary AWS accesses, so it will not actually work.
   
-  ### Future work
+  ### Upcoming features
   A series of features will be added to **DataDoctor** in the future:
   - enable storage and usage of user interaction history with **DataDoctor**
   - enable storage and usage of user feedback - for performance monitoring and tuning

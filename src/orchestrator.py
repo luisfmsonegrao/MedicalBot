@@ -78,12 +78,11 @@ def get_task(query):
     Query: "{query}"
     """
     answer = call_llm(prompt)
-    print(answer)
     task = json.loads(answer)
     return task
 
 def _get_prediction(features):
-    """Predict Chronic Obstructive Pulmonary Disease outcome based on user's query"""
+    """Predict Chronic Obstructive Pulmonary Disease class based on user's query"""
 
     missing = [f for f in model_features if features.get(f) in (None, "", "null")]
     if missing:

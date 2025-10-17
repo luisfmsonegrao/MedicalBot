@@ -87,6 +87,7 @@
   ![Datadoctor UI](./figures/DataDoctor_UI.png)
 
   Note: the AWS Lambda version of `DataDoctor` cannot currently make predictions using the classifier, because no Amazon Lambda Layer supporting python3.12 and scikit-learn is available.
+  Note: If you clone this repo locally and try to run DataDoctor, you do not have the necessary AWS accesses, so it will not actually work.
   
   ### Future work
   A series of features will be added to `DataDoctor` in the future:

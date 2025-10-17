@@ -41,6 +41,7 @@
   - `Amazon Lambda` to provide entrypoint to `DataDoctor`
   - `scikit-learn` decision tree classifier for classification model
   - `Gradio` to build chat interface to `DataDoctor`
+  - `Amazon S3` to store dataset and medical records
 
 
   ### Patient outcome classification model

@@ -19,8 +19,8 @@
   ### Repo contents
   - `\src` contains the **DataDoctor** agentic AI chatbot source code.
   - `\scripts` contains scripts used e.g. to train the predictive model, clean and upload data, etc.
-  - `\notebooks` contains several jupyter notebooks used for various ends, such as exploring the dataset or testing the agent's functionalities
-  - `\figures` contains a schema of the **DataDoctor**  app
+  - `\notebooks` contains several jupyter notebooks used for various ends, such as exploring the dataset or testing the agent's functionalities.
+  - `\figures` contains useful figures to illustrate the project.
 
 
   ### **DataDoctor** schema

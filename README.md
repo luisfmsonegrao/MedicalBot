@@ -94,3 +94,6 @@
   - implement version control of dataset and model
   - add regression model to predict values of alanine aminotransferases
   - Enable caching context and user history to improve latency
+
+  With some of these additions, the DataDoctor application schematic will look more like this:
+  ![Datadoctor schema](./figures/datadoctor_future.png)

@@ -7,7 +7,8 @@
 
   ## Table of Contents
   - [Repo Contents](#Repo-contents)
-  - [Detailed project description](#detailed-project-description)
+  - [`Datadoctor` schema](#Datadoctor-schema)
+  - [Detailed `Datadoctor` description](#detailed-datadoctor-description)
   - [Tech-stack summary](#Tech-stack-summary)
   - [Patient outcome classification model](#Patient-outcome-classification-model)
   - [Question answering + RAG](#Question-answering-+-RAG)
@@ -19,9 +20,14 @@
   - `\src` contains the `DataDoctor` agentic AI chatbot source code.
   - `\scripts` contains scripts used e.g. to train the predictive model, clean and upload data, etc.
   - `\notebooks` contains several jupyter notebooks used for various ends, such as exploring the dataset or testing the agent's functionalities
+  - `\figures` contains a schema of the datadoctor app
 
 
-  ### Detailed project description
+  ### `Datadoctor` schema
+  ![`Datadoctor schea](./figures/datadoctor.png)
+
+
+  ### Detailed `Datadoctor` description
 
   `Datadoctor` is an agentic AI Chatbot with several features:
   - predict patient outcomes for Chronic Obstructive Pulmonary Disease class, leveraging an extensive `patient_data` dataset. This is achieved with a Decision Tree Classifier.

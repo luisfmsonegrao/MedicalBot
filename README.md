@@ -7,7 +7,7 @@
 
   ## Table of Contents
   - [Repo Contents](#Repo-contents)
-  - [Detailed description](#detailed-description)
+  - [Detailed project description](#detailed-project-description)
   - [Patient outcome classification model](#Patient-outcome-classification-model)
   - [Question answering + RAG](#Question-answering-+-RAG)
   - [Data retrieval and aggregation](#Data-retrieval-and-aggregation)
@@ -19,7 +19,7 @@
   - `\notebooks` contains several jupyter notebooks used for various ends, such as exploring the dataset or testing the agent's functionalities
 
 
-  ### Detailed description
+  ### Detailed project description
 
   `Datadoctor` is an agentic AI Chatbot with several features:
   - predict patient outcomes for Chronic Obstructive Pulmonary Disease class, leveraging an extensive `patient_data` dataset. This is achieved with a Decision Tree Classifier.

@@ -59,7 +59,7 @@
 
   ### Using `DataDoctor`
   The user can interact with `DataDoctor` in two ways:
-  - through a `Gradio` UI. The UI is defined in `datadoctor_ui.py` and can be launched by running the script from the command line. When the user submits a query through the UI, an `AWS Lamdba` function is triggered and executes `orchestrate` from `orchestrator.py`. The answer to the user query is then displayed in the `Gradio` UI. Feedback on each answer can be provided by the user through 'thumbs-up' and 'thumbs-down' buttons. This feedback is currently not processed.
+  - through a `Gradio` UI. The UI is defined in `datadoctor_ui.py` and can be launched by running the script from the command line. When the user submits a query through the UI, an `AWS Lamdba` function is triggered and executes `orchestrate` from `orchestrator.py`. The answer to the user query is displayed in the `Gradio` UI. Feedback on each answer can be provided by the user through 'thumbs-up' and 'thumbs-down' buttons. This feedback is currently not processed.
   - by invoking 'orchestrate' directly, as exemplified in `test_agent_orchestrator` in `\notebooks`. This bypasses the `AWS Lambda` endpoint but still queries the Amazon Bedrock and Amazon Athana databases and prompts the foundation model through Amazon Bedrock.
 
   Note: the AWS Lambda version of DataDoctor cannot currently make predictions using the classifier, because no Amazon Lambda Layer supporting python3.12 and scikit-learn is available.

@@ -92,3 +92,4 @@
   - enable more complex data analysis tasks, e.g. plotting
   - implement version control of dataset and model
   - add regression model to predict values of alanine aminotransferases
+  - Caching context and user history for improved latency

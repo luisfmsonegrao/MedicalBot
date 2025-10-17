@@ -13,6 +13,7 @@
   - [Question answering + RAG](#Question-answering-+-RAG)
   - [Data retrieval and aggregation](#Data-retrieval-and-aggregation)
   - [Using DataDoctor](#Using-DataDoctor)
+  - [Future work](#Future-work)
 
   ### Repo contents
   - `\src` contains the `DataDoctor` agentic AI chatbot source code.

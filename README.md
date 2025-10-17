@@ -84,7 +84,7 @@
   - by invoking 'orchestrate' directly, as exemplified in `test_agent_orchestrator` in `\notebooks`. This bypasses the `AWS Lambda` endpoint but still queries the Amazon Bedrock and Amazon Athana databases and prompts the foundation model through Amazon Bedrock.
 
   A typical interaction with the `DataDoctor` will look like this:
-  ![Datadoctor UI](./figures/datadoctor_UI.png)
+  ![Datadoctor UI](./figures/DataDoctor_UI.png)
 
   Note: the AWS Lambda version of `DataDoctor` cannot currently make predictions using the classifier, because no Amazon Lambda Layer supporting python3.12 and scikit-learn is available.
   

@@ -7,7 +7,7 @@
 
   ## Table of Contents
   - [Repo Contents](#Repo-contents)
-  - [Datadoctor schema](#Datadoctor-schema)
+  - [Datadoctor current schema](#Datadoctor-current-schema)
   - [Detailed **DataDoctor** description](#detailed-DataDoctor-description)
   - [Tech-stack summary](#Tech-stack-summary)
   - [Patient outcome classification model](#Patient-outcome-classification-model)
@@ -23,7 +23,7 @@
   - `\figures` contains useful figures to illustrate the project.
 
 
-  ### **DataDoctor** schema
+  ### **DataDoctor** current schema
   ![Datadoctor schema](./figures/datadoctor.png)
 
 

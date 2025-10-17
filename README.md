@@ -38,7 +38,7 @@
 
   - `preprocess_patient_data.py` was used to clean, filter and transform the dataset.
   - `train_classification_model.py` was used to train the Decision Tree Classifier used by the DataDoctor agent.
-  - the function `orchestrate` inside `orchestrator.py` defines DataDoctor's behavior. If a user query is classified by the foundation model as a prediction task, the foundation model retrieves features and feature values from the user query. `DataDoctor` then invokes the trained classification model with these feature values.
+  - the function `orchestrate` defined in `orchestrator.py` defines DataDoctor's behavior. If a user query is classified by the foundation model as a prediction task, the foundation model retrieves features and feature values from the user query. `DataDoctor` then invokes the trained classification model with these feature values.
 
 
   ### Question answering + RAG
@@ -47,12 +47,12 @@
   The medical records were cleaned, chunked, embedded with `amazon.titan-embed-text-v2:0` and uploaded to an Amazon Bedrock Knowledge Base.
 
   - the medical record documents were cleaned with `clean_markdown_files.py` and `remove_duplicate_files.py`.
-  - the function `orchestrate` inside `orchestrator.py` defines DataDoctor's behavior. If a user query is classified by the foundation model as a question answering task, `DataDoctor` augments the user query with relevant contextual knowledge from the database of medical records and invokes the foundation model again to get an answer. The `DataDoctor` includes citations and source URI of relevant information sources in its answers.
+  - the function `orchestrate` defined in `orchestrator.py` defines DataDoctor's behavior. If a user query is classified by the foundation model as a question answering task, `DataDoctor` augments the user query with relevant contextual knowledge from the database of medical records and invokes the foundation model again to get an answer. The `DataDoctor` includes citations and source URI of relevant information sources in its answers.
 
 
   ### Data retrieval and aggregation
   The `DataDoctor` can answer data-specific questions by querying an `Amazon Athena` database.
-  - the function `orchestrate` inside `orchestrator.py` defines `DataDoctor`'s behavior. If a user query is classified by the foundation model as a database querying task, the foundation model converts the user query into an equivalent SQL statement, which `DataDcotor` uses to query the `Athena` database.
+  - the function `orchestrate` defined in `orchestrator.py` defines `DataDoctor`'s behavior. If a user query is classified by the foundation model as a database querying task, the foundation model converts the user query into an equivalent SQL statement, which `DataDcotor` uses to query the `Athena` database.
 
 
   ### Using `DataDoctor`

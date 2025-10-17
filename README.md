@@ -7,7 +7,7 @@
 
   ## Table of Contents
   - [Repo Contents](#Repo-contents)
-  - [`Datadoctor` schema](#Datadoctor-schema)
+  - [Datadoctor schema](#Datadoctor-schema)
   - [Detailed `Datadoctor` description](#detailed-datadoctor-description)
   - [Tech-stack summary](#Tech-stack-summary)
   - [Patient outcome classification model](#Patient-outcome-classification-model)
@@ -24,7 +24,7 @@
 
 
   ### `Datadoctor` schema
-  ![`Datadoctor schea](./figures/datadoctor.png)
+  ![Datadoctor schema](./figures/datadoctor.png)
 
 
   ### Detailed `Datadoctor` description

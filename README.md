@@ -8,6 +8,7 @@
   ## Table of Contents
   - [Repo Contents](#Repo-contents)
   - [Detailed project description](#detailed-project-description)
+  - [Tech-stack summary](#Tech-stack-summary)
   - [Patient outcome classification model](#Patient-outcome-classification-model)
   - [Question answering + RAG](#Question-answering-+-RAG)
   - [Data retrieval and aggregation](#Data-retrieval-and-aggregation)
@@ -28,6 +29,18 @@
   - a `Gradio` GUI allows users to interact with the agent by writing natural language queries in a text box. It allows users to provide feedback on the quality of the agent's answers via 'thumbs-up' and 'thumbs-down' buttons. This feedback is currently not processed.
 
   The high-level behaviour of the DataDoctor is defined in the `orchestrate` function inside `orchestrator.py`. An augmented user query is first passed to the foundation model for task classification and feature extraction. Based on the foundation model's classification   of the user query as a prediction task, question answering task or database query task, the DataDoctor may invoke the classification model, it may query the Athena database, or it may invoke the foundation model once more for question answering.
+
+
+  ### Tech-stack summary
+
+  - `DataDoctor` source code written with python3.12
+  - `claude sonnet 3` foundational model to answer user queries
+  - `amazon.titan-embed-text-v2:0` embedding model to embedd textual medical records for RAG
+  - `Amazon Bedrock Knowlegde Base` vector database to store embeddings and metadata for RAG
+  - `Amazon Athena` database to store tabular patient data for querying
+  - `Amazon Lambda` to provide entrypoint to `DataDoctor`
+  - `scikit-learn` decision tree classifier for classification model
+  - `Gradio` to build chat interface to `DataDoctor`
 
 
   ### Patient outcome classification model

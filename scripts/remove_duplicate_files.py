@@ -12,6 +12,7 @@ def get_file_hash(filepath):
     return hash_sha256.hexdigest()
 
 def copy_unique_markdown_files(src_folder, dest_folder):
+    """Copy markdown files to new folder without duplicates"""
     if not os.path.exists(dest_folder):
         os.makedirs(dest_folder)
 

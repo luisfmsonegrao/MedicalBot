@@ -12,7 +12,7 @@ def chat_fn(user_message,history):
 
 with gr.Blocks() as demo:
     """Define Gradio App"""
-    gr.Markdown("# 👩‍⚕️🩺 DataDoctor")
+    gr.Markdown("# 👩‍⚕️🩺 MedicalBot")
     chatbot = gr.Chatbot()
     msg = gr.Textbox(placeholder="Ask something...")
     msg.submit(chat_fn, [msg, chatbot], [chatbot, chatbot])

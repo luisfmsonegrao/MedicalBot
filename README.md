@@ -24,7 +24,7 @@
 
 
   ### **MedicalBot** current schema
-  ![MedicalBot schema](./figures/MedicalBot.png)
+  ![MedicalBot schema](./figures/medicalbot.png)
 
 
   ### Detailed **MedicalBot** description
@@ -84,7 +84,7 @@
   - by invoking 'orchestrate' directly, as exemplified in `test_agent_orchestrator` in `\notebooks`. This bypasses the `AWS Lambda` endpoint but still queries the Amazon Bedrock and Amazon Athana databases and prompts the foundation model through Amazon Bedrock.
 
   A typical interaction with the **MedicalBot** will look like this:
-  ![MedicalBot UI](./figures/MedicalBot_UI.png)
+  ![MedicalBot UI](./figures/medicalbot_UI.png)
 
   **Note**: the AWS Lambda version of **MedicalBot** cannot currently make predictions using the classifier, because no Amazon Lambda Layer supporting python3.12 and scikit-learn is available.
   
@@ -101,4 +101,4 @@
   - Enable caching context and user history to improve latency
 
   With some of these additions, the **MedicalBot** application schematic will look more like this:
-  ![MedicalBot schema](./figures/MedicalBot_future.png)
+  ![MedicalBot schema](./figures/medicalbot_future.png)

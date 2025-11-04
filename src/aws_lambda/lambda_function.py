@@ -1,5 +1,5 @@
 import json
-from orchestrator import orchestrate 
+from src.agent.orchestrator import orchestrate 
 
 def lambda_handler(event, context):
     """Handle requests to AWS Lambda function"""

@@ -17,7 +17,8 @@
   - [Upcoming features](#Upcoming-features)
 
   ### Repo contents
-  - `\src` contains the **MedicalBot** agentic AI chatbot source code.
+  - `\src\agent` contains the **MedicalBot** AI chatbot source code.
+  - `\src\ui` contains the **MedicalBot** Gradio UI.
   - `\scripts` contains scripts used e.g. to train the predictive model, clean and upload data, etc.
   - `\notebooks` contains jupyter notebooks used for various ends, such as exploring the dataset or testing the agent's functionalities.
   - `\figures` contains useful figures to illustrate the project.

@@ -17,14 +17,17 @@
   - [Upcoming features](#Upcoming-features)
 
   ### Repo contents
-  - `\src` contains the **MedicalBot** agentic AI chatbot source code.
+  - `\src\agent` contains the **MedicalBot** AI chatbot source code.
+  - `\src\agent_ui` contains the **MedicalBot** Gradio UI.
   - `\scripts` contains scripts used e.g. to train the predictive model, clean and upload data, etc.
+  - `\mlflow-project` contains scripts to automate model training, tracking and deployment with `mlflow`
+  - `\mlruns` contains the necessary files for model tracking with `mlflow`
   - `\notebooks` contains jupyter notebooks used for various ends, such as exploring the dataset or testing the agent's functionalities.
   - `\figures` contains useful figures to illustrate the project.
 
 
   ### **MedicalBot** current schema
-  ![MedicalBot schema](./figures/MedicalBot.png)
+  ![MedicalBot schema](./figures/medicalbot.png)
 
 
   ### Detailed **MedicalBot** description
@@ -47,6 +50,7 @@
   - `Amazon Athena` database to store tabular patient data for querying
   - `Amazon Lambda` to provide entrypoint to **MedicalBot**
   - `scikit-learn` decision tree classifier for classification model
+  - `mlflow` to track and deploy the classification model
   - `Gradio` to build chat interface to **MedicalBot**
   - `Amazon S3` to store dataset and medical records
 
@@ -55,6 +59,8 @@
   
   The **MedicalBot** can use a trained `Scikit-Learn` Decision Tree Classifier to predict the class of Chronic Obstructive Pulmonary disease, based on user-provided feature values.
   The Decision Tree Classifier was trained on the `patient_data` dataset, using a subset of its features to predict the class of Chronic Obstructive Pulmonary Disease for a given patient. 
+
+  The model and model metadata are tracked with `mlflow` for traceability, reproducibility and automated deployment.
   
   ANOVA, Chi-Squared and other hypothesis tests revealed that none of the features in the dataset actually have significant discriminative power in identifying the class of Chronic Obstructive Pulmonary Disease.
   As such, no further effort was made to improve the classification model, e.g. through model selection, cross-validation or hyperparameter tuning. Furthermore, only features 'age', 'sex', 'smoker' and 'bmi' were included in the model, for ease of demonstration.
@@ -84,7 +90,7 @@
   - by invoking 'orchestrate' directly, as exemplified in `test_agent_orchestrator` in `\notebooks`. This bypasses the `AWS Lambda` endpoint but still queries the Amazon Bedrock and Amazon Athana databases and prompts the foundation model through Amazon Bedrock.
 
   A typical interaction with the **MedicalBot** will look like this:
-  ![MedicalBot UI](./figures/MedicalBot_UI.png)
+  ![MedicalBot UI](./figures/medicalbot_UI.png)
 
   **Note**: the AWS Lambda version of **MedicalBot** cannot currently make predictions using the classifier, because no Amazon Lambda Layer supporting python3.12 and scikit-learn is available.
   
@@ -101,4 +107,4 @@
   - Enable caching context and user history to improve latency
 
   With some of these additions, the **MedicalBot** application schematic will look more like this:
-  ![MedicalBot schema](./figures/MedicalBot_future.png)
+  ![MedicalBot schema](./figures/medicalbot_future.png)

@@ -1,7 +1,13 @@
 import joblib
+import os
+from os.path import dirname
 from src.config import MODEL_FEATURES
 
-model = joblib.load(".\..\..\models\decision_tree_classifier_small.joblib")
+file_path = os.path.abspath(__file__)
+print(file_path)
+root_dir = dirname(dirname(dirname(file_path)))
+model_path = os.path.join(root_dir,"models\decision_tree_classifier_small.joblib")
+model = joblib.load(model_path)
 
 def get_prediction(features):
     """Predict Chronic Obstructive Pulmonary Disease class based on user's query"""

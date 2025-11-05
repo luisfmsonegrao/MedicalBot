@@ -5,9 +5,8 @@ from os.path import dirname
 from src.config import MODEL_FEATURES
 
 file_path = os.path.abspath(__file__)
-print(file_path)
 root_dir = dirname(dirname(dirname(file_path)))
-model_path = os.path.join(root_dir,"models\decision_tree_classifier.joblib")
+model_path = os.path.join(root_dir,"models\\COPD_classifier.joblib")
 model = joblib.load(model_path)
 
 def get_prediction(features):

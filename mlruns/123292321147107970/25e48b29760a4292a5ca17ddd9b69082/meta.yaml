@@ -1,0 +1,14 @@
+artifact_uri: file:\c:\Users\negra\mymlprojects\loka\mlruns/123292321147107970/25e48b29760a4292a5ca17ddd9b69082/artifacts
+end_time: 1762341310242
+entry_point_name: ''
+experiment_id: '123292321147107970'
+lifecycle_stage: active
+run_id: 25e48b29760a4292a5ca17ddd9b69082
+run_name: COPD_DecisionTreeClassifier
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1762341305069
+status: 3
+tags: []
+user_id: negra

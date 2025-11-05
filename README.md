@@ -50,7 +50,7 @@
   - `Amazon Athena` database to store tabular patient data for querying
   - `Amazon Lambda` to provide entrypoint to **MedicalBot**
   - `scikit-learn` decision tree classifier for classification model
-  - `mlflow` to track and deploy models
+  - `mlflow` to track and deploy the classification model
   - `Gradio` to build chat interface to **MedicalBot**
   - `Amazon S3` to store dataset and medical records
 

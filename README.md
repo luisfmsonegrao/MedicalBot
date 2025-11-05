@@ -23,7 +23,8 @@
   - `\mlflow-project` contains scripts to automate model training, tracking and deployment with `mlflow`
   - `\mlruns` contains the necessary files for model tracking with `mlflow`
   - `\notebooks` contains jupyter notebooks used for various ends, such as exploring the dataset or testing the agent's functionalities.
-  - `\figures` contains useful figures to illustrate the project.
+  - `\resources\layers` contains necessary aws lambda layers.
+  - `\resources\figures` contains schemas of the **MedicalBot**
 
 
   ### **MedicalBot** current schema

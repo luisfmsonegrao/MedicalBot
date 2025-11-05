@@ -28,8 +28,8 @@ def get_task(query):
       "features": {{
          "age": number or null,
          "bmi": number or null,
-         "smoker": true | false | null,
-         "sex": true if value is "Male" | false if value is "Female" | null
+         "smoker": "Yes" | "No" | null,
+         "sex": "Male" | "Female" | null
       }}
     }}
 

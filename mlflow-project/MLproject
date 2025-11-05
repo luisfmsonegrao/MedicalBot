@@ -1,0 +1,14 @@
+name: ai-agent-mlflow
+
+entry_points:
+  train:
+    parameters:
+      max_depth: {type: int, default: 3}
+      criterion: {type: str, default: "gini"}
+    command: "python train_model.py --max_depth {max_depth} --criterion {criterion}"
+
+  register:
+    command: "python register_promote_model.py"
+
+  deploy:
+    command: "python deploy_model.py"

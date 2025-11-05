@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/negra/mymlprojects/loka/mlruns/0/84288cd609224f41927da72185c4bf92/artifacts
+end_time: 1762358648369
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 84288cd609224f41927da72185c4bf92
+run_name: enthused-goose-950
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1762358645210
+status: 3
+tags: []
+user_id: negra

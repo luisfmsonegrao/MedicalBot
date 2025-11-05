@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/negra/mymlprojects/loka/mlruns/0/50d0a8b3b7cf43d199386381c1c7fcb9/artifacts
+end_time: 1762358791576
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 50d0a8b3b7cf43d199386381c1c7fcb9
+run_name: shivering-gnat-430
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1762358787645
+status: 3
+tags: []
+user_id: negra

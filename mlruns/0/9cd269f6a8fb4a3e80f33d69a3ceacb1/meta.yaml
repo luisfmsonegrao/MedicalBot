@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/negra/mymlprojects/loka/mlruns/0/9cd269f6a8fb4a3e80f33d69a3ceacb1/artifacts
+end_time: 1762358842199
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 9cd269f6a8fb4a3e80f33d69a3ceacb1
+run_name: bemused-snail-865
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1762358839095
+status: 3
+tags: []
+user_id: negra

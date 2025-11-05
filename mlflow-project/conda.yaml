@@ -1,0 +1,10 @@
+name: ai-agent-env
+channels:
+  - defaults
+dependencies:
+  - python=3.12
+  - scikit-learn
+  - mlflow
+  - joblib
+  - pandas
+  - boto3

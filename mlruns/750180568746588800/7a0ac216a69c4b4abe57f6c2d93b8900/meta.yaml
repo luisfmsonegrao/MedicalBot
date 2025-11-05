@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/negra/mymlprojects/loka/mlruns/750180568746588800/7a0ac216a69c4b4abe57f6c2d93b8900/artifacts
+end_time: 1762358590192
+entry_point_name: ''
+experiment_id: '750180568746588800'
+lifecycle_stage: active
+run_id: 7a0ac216a69c4b4abe57f6c2d93b8900
+run_name: masked-squid-716
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1762358576764
+status: 3
+tags: []
+user_id: negra

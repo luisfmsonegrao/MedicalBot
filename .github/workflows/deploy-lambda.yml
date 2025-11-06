@@ -33,7 +33,7 @@ jobs:
           mkdir -p build/models/
           cp -r src/aws_lambda build/src/
           cp -r src/agent build/src/
-          cp -r models/ build/models/
+          cp -r models/ build/
           cd build && zip -r ../lambda_package.zip .
 
       - name: Deploy to AWS Lambda

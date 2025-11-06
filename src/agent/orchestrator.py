@@ -1,9 +1,9 @@
-from intent_classifier import get_task
-from copd_classifier import get_prediction
-from llm_caller import call_llm
-from data_retriever import get_data
-from context_retriever import contextualize_query
-from agent_config import TARGET_NAME
+from .intent_classifier import get_task
+from .copd_classifier import get_prediction
+from .llm_caller import call_llm
+from .data_retriever import get_data
+from .context_retriever import contextualize_query
+from .agent_config import TARGET_NAME
 
 
 def orchestrate(query):

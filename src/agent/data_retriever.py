@@ -1,7 +1,7 @@
 import boto3
 import time
 import pandas as pd
-from agent_config import AWS_REGION, ATHENA_DATABASE_NAME, ATHENA_OUTPUT_PATH
+from .agent_config import AWS_REGION, ATHENA_DATABASE_NAME, ATHENA_OUTPUT_PATH
 
 athena = boto3.client('athena',region_name=AWS_REGION)
 

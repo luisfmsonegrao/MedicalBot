@@ -1,6 +1,6 @@
 import gradio as gr
 import requests
-from ui_config import API_KEY, API_URL
+from .ui_config import API_KEY, API_URL
 
 headers = {"api-key": API_KEY}
 

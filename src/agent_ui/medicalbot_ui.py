@@ -3,7 +3,6 @@ import requests
 from src.config import API_KEY, API_URL
 
 headers = {"api-key": API_KEY}
-print(headers)
 
 def chat_fn(user_message,history):
     """Route queries and replies"""

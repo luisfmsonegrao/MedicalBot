@@ -54,9 +54,9 @@
   - `Amazon Bedrock Knowlegde Base` vector database to store embeddings and metadata for RAG
   - `Amazon Athena` database to store tabular patient data for querying
   - `Amazon Lambda` to deploy **MedicalBot**
-  - `scikit-learn` decision tree classifier for classification model
+  - `scikit-learn` to train decision tree classifier on patient data
   - `mlflow` to track and deploy the classification model
-  - `Gradio` to build chat interface to **MedicalBot**
+  - `Gradio` User Interface to **MedicalBot**
   - `Amazon S3` to store dataset and medical records
   - `AWS Secrets Manager` for api key management.
   - `GitHub Actions` to automate deployment of changes to a **MedicalBot**

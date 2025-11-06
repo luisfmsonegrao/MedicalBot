@@ -5,7 +5,7 @@
   - answer natural language questions based on patients' medical records;
   - retrieve and aggregate anonymized patient data.
 
-  Launch **MedicalBot**
+  Launch **MedicalBot**:
 
    <pre>python -m src.agent_ui.medicalbot_ui </pre>
 

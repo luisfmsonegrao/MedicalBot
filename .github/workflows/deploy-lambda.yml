@@ -28,7 +28,7 @@ jobs:
 
       - name: Package Lambda
         run: |
-          mkdir -p build/src
+          mkdir -p build/src/
           cp -r src/aws_lambda build/src/
           cp -r src/agent build/src/
           cd build && zip -r ../lambda_package.zip .

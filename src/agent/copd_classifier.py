@@ -2,7 +2,7 @@ import joblib
 import os
 import pandas as pd
 from os.path import dirname
-from src.config import MODEL_FEATURES
+from agent_config import MODEL_FEATURES
 
 file_path = os.path.abspath(__file__)
 root_dir = dirname(dirname(dirname(file_path)))

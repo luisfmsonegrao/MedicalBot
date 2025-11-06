@@ -1,6 +1,6 @@
 import json
 from table_schema_retriever import get_table_schema
-from src.config import MODEL_FEATURES, ATHENA_DATABASE_NAME, PATIENT_DATA_TABLE_NAME
+from agent_config import MODEL_FEATURES, ATHENA_DATABASE_NAME, PATIENT_DATA_TABLE_NAME
 from llm_caller import call_llm
 
 table_schema = get_table_schema(ATHENA_DATABASE_NAME,PATIENT_DATA_TABLE_NAME)

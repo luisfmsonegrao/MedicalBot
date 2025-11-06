@@ -20,6 +20,7 @@ def lambda_handler(event, context):
             },
             "body": json.dumps({"answer": answer})
         }
+    
     except Exception as e:
         return {
             "statusCode": 500,

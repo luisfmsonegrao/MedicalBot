@@ -5,7 +5,8 @@ on:
     branches: [ "main" ]
     paths:
       - "src/agent/**"
-      - "src/aws_lambda/**"
+      - "src/aws_lambda/*"
+      - "models/**"
 
 jobs:
   deploy:
@@ -29,8 +30,10 @@ jobs:
       - name: Package Lambda
         run: |
           mkdir -p build/src/
+          mkdir -p build/models/
           cp -r src/aws_lambda build/src/
           cp -r src/agent build/src/
+          cp -r models/ build/models/
           cd build && zip -r ../lambda_package.zip .
 
       - name: Deploy to AWS Lambda

@@ -93,7 +93,7 @@
   A typical interaction with the **MedicalBot** will look like this:
   ![MedicalBot UI](./figures/medicalbot_UI.png)
 
-  **Note**: the AWS Lambda version of **MedicalBot** cannot currently make predictions using the classifier, because no Amazon Lambda Layer supporting python3.12 and scikit-learn is available.
+  **Note**: the AWS Lambda version of **MedicalBot** cannot currently make predictions using the classifier, because no AWS Lambda doesn't support layers with cumulative size larger than ~20MB. The agent will be moved to a containerized architecture.
   
   **Note**: If you clone this repo locally and try to run **MedicalBot** , you do not have the necessary AWS accesses, so it will not actually work.
   

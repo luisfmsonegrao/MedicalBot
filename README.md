@@ -70,7 +70,7 @@
   - `mlflow-project\train_model.py` defines the data preprocessing and model training steps;
   - `mlflow-project\register_promote_model.py` defines logic to move a new model to production;
   - `mlflow-project\deploy_model.py` defines how to deploy the production model;
-  - the function `orchestrate` defined in `orchestrator.py` defines **MedicalBot** 's behavior. If a user query is classified by the foundation model as a prediction task, the foundation model retrieves features and feature values from the user query. **MedicalBot** then invokes the trained classification model with these feature values.
+  - the function `orchestrate` defined in `src\agent\orchestrator.py` defines **MedicalBot** 's behavior. If a user query is classified by the foundation model as a prediction task, the foundation model retrieves features and feature values from the user query. **MedicalBot** then invokes the trained classification model with these feature values.
 
 
   ### Question answering + RAG

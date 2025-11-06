@@ -28,6 +28,7 @@
   - `\notebooks` contains jupyter notebooks used for various ends, such as exploring the dataset or testing the agent's functionalities.
   - `\resources\layers` contains necessary aws lambda layers.
   - `\resources\figures` contains schemas of the **MedicalBot**
+  - `\.github\workflows` contains yml files to deploy changes to agent code automatically on merges to `main`
 
 
   ### **MedicalBot** current schema

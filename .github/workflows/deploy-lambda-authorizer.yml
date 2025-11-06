@@ -1,11 +1,10 @@
-name: Deploy Lambda
+name: Deploy Lambda Authorizer
 
 on:
   push:
     branches: [ "main" ]
     paths:
-      - "src/agent/**"
-      - "src/aws_lambda/**"
+      - "src/aws_lambda_authorizer/**"
 
 jobs:
   deploy:
@@ -20,18 +19,11 @@ jobs:
         with:
           python-version: "3.12"
 
-      #- name: Install Poetry
-      #  run: pip install poetry
-
-      #- name: Export dependencies
-      #  run: poetry export -f requirements.txt --output requirements.txt --without-hashes --without ui
-
       - name: Package Lambda
         run: |
-          mkdir -p build/src/
-          cp -r src/aws_lambda build/src/
-          cp -r src/agent build/src/
-          cd build && zip -r ../lambda_package.zip .
+          mkdir -p build/
+          cp -r src/aws_lambda_authorizer build/
+          cd build && zip -r ../lambda_authorizer_package.zip .
 
       - name: Deploy to AWS Lambda
         uses: appleboy/lambda-action@v0.2.0
@@ -39,5 +31,5 @@ jobs:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: "us-east-1"
-          function_name: "datadoctor-chat"
-          zip_file: "lambda_package.zip"
+          function_name: "medicalbot-authorizer"
+          zip_file: "lambda_authorizer_package.zip"

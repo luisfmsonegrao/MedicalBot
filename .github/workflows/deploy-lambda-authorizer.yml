@@ -22,7 +22,7 @@ jobs:
       - name: Package Lambda
         run: |
           mkdir -p build/
-          cp -r src/aws_lambda_authorizer build/
+          cp -r src/aws_lambda_authorizer/lambda_function.py build/
           cd build && zip -r ../lambda_authorizer_package.zip .
 
       - name: Deploy to AWS Lambda

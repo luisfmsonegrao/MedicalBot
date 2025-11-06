@@ -16,8 +16,8 @@ dependencies = [
 ]
 
 [tool.poetry.group.ui.dependencies]
-"requests = (>=2.32.5,<3.0.0)",
-"gradio = (>=5.49.1,<6.0.0)",
+requests = (>=2.32.5,<3.0.0),
+gradio = (>=5.49.1,<6.0.0)
 
 
 

@@ -53,12 +53,13 @@
   - `amazon.titan-embed-text-v2:0` embedding model to embedd textual medical records for RAG
   - `Amazon Bedrock Knowlegde Base` vector database to store embeddings and metadata for RAG
   - `Amazon Athena` database to store tabular patient data for querying
-  - `Amazon Lambda` to provide entrypoint to **MedicalBot**
+  - `Amazon Lambda` to deploy **MedicalBot**
   - `scikit-learn` decision tree classifier for classification model
   - `mlflow` to track and deploy the classification model
   - `Gradio` to build chat interface to **MedicalBot**
   - `Amazon S3` to store dataset and medical records
   - `AWS Secrets Manager` for api key management.
+  - `GitHub Actions` to automate deployment of changes to a **MedicalBot**
 
 
   ### Patient outcome classification model

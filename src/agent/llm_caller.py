@@ -1,6 +1,6 @@
 import json
 import boto3
-from agent_config import BEDROCK_MODEL_ID
+from .agent_config import BEDROCK_MODEL_ID
 
 bedrock = boto3.client('bedrock-runtime', region_name='us-east-1')
 

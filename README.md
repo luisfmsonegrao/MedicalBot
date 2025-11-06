@@ -28,7 +28,7 @@
 
 
   ### **MedicalBot** current schema
-  ![MedicalBot schema](./figures/medicalbot.png)
+  ![MedicalBot schema](./resources/figures/medicalbot.png)
 
 
   ### Detailed **MedicalBot** description
@@ -108,4 +108,4 @@
   - Enable caching context and user history to improve latency
 
   With some of these additions, the **MedicalBot** application schematic will look more like this:
-  ![MedicalBot schema](./figures/medicalbot_future.png)
+  ![MedicalBot schema](./resources/figures/medicalbot_future.png)

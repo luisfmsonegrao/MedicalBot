@@ -6,15 +6,12 @@ def lambda_handler(event, context):
     try:
         body = json.loads(event.get("body", "{}"))
         user_query = body.get("query", "")
-
         if not user_query:
             return {
                 "statusCode": 400,
                 "body": json.dumps({"error": "Missing 'query' field"})
             }
-
         answer = orchestrate(user_query)
-
         return {
             "statusCode": 200,
             "headers": {
@@ -23,7 +20,6 @@ def lambda_handler(event, context):
             },
             "body": json.dumps({"answer": answer})
         }
-
     except Exception as e:
         return {
             "statusCode": 500,

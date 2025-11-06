@@ -96,7 +96,7 @@
 
   **Note**: the AWS Lambda version of **MedicalBot** cannot currently make predictions using the classifier, because no AWS Lambda doesn't support layers with cumulative size larger than ~20MB. The agent will be moved to a containerized architecture.
   
-  **Note**: **MedicalBot** is protected by an API_KEY, which you must have in order to query the agent.
+  **Note**: **MedicalBot** is protected by an API key, which you must have in order to query the agent.
   
   ### Upcoming features
   A series of features will be added to **MedicalBot** in the future:

@@ -5,6 +5,10 @@
   - answer natural language questions based on patients' medical records;
   - retrieve and aggregate anonymized patient data.
 
+  Launch **MedicalBot**
+
+   <pre>python -m src.agent_ui.medicalbot_ui </pre>
+
   ## Table of Contents
   - [Repo Contents](#Repo-contents)
   - [MedicalBot current schema](#MedicalBot-current-schema)
@@ -87,10 +91,6 @@
 
 
   ### Using **MedicalBot**
-
-  Launch **MedicalBot**
-
- <pre>python -m src.agent_ui.medicalbot_ui </pre>
   
   The user can interact with **MedicalBot** in two ways:
   - through a `Gradio` UI. The UI is defined in `medicalbot_ui.py` and can be launched by running the script as a module from the command line: `python -m src.agent_ui.medicalbot_ui`. When the user submits a query through the UI, an `AWS Lamdba` function is triggered and executes `orchestrate` from `orchestrator.py`. The answer to the user query is displayed in the `Gradio` UI. Feedback on each answer can be provided by the user through 'thumbs-up' and 'thumbs-down' buttons. This feedback is currently not processed.

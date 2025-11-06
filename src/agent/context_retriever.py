@@ -1,5 +1,5 @@
 import boto3
-from src.config import AWS_REGION, KNOWLEDGE_BASE_ID, CONTEXT_WINDOW, SOURCE_URI_STRING
+from agent_config import AWS_REGION, KNOWLEDGE_BASE_ID, CONTEXT_WINDOW, SOURCE_URI_STRING
 
 
 bedrock_agent = boto3.client('bedrock-agent-runtime',region_name=AWS_REGION)

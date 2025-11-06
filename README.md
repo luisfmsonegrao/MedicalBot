@@ -7,7 +7,7 @@
 
   Launch **MedicalBot**:
 
-   <pre> ```python -m src.agent_ui.medicalbot_ui``` </pre>
+   ```python -m src.agent_ui.medicalbot_ui```
 
   ## Table of Contents
   - [Repo Contents](#Repo-contents)

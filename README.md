@@ -21,7 +21,6 @@
   - `\src\agent_ui` contains the **MedicalBot** Gradio UI.
   - `\scripts` contains scripts used e.g. to train the predictive model, clean and upload data, etc.
   - `\mlflow-project` contains scripts to process data and train, track and deploy classification model
-  - `\mlruns` contains the necessary files for model tracking with `mlflow`
   - `\notebooks` contains jupyter notebooks used for various ends, such as exploring the dataset or testing the agent's functionalities.
   - `\resources\layers` contains necessary aws lambda layers.
   - `\resources\figures` contains schemas of the **MedicalBot**

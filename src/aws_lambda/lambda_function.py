@@ -3,7 +3,6 @@ from src.agent.orchestrator import orchestrate
 
 def lambda_handler(event, context):
     """Handle requests to AWS Lambda function"""
-    
     try:
         body = json.loads(event.get("body", "{}"))
         user_query = body.get("query", "")

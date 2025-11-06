@@ -20,7 +20,7 @@
   - `\src\agent` contains the **MedicalBot** AI chatbot source code.
   - `\src\agent_ui` contains the **MedicalBot** Gradio UI.
   - `\scripts` contains scripts used e.g. to train the predictive model, clean and upload data, etc.
-  - `\mlflow-project` contains scripts to automate model training, tracking and deployment with `mlflow`
+  - `\mlflow-project` contains scripts to process data and train, track and deploy classification model
   - `\mlruns` contains the necessary files for model tracking with `mlflow`
   - `\notebooks` contains jupyter notebooks used for various ends, such as exploring the dataset or testing the agent's functionalities.
   - `\resources\layers` contains necessary aws lambda layers.
@@ -67,8 +67,9 @@
   ANOVA, Chi-Squared and other hypothesis tests revealed that none of the features in the dataset actually have significant discriminative power in identifying the class of Chronic Obstructive Pulmonary Disease.
   As such, no further effort was made to improve the classification model, e.g. through model selection, cross-validation or hyperparameter tuning. Furthermore, only features 'age', 'sex', 'smoker' and 'bmi' were included in the model, for ease of demonstration.
 
-  - `preprocess_patient_data.py` was used to clean, filter and transform the dataset.
-  - `train_classification_model.py` was used to train the Decision Tree Classifier used by the **MedicalBot**  agent.
+  - `mlflow-project\train_model.py` defines the data preprocessing and model training steps;
+  - `mlflow-project\register_promote_model.py` defines logic to move a new model to production;
+  - `mlflow-project\deploy_model.py` defines how to deploy the production model;
   - the function `orchestrate` defined in `orchestrator.py` defines **MedicalBot** 's behavior. If a user query is classified by the foundation model as a prediction task, the foundation model retrieves features and feature values from the user query. **MedicalBot** then invokes the trained classification model with these feature values.
 
 

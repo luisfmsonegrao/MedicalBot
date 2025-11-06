@@ -5,6 +5,10 @@
   - answer natural language questions based on patients' medical records;
   - retrieve and aggregate anonymized patient data.
 
+  Launch **MedicalBot**:
+
+   ```python -m src.agent_ui.medicalbot_ui```
+
   ## Table of Contents
   - [Repo Contents](#Repo-contents)
   - [MedicalBot current schema](#MedicalBot-current-schema)
@@ -20,14 +24,15 @@
   - `\src\agent` contains the **MedicalBot** AI chatbot source code.
   - `\src\agent_ui` contains the **MedicalBot** Gradio UI.
   - `\scripts` contains scripts used e.g. to train the predictive model, clean and upload data, etc.
-  - `\mlflow-project` contains scripts to automate model training, tracking and deployment with `mlflow`
-  - `\mlruns` contains the necessary files for model tracking with `mlflow`
+  - `\mlflow-project` contains scripts to process data and train, track and deploy classification model
   - `\notebooks` contains jupyter notebooks used for various ends, such as exploring the dataset or testing the agent's functionalities.
-  - `\figures` contains useful figures to illustrate the project.
+  - `\resources\layers` contains necessary aws lambda layers.
+  - `\resources\figures` contains schemas of the **MedicalBot**
+  - `\.github\workflows` contains yml files to deploy changes to agent code automatically on merges to `main`
 
 
   ### **MedicalBot** current schema
-  ![MedicalBot schema](./figures/medicalbot.png)
+  ![MedicalBot schema](./resources/figures/medicalbot.png)
 
 
   ### Detailed **MedicalBot** description
@@ -48,11 +53,13 @@
   - `amazon.titan-embed-text-v2:0` embedding model to embedd textual medical records for RAG
   - `Amazon Bedrock Knowlegde Base` vector database to store embeddings and metadata for RAG
   - `Amazon Athena` database to store tabular patient data for querying
-  - `Amazon Lambda` to provide entrypoint to **MedicalBot**
-  - `scikit-learn` decision tree classifier for classification model
+  - `Amazon Lambda` to deploy **MedicalBot**
+  - `scikit-learn` to train decision tree classifier on patient data
   - `mlflow` to track and deploy the classification model
-  - `Gradio` to build chat interface to **MedicalBot**
+  - `Gradio` User Interface to **MedicalBot**
   - `Amazon S3` to store dataset and medical records
+  - `AWS Secrets Manager` for api key management.
+  - `GitHub Actions` to automate deployment of changes to a **MedicalBot**
 
 
   ### Patient outcome classification model
@@ -65,9 +72,10 @@
   ANOVA, Chi-Squared and other hypothesis tests revealed that none of the features in the dataset actually have significant discriminative power in identifying the class of Chronic Obstructive Pulmonary Disease.
   As such, no further effort was made to improve the classification model, e.g. through model selection, cross-validation or hyperparameter tuning. Furthermore, only features 'age', 'sex', 'smoker' and 'bmi' were included in the model, for ease of demonstration.
 
-  - `preprocess_patient_data.py` was used to clean, filter and transform the dataset.
-  - `train_classification_model.py` was used to train the Decision Tree Classifier used by the **MedicalBot**  agent.
-  - the function `orchestrate` defined in `orchestrator.py` defines **MedicalBot** 's behavior. If a user query is classified by the foundation model as a prediction task, the foundation model retrieves features and feature values from the user query. **MedicalBot** then invokes the trained classification model with these feature values.
+  - `mlflow-project\train_model.py` defines the data preprocessing and model training steps;
+  - `mlflow-project\register_promote_model.py` defines logic to move a new model to production;
+  - `mlflow-project\deploy_model.py` defines how to deploy the production model;
+  - the function `orchestrate` defined in `src\agent\orchestrator.py` defines **MedicalBot** 's behavior. If a user query is classified by the foundation model as a prediction task, the foundation model retrieves features and feature values from the user query. **MedicalBot** then invokes the trained classification model with these feature values.
 
 
   ### Question answering + RAG
@@ -85,16 +93,16 @@
 
 
   ### Using **MedicalBot**
+  
   The user can interact with **MedicalBot** in two ways:
-  - through a `Gradio` UI. The UI is defined in `MedicalBot_ui.py` and can be launched by running the script from the command line. When the user submits a query through the UI, an `AWS Lamdba` function is triggered and executes `orchestrate` from `orchestrator.py`. The answer to the user query is displayed in the `Gradio` UI. Feedback on each answer can be provided by the user through 'thumbs-up' and 'thumbs-down' buttons. This feedback is currently not processed.
-  - by invoking 'orchestrate' directly, as exemplified in `test_agent_orchestrator` in `\notebooks`. This bypasses the `AWS Lambda` endpoint but still queries the Amazon Bedrock and Amazon Athana databases and prompts the foundation model through Amazon Bedrock.
+  - through a `Gradio` UI. The UI is defined in `medicalbot_ui.py` and can be launched by running the script as a module from the command line: `python -m src.agent_ui.medicalbot_ui`. When the user submits a query through the UI, an `AWS Lamdba` function is triggered and executes `orchestrate` from `orchestrator.py`. The answer to the user query is displayed in the `Gradio` UI. Feedback on each answer can be provided by the user through 'thumbs-up' and 'thumbs-down' buttons. This feedback is currently not processed.
 
   A typical interaction with the **MedicalBot** will look like this:
-  ![MedicalBot UI](./figures/medicalbot_UI.png)
+  ![MedicalBot UI](./resources/figures/medicalbot_UI.png)
 
-  **Note**: the AWS Lambda version of **MedicalBot** cannot currently make predictions using the classifier, because no Amazon Lambda Layer supporting python3.12 and scikit-learn is available.
+  **Note**: the AWS Lambda version of **MedicalBot** cannot currently make predictions using the classifier, because no AWS Lambda doesn't support layers with cumulative size larger than ~20MB. The agent will be moved to a containerized architecture.
   
-  **Note**: If you clone this repo locally and try to run **MedicalBot** , you do not have the necessary AWS accesses, so it will not actually work.
+  **Note**: **MedicalBot** is protected by an API key, which you must have in order to query the agent.
   
   ### Upcoming features
   A series of features will be added to **MedicalBot** in the future:
@@ -102,9 +110,9 @@
   - enable storage and usage of user feedback - for performance monitoring and tuning
   - enable storage of other performance metrics, e.g. component-wise latency
   - enable more complex data analysis tasks, e.g. plotting
-  - implement version control of dataset and model
+  - implement version control of dataset
   - add regression model to predict values of alanine aminotransferases
   - Enable caching context and user history to improve latency
 
   With some of these additions, the **MedicalBot** application schematic will look more like this:
-  ![MedicalBot schema](./figures/medicalbot_future.png)
+  ![MedicalBot schema](./resources/figures/medicalbot_future.png)

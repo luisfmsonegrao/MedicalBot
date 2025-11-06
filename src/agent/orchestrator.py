@@ -1,7 +1,3 @@
-import boto3
-import joblib
-import pandas as pd
-import time
 from intent_classifier import get_task
 from copd_classifier import get_prediction
 from llm_caller import call_llm

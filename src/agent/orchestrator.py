@@ -3,7 +3,7 @@ from copd_classifier import get_prediction
 from llm_caller import call_llm
 from data_retriever import get_data
 from context_retriever import contextualize_query
-from src.config import TARGET_NAME
+from agent_config import TARGET_NAME
 
 
 def orchestrate(query):

@@ -97,7 +97,7 @@
   - by invoking 'orchestrate' directly, as exemplified in `test_agent_orchestrator` in `\notebooks`. This bypasses the `AWS Lambda` endpoint but still queries the Amazon Bedrock and Amazon Athana databases and prompts the foundation model through Amazon Bedrock.
 
   A typical interaction with the **MedicalBot** will look like this:
-  ![MedicalBot UI](./figures/medicalbot_UI.png)
+  ![MedicalBot UI](./resources/figures/medicalbot_UI.png)
 
   **Note**: the AWS Lambda version of **MedicalBot** cannot currently make predictions using the classifier, because no AWS Lambda doesn't support layers with cumulative size larger than ~20MB. The agent will be moved to a containerized architecture.
   

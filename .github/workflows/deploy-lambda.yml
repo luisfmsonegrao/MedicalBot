@@ -28,9 +28,9 @@ jobs:
 
       - name: Package Lambda
         run: |
-          mkdir -p build
-          cp -r src/aws_lambda build/src/aws_lambda
-          cp -r src/agent build/src/agent
+          mkdir -p build/src
+          cp -r src/aws_lambda build/src/
+          cp -r src/agent build/src/
           cd build && zip -r ../lambda_package.zip .
 
       - name: Deploy to AWS Lambda

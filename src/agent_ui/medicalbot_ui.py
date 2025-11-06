@@ -1,11 +1,13 @@
 import gradio as gr
 import requests
+from src.config import API_KEY, API_URL
 
-API_URL = 'https://a83rxleacg.execute-api.us-east-1.amazonaws.com/datadoctor-chat'
+headers = {"api-key": API_KEY}
+print(headers)
 
 def chat_fn(user_message,history):
     """Route queries and replies"""
-    r = requests.post(API_URL, json={"query": user_message})
+    r = requests.post(API_URL, headers=headers, json={"query": user_message})
     answer = r.json().get("answer", "Error")
     history.append((user_message, answer))
     return history,history

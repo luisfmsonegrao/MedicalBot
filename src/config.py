@@ -1,3 +1,7 @@
+import os
+
+API_KEY = os.environ.get("MB_API_KEY")
+
 AWS_REGION = "us-east-1"
 
 KNOWLEDGE_BASE_ID = "A3XBZT3D8Y"
@@ -19,3 +23,5 @@ TARGET_NAME = 'Chronic Obstructive Pulmonary Disease'
 SOURCE_URI_STRING = 'x-amz-bedrock-kb-source-uri'
 
 CONTEXT_WINDOW = 5
+
+API_URL = 'https://a83rxleacg.execute-api.us-east-1.amazonaws.com/datadoctor-chat'

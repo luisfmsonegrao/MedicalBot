@@ -25,6 +25,7 @@ def save_interaction(query, results, context):
             "embedding": embedding,
             "results": json.dumps(results),
             "context": json.dumps(context),
+            "feedback": "NA",
             "model_metadata": json.dumps(MODEL_METADATA),
             "text_embedding_model_id": TEXT_EMBEDDING_MODEL_ID,
             "ttl": init_time + CACHE_TTL,

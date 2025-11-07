@@ -1,6 +1,6 @@
 import gradio as gr
 import requests
-from .ui_config import API_KEY, API_URL
+from .ui_config import API_KEY, QUERY_API_URL, FEEDBACK_API_URL
 
 headers = {"api-key": API_KEY}
 
@@ -9,7 +9,7 @@ query_id_map = {}
 
 def chat_fn(user_message, history):
     """Send message to Lambda and return reply"""
-    r = requests.post(API_URL, headers=headers, json={"query": user_message})
+    r = requests.post(QUERY_API_URL, headers=headers, json={"query": user_message})
     data = r.json()
     answer = data.get("answer", "Error")
     query_id = data.get("query_id", None)
@@ -25,15 +25,17 @@ def feedback_fn(event_data: gr.LikeData):
     idx = event_data.index[0]
     like = event_data.liked
     query_id = query_id_map.get(idx)
-
-    if query_id:
-        payload = {
-            "query_id": query_id,
-            "feedback": "positive" if like else "negative"
-        }
-        #requests.post(f"{API_URL}/feedback", headers=headers, json=payload)
+    if like is True:
+        feedback = "positive"
+    elif like is False:
+        feedback = "negative"
     else:
-        print("Warning: no query_id found for index", idx)
+        feedback = "NA"
+    payload = {
+        "query_id": query_id,
+        "feedback": feedback
+    }
+    requests.post(FEEDBACK_API_URL, headers=headers, json=payload)
 
 
 with gr.Blocks() as demo:

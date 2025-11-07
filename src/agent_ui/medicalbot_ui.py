@@ -15,7 +15,6 @@ def chat_fn(user_message, history):
     query_id = data.get("query_id", "Error")
     history.append((user_message, answer))
     query_id_map[len(history) - 1] = query_id
-
     return history, history
 
 def feedback_fn(event_data: gr.LikeData):
@@ -35,7 +34,6 @@ def feedback_fn(event_data: gr.LikeData):
         "query_id": query_id,
         "feedback": feedback
     }
-    print(payload)
     requests.post(FEEDBACK_API_URL, headers=headers, json=payload)
 
 

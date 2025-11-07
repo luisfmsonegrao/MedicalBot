@@ -4,7 +4,6 @@ from .llm_caller import call_llm
 from .data_retriever import get_data
 from .context_retriever import contextualize_query, retrieve_context
 from .interaction_saver import save_interaction
-from .agent_config import CONTEXT_WINDOW
 
 
 def orchestrate(query):
@@ -17,7 +16,7 @@ def orchestrate(query):
         answer = f"Model prediction are not supported in AWS Lambda due to layer size limit. Agent will be containerized soon."
 
     elif task.get('task') == 'question_answering':
-        context = retrieve_context(query,CONTEXT_WINDOW)
+        context = retrieve_context(query)
         llm_query = contextualize_query(query,context)
         answer = call_llm(llm_query)
     

@@ -26,7 +26,7 @@ TEXT_EMBEDDING_MODEL_ID = "amazon.titan-embed-text-v2:0"
 
 CACHE_TTL = 7200
 
-model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "models")
+model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, os.pardir, "models")
 model_metadata_name = "model_metadata.json"
 model_metadata_file = os.path.join(model_path,model_metadata_name)
 

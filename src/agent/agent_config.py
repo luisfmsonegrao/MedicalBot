@@ -1,4 +1,4 @@
-import os
+import os,json
 
 AWS_REGION = "us-east-1"
 
@@ -21,3 +21,13 @@ TARGET_NAME = 'Chronic Obstructive Pulmonary Disease'
 SOURCE_URI_STRING = 'x-amz-bedrock-kb-source-uri'
 
 CONTEXT_WINDOW = 5
+
+TEXT_EMBEDDING_MODEL_ID = "amazon.titan-embed-text-v2:0"
+
+CACHE_TTL = 7200
+
+model_path = os.path.abspath(os.path.join(os.getcwd(),os.path.pardir,os.path.pardir,"models"))
+model_metadata_file = "model_metadata.json"
+
+with open(os.path.join(model_path,model_metadata_file),'r',encoding='utf-8') as f:
+    MODEL_METADATA = json.load(f)

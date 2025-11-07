@@ -12,8 +12,8 @@ def lambda_handler(event, context):
                 "statusCode": 400,
                 "body": json.dumps({"error": "Missing 'query' field"})
             }
-        answer = orchestrate(user_query)
         query_id = str(uuid.uuid4())
+        answer = orchestrate(user_query,query_id)
         return {
             "statusCode": 200,
             "headers": {

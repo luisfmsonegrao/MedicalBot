@@ -6,7 +6,7 @@ from .context_retriever import contextualize_query, retrieve_context
 from .interaction_saver import save_interaction
 
 
-def orchestrate(query):
+def orchestrate(query,query_id):
     """Orchestrate DataDoctor agent"""
     task = get_task(query)#maybe this step can use smaller model specialized to text classification
     features = task.get('features',{})
@@ -23,5 +23,5 @@ def orchestrate(query):
     elif task.get('task') == 'db_query':
         answer = get_data(features)
 
-    save_interaction(query,answer,context)
+    save_interaction(query,answer,context,query_id)
     return answer

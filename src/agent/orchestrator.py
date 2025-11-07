@@ -4,12 +4,11 @@ from .llm_caller import call_llm
 from .data_retriever import get_data
 from .context_retriever import contextualize_query, retrieve_context
 from .interaction_saver import save_interaction
-from .agent_config import TARGET_NAME, CONTEXT_WINDOW
+from .agent_config import CONTEXT_WINDOW
 
 
 def orchestrate(query):
     """Orchestrate DataDoctor agent"""
-
     task = get_task(query)#maybe this step can use smaller model specialized to text classification
     features = task.get('features',{})
     context = []

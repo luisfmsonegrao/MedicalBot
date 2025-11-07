@@ -30,6 +30,7 @@ jobs:
       - name: Package Lambda
         run: |
           mkdir -p build/src/
+          mkdir -p build/src/aws_lambda/
           mkdir -p build/models/
           cp src/aws_lambda/chat_lambda_function.py build/src/aws_lambda/lambda_function.py
           cp -r src/agent build/src/

@@ -12,7 +12,7 @@ def chat_fn(user_message, history):
     r = requests.post(QUERY_API_URL, headers=headers, json={"query": user_message})
     data = r.json()
     answer = data.get("answer", "Error")
-    query_id = data.get("query_id", None)
+    query_id = data.get("query_id", "Error")
     history.append((user_message, answer))
     query_id_map[len(history) - 1] = query_id
 
@@ -35,6 +35,7 @@ def feedback_fn(event_data: gr.LikeData):
         "query_id": query_id,
         "feedback": feedback
     }
+    print(payload)
     requests.post(FEEDBACK_API_URL, headers=headers, json=payload)
 
 

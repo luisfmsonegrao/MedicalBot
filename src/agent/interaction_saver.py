@@ -3,7 +3,7 @@ import uuid
 import time
 import json
 from decimal import Decimal
-from agent_config import TEXT_EMBEDDING_MODEL_ID, CACHE_TTL, MODEL_METADATA
+from .agent_config import TEXT_EMBEDDING_MODEL_ID, CACHE_TTL, MODEL_METADATA
 
 dynamodb = boto3.resource("dynamodb")
 interaction_cache = dynamodb.Table("medicalbot-cache")

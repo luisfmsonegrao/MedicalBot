@@ -1,5 +1,5 @@
 from .intent_classifier import get_task
-from .copd_classifier import get_prediction
+#.copd_classifier import get_prediction
 from .llm_caller import call_llm
 from .data_retriever import get_data
 from .context_retriever import contextualize_query, retrieve_context
@@ -14,8 +14,8 @@ def orchestrate(query):
     features = task.get('features',{})
     context = []
     if task.get('task') == 'prediction':
-        pred = get_prediction(features)
-        answer = f"Model prediction for {TARGET_NAME} class: {pred}"
+        #pred = get_prediction(features)
+        answer = f"Model prediction are not supported in AWS Lambda due to layer size limit. Agent will be containerized soon."
 
     elif task.get('task') == 'question_answering':
         context = retrieve_context(query,CONTEXT_WINDOW)

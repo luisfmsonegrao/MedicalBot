@@ -31,7 +31,7 @@ jobs:
         run: |
           mkdir -p build/src/
           mkdir -p build/models/
-          cp src/aws_lambda/chat_lamdba_function.py build/src/aws_lambda/lambda_function.py
+          cp src/aws_lambda/chat_lambda_function.py build/src/aws_lambda/lambda_function.py
           cp -r src/agent build/src/
           cp -r models/ build/
           cd build && zip -r ../lambda_package.zip .

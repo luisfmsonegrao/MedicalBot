@@ -5,6 +5,7 @@ dynamodb = boto3.resource("dynamodb")
 table = dynamodb.Table("medicalbot-cache")
 
 def lambda_handler(event, context):
+    """Handle user feedback storage"""
     body = json.loads(event["body"])
     feedback = body['feedback']
     query_id = body['query_id']

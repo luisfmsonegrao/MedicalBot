@@ -23,14 +23,14 @@ def contextualize_query(query,context):
     llm_query += f"Question: {query}" + "\nAnswer:"
     return llm_query
 
-def retrieve_context(query,top_k=5):
+def retrieve_context(query):
     """Retrieve relevant context from Amazon Bedrock Knowledge database"""
     response = bedrock_agent.retrieve(
         knowledgeBaseId=KNOWLEDGE_BASE_ID,
         retrievalQuery={"text": query},
         retrievalConfiguration={
             "vectorSearchConfiguration": {
-                "numberOfResults": top_k
+                "numberOfResults": CONTEXT_WINDOW
             }
         }
     )

@@ -4,10 +4,9 @@ from .agent_config import AWS_REGION, KNOWLEDGE_BASE_ID, CONTEXT_WINDOW, SOURCE_
 
 bedrock_agent = boto3.client('bedrock-agent-runtime',region_name=AWS_REGION)
 
-def contextualize_query(query):
+def contextualize_query(query,context):
     """Adapt user query for question answering with RAG from foundation model"""
 
-    context = retrieve_context(query,CONTEXT_WINDOW)
     system_query = (
         f"""You are an assistant. 
         Use information in the context to answer the question.

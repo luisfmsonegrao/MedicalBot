@@ -21,7 +21,7 @@
   - [Upcoming features](#Upcoming-features)
 
   ### Repo contents
-  - `\src\agent` contains the **MedicalBot** AI chatbot source code.
+  - `\src\agent` contains the **MedicalBot** source code.
   - `\src\agent_ui` contains the **MedicalBot** Gradio UI.
   - `\scripts` contains scripts used e.g. to train the predictive model, clean and upload data, etc.
   - `\mlflow-project` contains scripts to process data and train, track and deploy classification model

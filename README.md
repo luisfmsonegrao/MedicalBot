@@ -43,8 +43,6 @@
   - retrieve and aggregate anonymized medical data from the `patient_data` dataset.
   - a `Gradio` GUI for users to interact with **MedicalBot** - send queries and provide feedback on individual answers
 
-  The high-level behaviour of the **MedicalBot**  is defined in the `orchestrate` function inside `orchestrator.py`. An augmented user query is first passed to the foundation model for task classification and feature extraction. Based on the foundation model's classification of the user query as a prediction task, question answering task or database query task, the **MedicalBot**  may invoke the classification model, it may query the Athena database, or it may invoke the foundation model once more for question answering.
-
 
   ### Tech-stack summary
 
@@ -65,38 +63,24 @@
 
   ### Patient outcome classification model
   
-  The **MedicalBot** can use a trained `Scikit-Learn` Decision Tree Classifier to predict the class of Chronic Obstructive Pulmonary disease, based on user-provided feature values.
-  The Decision Tree Classifier was trained on the `patient_data` dataset, using a subset of its features to predict the class of Chronic Obstructive Pulmonary Disease for a given patient. 
-
-  The model and model metadata are tracked with `mlflow` for traceability, reproducibility and automated deployment.
-  
-  ANOVA, Chi-Squared and other hypothesis tests revealed that none of the features in the dataset actually have significant discriminative power in identifying the class of Chronic Obstructive Pulmonary Disease.
-  As such, no further effort was made to improve the classification model, e.g. through model selection, cross-validation or hyperparameter tuning. Furthermore, only features 'age', 'sex', 'smoker' and 'bmi' were included in the model, for ease of demonstration.
-
-  - `mlflow-project\train_model.py` defines the data preprocessing and model training steps;
-  - `mlflow-project\register_promote_model.py` defines logic to move a new model to production;
-  - `mlflow-project\deploy_model.py` defines how to deploy the production model;
-  - the function `orchestrate` defined in `src\agent\orchestrator.py` defines **MedicalBot** 's behavior. If a user query is classified by the foundation model as a prediction task, the foundation model retrieves features and feature values from the user query. **MedicalBot** then invokes the trained classification model with these feature values.
-
+  The **MedicalBot** can use a trained `Scikit-Learn` Decision Tree Classifier to predict the class of Chronic Obstructive Pulmonary Disease, based on user-provided feature values.
 
   ### Question answering + RAG
 
   The **MedicalBot** can answer natural language questions about patients' medical history based on a knowledge base of textual medical records. In this case, the **MedicalBot** includes citations and source s3 URI of relevant information sources.
-  The medical records were cleaned, chunked, embedded with `amazon.titan-embed-text-v2:0` and uploaded to an Amazon Bedrock Knowledge Base.
 
-  - the medical record documents were cleaned with `clean_markdown_files.py` and `remove_duplicate_files.py`.
-  - the function `orchestrate` defined in `orchestrator.py` defines **MedicalBot** 's behavior. If a user query is classified by the foundation model as a question answering task, **MedicalBot** augments the user query with relevant contextual knowledge from the database of medical records and invokes the foundation model again to get an answer. The **MedicalBot** includes citations and source URI of relevant information sources in its answers.
 
 
   ### Data retrieval and aggregation
-  The **MedicalBot** can answer data-specific questions by querying an `Amazon Athena` database.
-  - the function `orchestrate` defined in `orchestrator.py` defines **MedicalBot**'s behavior. If a user query is classified by the foundation model as a database querying task, the foundation model converts the user query into an equivalent SQL statement, which `DataDcotor` uses to query the `Athena` database.
-
+  The **MedicalBot** can answer data-specific questions by querying an `Amazon Athena` database with tabular patient data.
+ 
 
   ### Using **MedicalBot**
   
-  The user can interact with **MedicalBot** in two ways:
-  - through a `Gradio` UI. The UI is defined in `medicalbot_ui.py` and can be launched by running the script as a module from the command line: `python -m src.agent_ui.medicalbot_ui`. When the user submits a query through the UI, an `AWS Lamdba` function is triggered and executes `orchestrate` from `orchestrator.py`. The answer to the user query is displayed in the `Gradio` UI. Feedback on each answer can be provided by the user through 'thumbs-up' and 'thumbs-down' buttons. This feedback is currently not processed.
+  The user can interact with **MedicalBot** through a `Gradio` UI. To launch the GUI, just run:
+
+   ```python -m src.agent_ui.medicalbot_ui``
+  
 
   A typical interaction with the **MedicalBot** will look like this:
   ![MedicalBot UI](./resources/figures/medicalbot_UI.png)

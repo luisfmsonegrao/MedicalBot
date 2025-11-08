@@ -10,7 +10,7 @@ interaction_cache = dynamodb.Table("medicalbot-cache")
 bedrock = boto3.client("bedrock-runtime")
 
 
-def save_interaction(query,results,context,query_id):
+def save_interaction(query,results,context,task,query_id):
     """
     Save interaction to DynamoDB
     """
@@ -26,6 +26,7 @@ def save_interaction(query,results,context,query_id):
             "results": json.dumps(results),
             "context": json.dumps(context),
             "feedback": "NA",
+            "task_type": task,
             "model_metadata": json.dumps(MODEL_METADATA),
             "text_embedding_model_id": TEXT_EMBEDDING_MODEL_ID,
             "ttl": init_time + CACHE_TTL,

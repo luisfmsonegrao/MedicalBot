@@ -38,10 +38,10 @@
   ### Detailed **MedicalBot** description
 
   **MedicalBot** is an agentic AI Chatbot with several features:
-  - predict patient outcomes for Chronic Obstructive Pulmonary Disease class, leveraging the `patient_data` dataset. This is achieved with a Decision Tree Classifier.
   - answer natural language questions about patients' medical history, leveraging a database of textual patient medical records and citing relevant sources.
+  - predict patient outcomes for Chronic Obstructive Pulmonary Disease class, leveraging the `patient_data` dataset. This is achieved with a Decision Tree Classifier.
   - retrieve and aggregate anonymized medical data from the `patient_data` dataset.
-  - a `Gradio` GUI allows users to interact with the agent by writing natural language queries in a text box. It allows users to provide feedback on the quality of the agent's answers via 'thumbs-up' and 'thumbs-down' buttons. This feedback is currently not processed.
+  - a `Gradio` GUI for users to interact with **MedicalBot** - send queries and provide feedback on individual answers
 
   The high-level behaviour of the **MedicalBot**  is defined in the `orchestrate` function inside `orchestrator.py`. An augmented user query is first passed to the foundation model for task classification and feature extraction. Based on the foundation model's classification of the user query as a prediction task, question answering task or database query task, the **MedicalBot**  may invoke the classification model, it may query the Athena database, or it may invoke the foundation model once more for question answering.
 

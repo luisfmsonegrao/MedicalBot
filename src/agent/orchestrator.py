@@ -12,17 +12,17 @@ def orchestrate(query,query_id):
     features = task.get('features',{})
     context = []
     task = task.get('task')
-    if task.get('task') == 'prediction':
+    if task == 'prediction':
         #pred = get_prediction(features)
         answer = f"Model prediction are not supported in AWS Lambda due to layer size limit. Agent will be containerized soon."
 
-    elif task.get('task') == 'question_answering':
+    elif task == 'question_answering':
         context = retrieve_context(query)
         llm_query = contextualize_query(query,context)
         answer = call_llm(llm_query)
     
-    elif task.get('task') == 'db_query':
+    elif task == 'db_query':
         answer = get_data(features)
 
-    save_interaction(query,answer,context,query_id)
+    save_interaction(query,answer,context,task,query_id)
     return answer

@@ -23,6 +23,7 @@
   ### Repo contents
   - `\src\agent` contains the **MedicalBot** source code.
   - `\src\agent_ui` contains the **MedicalBot** Gradio UI.
+  - `\src\monitoring` defines metrics monitoring logic.
   - `\scripts` contains scripts used e.g. to train the predictive model, clean and upload data, etc.
   - `\mlflow-project` contains scripts to process data and train, track and deploy classification model
   - `\notebooks` contains jupyter notebooks used for various ends, such as exploring the dataset or testing the agent's functionalities.

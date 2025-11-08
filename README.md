@@ -49,13 +49,14 @@
 
   - **MedicalBot** source code written with python3.12
   - `Amazon Lambda` to deploy **MedicalBot**
+  - `Gradio` User Interface to **MedicalBot**
   - `claude sonnet 3` foundational model to answer user queries
   - `amazon.titan-embed-text-v2:0` embedding model to embedd textual medical records for RAG
   - `Amazon Bedrock Knowlegde Base` vector database to store embeddings and metadata for RAG
   - `Amazon Athena` database to store tabular patient data for querying
   - `DynamoDB` database to store past user interactions and user feedback
   - `Amazon S3` to store dataset and medical records
-  - `Gradio` User Interface to **MedicalBot**
+  - `AWS CloudWatch` to monitor performance metrics
   - `scikit-learn` to train decision tree classifier on patient data
   - `mlflow` to track and deploy the classification model
   - `AWS Secrets Manager` for api key management.

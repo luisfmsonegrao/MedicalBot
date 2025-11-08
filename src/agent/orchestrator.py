@@ -11,6 +11,7 @@ def orchestrate(query,query_id):
     task = get_task(query)#maybe this step can use smaller model specialized to text classification
     features = task.get('features',{})
     context = []
+    task = task.get('task')
     if task.get('task') == 'prediction':
         #pred = get_prediction(features)
         answer = f"Model prediction are not supported in AWS Lambda due to layer size limit. Agent will be containerized soon."

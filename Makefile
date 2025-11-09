@@ -21,9 +21,13 @@ clean:
 	if exist poetry.lock del /F /Q poetry.lock
 
 git-push: clean
+	@if not defined MSG ( \
+		echo Please provide a commit message: make git-push MSG="Your message"; \
+		exit /b 1 \
+	)
 	@git add .
 	@git commit -m "$(MSG)"
-	@branch=$$(git rev-parse --abbrev-ref HEAD); \
+	@for /f "delims=" %%b in ('git rev-parse --abbrev-ref HEAD') do set BRANCH=%%b
 	git push origin $$branch
 
 help:

@@ -31,5 +31,5 @@ def get_data(query):
         [field.get('VarCharValue', None) for field in row['Data']]
         for row in results['ResultSet']['Rows'][1:]
     ]
-    df = pd.DataFrame(rows, columns=columns)
-    return df
+    answer = {k: list(v) for k, v in zip(columns, zip(*rows))}
+    return answer

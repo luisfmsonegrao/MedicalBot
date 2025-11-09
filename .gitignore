@@ -4,4 +4,5 @@ data/markdowns/
 **/__pycache__/
 /aws_lambda/
 mlruns/
-Makefile
+commands.txt
+poetry.lock

@@ -33,7 +33,7 @@
 
 
   ### **MedicalBot** current schema
-  ![MedicalBot schema](./resources/figures/medicalbot.png)
+  ![MedicalBot schema](./resources/figures/medicalbot_future.png)
 
 
   ### Detailed **MedicalBot** description

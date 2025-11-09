@@ -1,0 +1,21 @@
+[project]
+name = "mlflow-project"
+version = "0.1.0"
+description = "train track version classifcation model"
+authors = [
+    {name = "Luís",email = "luis.fmso.negrao@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "scikit-learn (>=1.7.2,<2.0.0)",
+    "pandas (>=2.3.3,<3.0.0)",
+    "boto3 (>=1.40.69,<2.0.0)",
+    "mlflow (>=3.6.0,<4.0.0)",
+    "joblib (>=1.5.2,<2.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

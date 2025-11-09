@@ -28,6 +28,7 @@ git-push: clean
 	@git add .
 	@git commit -m "$(MSG)"
 	@for /f "delims=" %%b in ('git rev-parse --abbrev-ref HEAD') do set BRANCH=%%b
+	echo BRANCH
 	git push origin $$branch
 
 help:

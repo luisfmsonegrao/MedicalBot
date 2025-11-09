@@ -98,7 +98,6 @@
   - enable storage of other performance metrics, e.g. component-wise latency
   - enable more complex data analysis tasks, e.g. plotting
   - implement version control of dataset
-  - add regression model to predict values of alanine aminotransferases
   - Enable caching context and user history to improve latency
 
   With some of these additions, the **MedicalBot** application schematic will look more like this:

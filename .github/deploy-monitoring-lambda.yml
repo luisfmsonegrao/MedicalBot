@@ -1,0 +1,35 @@
+name: Deploy Monitoring Lambda
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "src/monitoring/monitoring_lambda_function.py"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Package Lambda
+        run: |
+          mkdir -p build/
+          cp src/monitoring/monitoring_lambda_function.py build/lambda_function.py
+          cd build && zip -r ../monitoring_lambda_package.zip .
+
+      - name: Deploy to AWS Lambda
+        uses: appleboy/lambda-action@v0.2.0
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: "us-east-1"
+          function_name: "medicalbot-monitoring-job"
+          zip_file: "monitoring_lambda_package.zip"

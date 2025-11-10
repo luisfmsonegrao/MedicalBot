@@ -5,9 +5,13 @@
   - predict patient outcomes based on input feature values;
   - retrieve and aggregate anonymized patient data.
 
-  Launch **MedicalBot**:
+  Launch **MedicalBot UI**:
 
-   ```python -m src.agent_ui.medicalbot_ui```
+    Create environment with dependnecies:
+     ```poetry install --only ui --no-root```
+  
+    Run UI:
+     ```python -m src.agent_ui.medicalbot_ui```
 
   ## Table of Contents
   - [Repo Contents](#Repo-contents)

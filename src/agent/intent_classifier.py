@@ -7,7 +7,9 @@ table_schema = get_table_schema(ATHENA_DATABASE_NAME,PATIENT_DATA_TABLE_NAME)
 
 
 def get_task(query):
-    """Classify intent of user's query"""
+    """
+    Classify intent of user's query
+    """
 
     prompt = f"""
     You are an assistant. Execute the following steps:

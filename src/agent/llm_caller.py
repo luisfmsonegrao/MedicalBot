@@ -5,7 +5,9 @@ from .agent_config import BEDROCK_MODEL_ID
 bedrock = boto3.client('bedrock-runtime', region_name='us-east-1')
 
 def call_llm(query):
-    """Query foundation LLM"""
+    """
+    Query foundation LLM
+    """
 
     body = json.dumps({
         "anthropic_version": "bedrock-2023-05-31",

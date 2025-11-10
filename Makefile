@@ -1,7 +1,7 @@
 PYTHON = python 
 POETRY = poetry 
 
-.PHONY: clean help run install-mlflow install-ui install-agent install help git-push
+.PHONY: clean help run install-mlflow install-ui install-agent install help git-push register_model deploy_model
 
 
 all: help
@@ -20,8 +20,15 @@ install-mlflow:
 run:
 	$(POETRY) run $(PYTHON) -m src.agent_ui.medicalbot_ui
 
-train: install-mlflow 
-	cd mlflow-project && $(POETRY) run mlflow run . --env-manager=local -e train -P max_depth=$(MAX_DEPTH) -P criterion=$(CRITERION)  --experiment-name "COPD_classifier_experiments"
+train_model: install-mlflow 
+	cd mlflow-project && $(POETRY) run mlflow run . -e train --env-manager=local -P max_depth=$(MAX_DEPTH) -P criterion=$(CRITERION)  --experiment-name "COPD_classifier_experiments"
+
+register_model: install-mlflow
+	cd mlflow-project && $(POETRY) run mlflow run . -e register_promote --env-manager=local
+
+deploy_model: install-mlflow
+	cd mlflow-project && $(POETRY) run mlflow run . -e deploy --env-manager=local
+
 
 #test:
 

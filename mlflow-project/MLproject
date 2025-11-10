@@ -7,7 +7,7 @@ entry_points:
       criterion: {type: str, default: "gini"}
     command: "python train_model.py --max_depth {max_depth} --criterion {criterion}"
 
-  register:
+  register_promote:
     command: "python register_promote_model.py"
 
   deploy:

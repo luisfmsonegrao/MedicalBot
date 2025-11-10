@@ -23,6 +23,7 @@ jobs:
         run: |
           mkdir -p build/
           cp src/monitoring/* build/
+          cd build && mv monitoring_lambda_function.py lambda_function.py
           cd build && zip -r ../monitoring_lambda_package.zip .
 
       - name: Deploy to AWS Lambda

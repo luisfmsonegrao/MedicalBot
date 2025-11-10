@@ -8,7 +8,10 @@ dynamodb = boto3.resource('dynamodb')
 cloudwatch = boto3.client('cloudwatch')
 table = dynamodb.Table(TABLE_NAME)
 
-def lambda_handler(event, context):   
+def lambda_handler(event, context):
+    """
+    Log metrics to CloudWatch
+    """  
     end_time = int(time.time())
     start_time = end_time - TIME_DELTA
     items = load_data(start_time,end_time) 

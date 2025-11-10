@@ -7,6 +7,9 @@ cloudwatch = boto3.client('cloudwatch')
 table = dynamodb.Table(TABLE_NAME)
 
 def load_data(start_time, end_time):
+    """
+    Load interactions within timeframe from DynamoDB
+    """
     response = table.scan(
         FilterExpression=Attr("timestamp").between(start_time,end_time)
     )

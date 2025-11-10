@@ -1,6 +1,9 @@
 from .config import MONITORING_VARIABLES
 
 def calculate_positive_rate(items,metric):
+    """
+    Calculate positive rate for binary metrics
+    """
     metric_name = f"PositiveRate:{metric}"
     metric_counts = {}
     for item in items:

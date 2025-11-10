@@ -8,9 +8,11 @@
   Launch **MedicalBot UI**:
 
     Create environment with dependnecies:
+    
      ```poetry install --only ui --no-root```
   
     Run UI:
+    
      ```python -m src.agent_ui.medicalbot_ui```
 
   ## Table of Contents

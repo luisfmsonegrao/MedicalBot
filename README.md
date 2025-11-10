@@ -1,8 +1,8 @@
 # **MedicalBot** AI AGENT
 
 **MedicalBot** is a python agentic AI chatbot that uses `claude sonnet 3` to:
-  - predict patient outcomes based on input feature values;
   - answer natural language questions based on patients' medical records;
+  - predict patient outcomes based on input feature values;
   - retrieve and aggregate anonymized patient data.
 
   Launch **MedicalBot**:

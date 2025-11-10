@@ -15,6 +15,8 @@
   
    ```python -m src.agent_ui.medicalbot_ui```
 
+   **Note**: You must have an API key before using **MedicalBot**
+
   ## Table of Contents
   - [Repo Contents](#Repo-contents)
   - [MedicalBot current schema](#MedicalBot-current-schema)

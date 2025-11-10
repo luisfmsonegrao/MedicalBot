@@ -33,7 +33,7 @@ def get_task(query):
       }}
     }}
 
-    Database query - convert query to SQL query for table {PATIENT_DATA_TABLE_NAME} using the table schema: {table_schema}.\n Use the following JSON format:
+    Database query - convert query to SQL query for table {PATIENT_DATA_TABLE_NAME}. Strictly obey the table schema: {table_schema}.\n Use the following JSON format:
     {{
         "task": 'db_query'.
         "features":  SQL statement

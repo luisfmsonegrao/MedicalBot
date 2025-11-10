@@ -2,6 +2,7 @@ import boto3
 import time
 import pandas as pd
 from .agent_config import AWS_REGION, ATHENA_DATABASE_NAME, ATHENA_OUTPUT_PATH
+from .custom_errors import AthenaQueryError
 
 athena = boto3.client('athena',region_name=AWS_REGION)
 
@@ -23,7 +24,18 @@ def get_data(query):
         time.sleep(0.5)
 
     if state != 'SUCCEEDED':
-        raise Exception(f"Athena query failed: {state}")
+        status_info = status['QueryExecution']['Status']
+        reason = status_info.get('StateChangeReason', 'Unknown reason')
+        athena_error = status_info.get('AthenaError','')
+        error_type = athena_error.get('ErrorType','')
+        error_category = athena_error.get('ErrorCategory','')
+        raise AthenaQueryError(
+            state=state,
+            reason=reason,
+            athena_error=athena_error,
+            error_type=error_type,
+            error_category=error_category,
+        )
 
     results = athena.get_query_results(QueryExecutionId=execution_id)
     columns = [col['Label'] for col in results['ResultSet']['ResultSetMetadata']['ColumnInfo']]

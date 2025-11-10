@@ -1,0 +1,33 @@
+from .config import MONITORING_VARIABLES
+
+def calculate_positive_rate(items,metric):
+    metric_name = f"PositiveRate:{metric}"
+    metric_counts = {}
+    for item in items:
+        task_type = item.get("task_type", "Unknown")
+        metric_value = item.get(metric, "NA")
+        
+        if task_type not in metric_counts:
+            metric_counts[task_type] = {"positive": 0, "negative": 0}
+        
+        if metric_value == MONITORING_VARIABLES[metric]['positive']:
+            metric_counts[task_type]["positive"] += 1
+        elif metric_value == MONITORING_VARIABLES[metric]['negative']:
+            metric_counts[task_type]["negative"] += 1
+
+    for task_type, counts in metric_counts.items():
+        pos = counts["positive"]
+        neg = counts["negative"]
+        
+        if pos + neg == 0:
+            positive_rate = 0 # ToDo> Change this to enable distinguishing bad metrics from zero usage.
+        else:
+            positive_rate = (pos / (pos + neg)) * 100
+        
+        metric_data = {
+            "MetricName": metric_name,
+            "Dimensions": [{"Name": "TaskType", "Value": task_type}],
+            "Value": positive_rate,
+            "Unit": "Percent"
+        }
+        return metric_data

@@ -4,7 +4,7 @@ on:
   push:
     branches: [ "main" ]
     paths:
-      - "src/monitoring/monitoring_lambda_function.py"
+      - "src/monitoring/**"
 
 jobs:
   deploy:
@@ -22,7 +22,7 @@ jobs:
       - name: Package Lambda
         run: |
           mkdir -p build/
-          cp src/monitoring/monitoring_lambda_function.py build/lambda_function.py
+          cp src/monitoring/* build/
           cd build && zip -r ../monitoring_lambda_package.zip .
 
       - name: Deploy to AWS Lambda

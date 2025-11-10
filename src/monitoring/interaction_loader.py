@@ -1,9 +1,8 @@
 import boto3
 from boto3.dynamodb.conditions import Attr
-from .config import TABLE_NAME
+from config import TABLE_NAME
 
 dynamodb = boto3.resource('dynamodb')
-cloudwatch = boto3.client('cloudwatch')
 table = dynamodb.Table(TABLE_NAME)
 
 def load_data(start_time, end_time):

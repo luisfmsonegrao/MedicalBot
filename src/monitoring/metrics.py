@@ -1,4 +1,4 @@
-from .config import MONITORING_VARIABLES
+from config import MONITORING_VARIABLES
 
 def calculate_positive_rate(items,metric):
     """

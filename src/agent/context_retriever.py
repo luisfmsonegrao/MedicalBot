@@ -5,7 +5,9 @@ from .agent_config import AWS_REGION, KNOWLEDGE_BASE_ID, CONTEXT_WINDOW, SOURCE_
 bedrock_agent = boto3.client('bedrock-agent-runtime',region_name=AWS_REGION)
 
 def contextualize_query(query,context):
-    """Adapt user query for question answering with RAG from foundation model"""
+    """
+    Adapt user query for question answering with RAG
+    """
 
     system_query = (
         f"""You are an assistant. 
@@ -24,7 +26,9 @@ def contextualize_query(query,context):
     return llm_query
 
 def retrieve_context(query):
-    """Retrieve relevant context from Amazon Bedrock Knowledge database"""
+    """
+    Retrieve relevant context from Amazon Bedrock Knowledge database
+    """
     response = bedrock_agent.retrieve(
         knowledgeBaseId=KNOWLEDGE_BASE_ID,
         retrievalQuery={"text": query},

@@ -32,7 +32,6 @@ def get_data(query):
         raise AthenaQueryError(
             state=state,
             reason=reason,
-            athena_error=athena_error,
             error_type=error_type,
             error_category=error_category,
         )

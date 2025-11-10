@@ -6,7 +6,9 @@ secrets_client = boto3.client("secretsmanager", region_name="us-east-1")
 
 
 def get_secret(secret_name):
-    """Fetch secret value from AWS Secrets Manager."""
+    """
+    Fetch secret value from AWS Secrets Manager.
+    """
     response = secrets_client.get_secret_value(SecretId=secret_name)
     secret_string = response.get("SecretString")
     if secret_string:

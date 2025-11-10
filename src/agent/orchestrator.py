@@ -7,7 +7,9 @@ from .interaction_saver import save_interaction
 from .custom_errors import AthenaQueryError, ModelPredictionError
 
 def orchestrate(query,query_id):
-    """Orchestrate DataDoctor agent"""
+    """
+    Orchestrate DataDoctor agent
+    """
     task_status = True
     error_name = ''
     task = get_task(query)#maybe this step can use smaller model specialized to text classification
@@ -25,7 +27,6 @@ def orchestrate(query,query_id):
             #    error_name = type(e).__name__
             #else:
             #    answer = f"Model prediction: {pred[0]}"
-
         #else:
             #answer = message
         answer = f"Model prediction are not supported in AWS Lambda due to layer size limit. Agent will be containerized soon."

@@ -7,7 +7,9 @@ from .custom_errors import AthenaQueryError
 athena = boto3.client('athena',region_name=AWS_REGION)
 
 def get_data(query):
-    """Query patient data from Amazon Athena database"""
+    """
+    Query patient data from Amazon Athena database
+    """
 
     response = athena.start_query_execution(
         QueryString=query,

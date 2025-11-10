@@ -1,6 +1,5 @@
 import boto3
 import time
-from boto3.dynamodb.conditions import Attr
 from .interaction_loader import load_data
 from .metrics import calculate_positive_rate
 from .config import TABLE_NAME, TIME_DELTA, NAMESPACE, MONITORING_VARIABLES

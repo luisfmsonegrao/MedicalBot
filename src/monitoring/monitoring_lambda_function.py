@@ -10,7 +10,7 @@ table = dynamodb.Table(TABLE_NAME)
 
 def lambda_handler(event, context):
     """
-    Log metrics to CloudWatch
+    Log metrics to CloudWatch.
     """  
     end_time = int(time.time())
     start_time = end_time - TIME_DELTA

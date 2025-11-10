@@ -1,12 +1,11 @@
 import boto3
 import time
-from .interaction_loader import load_data
-from .metrics import calculate_positive_rate
-from .config import TABLE_NAME, TIME_DELTA, NAMESPACE, MONITORING_VARIABLES
+from interaction_loader import load_data
+from metrics import calculate_positive_rate
+from config import TIME_DELTA, NAMESPACE, MONITORING_VARIABLES
 
 dynamodb = boto3.resource('dynamodb')
 cloudwatch = boto3.client('cloudwatch')
-table = dynamodb.Table(TABLE_NAME)
 
 def lambda_handler(event, context):
     """

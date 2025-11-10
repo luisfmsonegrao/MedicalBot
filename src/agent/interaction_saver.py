@@ -23,7 +23,7 @@ def save_interaction(query,results,context,task,query_id,features):
             "timestamp": init_time,
             "query_text": query,
             "embedding": embedding,
-            "extracted_features": features,
+            "extracted_features": json.dumps(features),
             "results": json.dumps(results),
             "context": json.dumps(context),
             "feedback": "NA",

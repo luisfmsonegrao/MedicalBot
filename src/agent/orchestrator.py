@@ -24,5 +24,5 @@ def orchestrate(query,query_id):
     elif task == 'db_query':
         answer = get_data(features)
 
-    save_interaction(query,answer,context,task,query_id)
+    save_interaction(query,answer,context,task,query_id,features)
     return answer

@@ -101,14 +101,10 @@
   **Note**: **MedicalBot** is protected by an API key, which you must have in order to query the agent.
 
   ### Live performance monitoring
-  Positive feedback rate and task completion rate are periodically fetched from CloudWatch and shown below for convenience.
+  Positive feedback rate and task completion rate are periodically fetched from CloudWatch and shown in the dashboard below:
 
   [![MedicalBot Dashboard](https://luisfmsonegrao.github.io/MedicalBot/monitoring/figures/dashboard-feedback.png)](https://luisfmsonegrao.github.io/MedicalBot/monitoring/dashboard.html)
 
-  
-  ![MedicalBot PositiveRateFeedback](./docs/monitoring/figures/dashboard-feedback.png)
-
-  ![MedicalBot PositiveRateTaskCompletion](./docs/monitoring/figures/dashboard-taskstatus.png)
 
 
   

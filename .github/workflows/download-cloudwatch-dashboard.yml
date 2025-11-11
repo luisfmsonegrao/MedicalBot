@@ -47,6 +47,10 @@ jobs:
             --query 'MetricWidgetImage' \
             | base64 --decode > resources/figures/dashboard-taskstatus.png
 
+      - name: Clean up temporary files
+        run: |
+          rm dashboard.json widget-feedback.json widget-task_status.json
+      
       - name: Commit & push updated figures
         run: |
           git config user.name "github-actions"
@@ -54,7 +58,3 @@ jobs:
           git add resources/figures/
           git commit -m "Update CloudWatch dashboard figures"
           git push
-
-      - name: Clean up temporary files
-        run: |
-          rm dashboard.json widget-feedback.json widget-task_status.json

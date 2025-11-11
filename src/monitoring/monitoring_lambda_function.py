@@ -16,8 +16,9 @@ def lambda_handler(event, context):
     items = load_data(start_time,end_time) 
     for metric in MONITORING_VARIABLES.keys():
         metric_data = calculate_positive_rate(items,metric)
-        cloudwatch.put_metric_data(
-            Namespace=NAMESPACE,
-            MetricData=metric_data
-        )
+        if metric_data:
+            cloudwatch.put_metric_data(
+                Namespace=NAMESPACE,
+                MetricData=metric_data
+            )
     return {"status": "success"}

@@ -116,7 +116,4 @@
   - enable storage and usage of other performance metrics, e.g. latency
   - implement version control of dataset
 
-  With some of these additions, the **MedicalBot** application schematic will look more like this:
-  ![MedicalBot schema](./resources/figures/medicalbot_future.png)
-
 

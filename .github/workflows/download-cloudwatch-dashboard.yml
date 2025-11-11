@@ -28,12 +28,12 @@ jobs:
           # Feedback widget
           jq -c '.DashboardBody | fromjson | .widgets[]
             | select(.properties.title=="PositiveRate:feedback")
-            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT3H", end:"P0D"}' dashboard.json > widget-feedback.json
+            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT24H", end:"P0D"}' dashboard.json > widget-feedback.json
 
           # Task status widget
           jq -c '.DashboardBody | fromjson | .widgets[]
             | select(.properties.title=="PositiveRate:task_status")
-            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT3H", end:"P0D"}' dashboard.json > widget-task_status.json
+            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT24H", end:"P0D"}' dashboard.json > widget-task_status.json
 
       - name: Inspect widget JSONs
         run: |

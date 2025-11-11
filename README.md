@@ -13,7 +13,7 @@
 
   Run UI:
   
-   ```python -m src.agent_ui.medicalbot_ui```
+   ```poetry run python -m src.agent_ui.medicalbot_ui```
 
    **Note**: You must have an API key before using **MedicalBot**
 
@@ -101,6 +101,8 @@
   **Note**: **MedicalBot** is protected by an API key, which you must have in order to query the agent.
 
   ### Live performance monitoring
+  Positive feedback rate and task completion rate are periodically fetched from CloudWatch and shown below for convenience.
+  
   ![MedicalBot PositiveRateFeedback](./resources/figures/dashboard-feedback.png)
 
   ![MedicalBot PositiveRateTaskCompletion](./resources/figures/dashboard-taskstatus.png)

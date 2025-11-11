@@ -2,7 +2,7 @@ name: Update CloudWatch Dashboard Snapshot
 
 on:
   schedule:
-    - cron: "* * * * *"  # Runs every hour
+    - cron: "* * * * *"  # Runs every minute
   workflow_dispatch:
 
 permissions:

@@ -103,7 +103,7 @@
   ### Live performance monitoring
   Positive feedback rate and task completion rate are periodically fetched from CloudWatch and shown below for convenience.
 
-  [![MedicalBot Dashboard](https://luisfmsonegrao.github.io/MedicalBot/resources/figures/dashboard-feedback.png)](https://luisfmsonegrao.github.io/MedicalBot/monitoring/dashboard.html)
+  [![MedicalBot Dashboard](https://luisfmsonegrao.github.io/MedicalBot/docs/monitoring/figures/dashboard-feedback.png)](https://luisfmsonegrao.github.io/MedicalBot/monitoring/dashboard.html)
 
   
   ![MedicalBot PositiveRateFeedback](./docs/monitoring/figures/dashboard-feedback.png)

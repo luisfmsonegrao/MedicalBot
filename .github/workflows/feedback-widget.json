@@ -1,0 +1,13 @@
+{
+  "metrics": [
+    ["medicalbot/monitoring", "PositiveRate:feedback"]
+  ],
+  "stat": "Average",
+  "period": 300,
+  "region": "us-east-1",
+  "title": "PositiveRate:feedback",
+  "width": 600,
+  "height": 400,
+  "start": "-PT3H",
+  "end": "P0D"
+}

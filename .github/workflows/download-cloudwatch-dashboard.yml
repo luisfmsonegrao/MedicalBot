@@ -1,0 +1,41 @@
+name: Update CloudWatch Dashboard Snapshot
+
+on:
+  schedule:
+    - cron: "* * * * *"  # Runs every hour
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-dashboard:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Get CloudWatch dashboard image
+        run: |
+          aws cloudwatch get-metric-widget-image \
+            --metric-widget file://.github/workflows/feedback-widget.json \
+            --output-file resources/figures/dashboard-feedback.png
+          aws cloudwatch get-metric-widget-image \
+            --metric-widget file://.github/workflows/taskstatus-widget.json \
+            --output-file resources/figures/dashboard-taskstatus.png
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add resources/figures/dashboard-feedback.png resources/figures/dashboard-taskstatus.png
+          git diff --quiet && git diff --staged --quiet || git commit -m "Update CloudWatch dashboard snapshot"
+          git push

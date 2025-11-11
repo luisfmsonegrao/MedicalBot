@@ -34,10 +34,10 @@ jobs:
           aws --version
           aws cloudwatch get-metric-widget-image \
             --metric-widget file://.github/workflows/feedback-widget.json \
-            --output-file resources/figures/dashboard-feedback.png
+            > resources/figures/dashboard-feedback.png
           aws cloudwatch get-metric-widget-image \
             --metric-widget file://.github/workflows/taskstatus-widget.json \
-            --output-file resources/figures/dashboard-taskstatus.png
+            > resources/figures/dashboard-taskstatus.png
 
       - name: Commit and push changes
         run: |

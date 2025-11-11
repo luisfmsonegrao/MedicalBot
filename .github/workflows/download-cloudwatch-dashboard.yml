@@ -52,13 +52,13 @@ jobs:
             --metric-widget file://widget-feedback.json \
             --output text \
             --query 'MetricWidgetImage' \
-            | base64 --decode > resources/figures/dashboard-feedback.png
+            | base64 --decode > docs/monitoring/figures/dashboard-feedback.png
 
           aws cloudwatch get-metric-widget-image \
             --metric-widget file://widget-task_status.json \
             --output text \
             --query 'MetricWidgetImage' \
-            | base64 --decode > resources/figures/dashboard-taskstatus.png
+            | base64 --decode > docs/monitoring/figures/dashboard-taskstatus.png
 
       - name: Clean up temporary files
         run: |
@@ -68,6 +68,6 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add resources/figures/
+          git add docs/monitoring/figures/
           git commit -m "Update CloudWatch dashboard figures"
           git push

@@ -26,6 +26,7 @@
   - [Question answering + RAG](#Question-answering-+-RAG)
   - [Data retrieval and aggregation](#Data-retrieval-and-aggregation)
   - [Using **MedicalBot**](#Using-MedicalBot)
+  - [Live performance monitoric]("Live-performance-monitoring)
   - [Upcoming features](#Upcoming-features)
 
   ### Repo contents

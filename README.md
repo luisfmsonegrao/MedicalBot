@@ -26,7 +26,7 @@
   - [Question answering + RAG](#Question-answering-+-RAG)
   - [Data retrieval and aggregation](#Data-retrieval-and-aggregation)
   - [Using **MedicalBot**](#Using-MedicalBot)
-  - [Live performance monitoring]("Live-performance-monitoring)
+  - [Monitoring Dashboard](#Monitoring-dashboard)
   - [Upcoming features](#Upcoming-features)
 
   ### Repo contents
@@ -111,12 +111,10 @@
   
   ### Upcoming features
   A series of features will be added to **MedicalBot** in the future:
-  - enable storage and usage of user interaction history with **MedicalBot**
-  - enable storage and usage of user feedback - for performance monitoring and tuning
-  - enable storage of other performance metrics, e.g. component-wise latency
-  - enable more complex data analysis tasks, e.g. plotting
+  - enable usage of user interaction history with **MedicalBot**
+  - enable usage of user feedback and task completion metrics for system tuning
+  - enable storage and usage of other performance metrics, e.g. latency
   - implement version control of dataset
-  - Enable caching context and user history to improve latency
 
   With some of these additions, the **MedicalBot** application schematic will look more like this:
   ![MedicalBot schema](./resources/figures/medicalbot_future.png)

@@ -119,7 +119,7 @@
         - rephrasing rate
         - sentiment analysis of next queries
         - etc.
-        - 
+
     - Latency metrics
   - implement version control of dataset
 

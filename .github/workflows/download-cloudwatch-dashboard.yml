@@ -35,10 +35,10 @@ jobs:
 
       - name: Get CloudWatch dashboard image
         run: |
-          aws cloudwatch get-metric-widget-image \
+          $Home/.local/bin/aws cloudwatch get-metric-widget-image \
             --metric-widget file://.github/workflows/feedback-widget.json \
             --output-file resources/figures/dashboard-feedback.png
-          aws cloudwatch get-metric-widget-image \
+          $Home/.local/bin/aws cloudwatch get-metric-widget-image \
             --metric-widget file://.github/workflows/taskstatus-widget.json \
             --output-file resources/figures/dashboard-taskstatus.png
 

@@ -18,6 +18,7 @@ def calculate_positive_rate(items,metric):
         elif metric_value == MONITORING_VARIABLES[metric]['negative']:
             metric_counts[task_type]["negative"] += 1
 
+    metric_data = []
     for task_type, counts in metric_counts.items():
         pos = counts["positive"]
         neg = counts["negative"]
@@ -27,10 +28,10 @@ def calculate_positive_rate(items,metric):
         else:
             positive_rate = (pos / (pos + neg)) * 100
         
-        metric_data = {
+        metric_data.append({
             "MetricName": metric_name,
             "Dimensions": [{"Name": "TaskType", "Value": task_type}],
             "Value": positive_rate,
             "Unit": "Percent"
-        }
-        return metric_data
+        })
+    return metric_data

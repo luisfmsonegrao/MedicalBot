@@ -32,7 +32,9 @@ jobs:
             | base64 --decode > resources/figures/dashboard-feedback.png
           aws cloudwatch get-metric-widget-image \
             --metric-widget file://.github/workflows/taskstatus-widget.json \
-            > resources/figures/dashboard-taskstatus.png
+            --output text \
+            --query 'MetricWidgetImage' \
+            | base64 --decode > resources/figures/dashboard-taskstatus.png
 
       - name: Commit and push changes
         run: |

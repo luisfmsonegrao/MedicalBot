@@ -50,7 +50,8 @@ jobs:
           git config user.email "actions@github.com"
           git add resources/figures/
           git commit -m "Update CloudWatch dashboard figures"
-
+          git push
+          
       - name: Clean up temporary files
         run: |
           rm dashboard.json widget-feedback.json widget-task_status.json

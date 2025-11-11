@@ -1,45 +1,57 @@
-name: Update CloudWatch Dashboard Snapshot
+name: Update CloudWatch Dashboard Figures
 
 on:
-  #schedule:
-  #  - cron: "* * * * *"  # Runs every minute
   workflow_dispatch:
 
-permissions:
-  contents: write
-
 jobs:
-  update-dashboard:
+  update-figures:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v4
-        
+
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Get CloudWatch dashboard image
+      - name: Fetch CloudWatch dashboard JSON
+        run: |
+          aws cloudwatch get-dashboard \
+            --dashboard-name medicalbot-monitoring \
+            --output json > dashboard.json
+
+      - name: Extract widget JSONs
+        run: |
+          # Extract PositiveRate:Feedback widget
+          jq -c '.DashboardBody | fromjson | .widgets[] | select(.title=="PositiveRate:Feedback")' dashboard.json > widget-feedback.json
+          # Extract PositiveRate:task_status widget
+          jq -c '.DashboardBody | fromjson | .widgets[] | select(.title=="PositiveRate:task_status")' dashboard.json > widget-task_status.json
+
+      - name: Generate PNGs
         run: |
           aws cloudwatch get-metric-widget-image \
-            --metric-widget file://.github/workflows/feedback-widget.json \
+            --metric-widget file://widget-feedback.json \
             --output text \
             --query 'MetricWidgetImage' \
             | base64 --decode > resources/figures/dashboard-feedback.png
+
           aws cloudwatch get-metric-widget-image \
-            --metric-widget file://.github/workflows/taskstatus-widget.json \
+            --metric-widget file://widget-task_status.json \
             --output text \
             --query 'MetricWidgetImage' \
-            | base64 --decode > resources/figures/dashboard-taskstatus.png
+            | base64 --decode > resources/figures/dashboard-task_status.png
 
-      - name: Commit and push changes
+      - name: Commit & push updated figures
         run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-          git add resources/figures/dashboard-feedback.png resources/figures/dashboard-taskstatus.png
-          git diff --quiet && git diff --staged --quiet || git commit -m "Update CloudWatch dashboard snapshot"
-          git push
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add resources/figures/
+          git commit -m "Update CloudWatch dashboard figures" || echo "No changes to commit"
+          git push origin HEAD:main
+
+      - name: Clean up temporary files
+        run: |
+          rm dashboard.json widget-feedback.json widget-task_status.json

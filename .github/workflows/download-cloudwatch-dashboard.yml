@@ -27,10 +27,12 @@ jobs:
         run: |
           jq -c '.DashboardBody | fromjson | .widgets[]
           | select(.title=="PositiveRate:Feedback")
+          | .properties
           | {metrics, stat, period, region, title, start:"-PT3H", end:"P0D"}' dashboard.json > widget-feedback.json
 
           jq -c '.DashboardBody | fromjson | .widgets[]
           | select(.title=="PositiveRate:task_status")
+          | .properties
           | {metrics, stat, period, region, title, start:"-PT3H", end:"P0D"}' dashboard.json > widget-task_status.json
       
       - name: Generate PNGs

@@ -23,6 +23,10 @@ jobs:
             --dashboard-name medicalbot-monitoring \
             --output json > dashboard.json
 
+      - name: Print dashboard JSON
+        run: |
+          cat dashboard.json | jq
+
       - name: Extract widget JSONs
         run: |
           # Feedback widget
@@ -65,5 +69,5 @@ jobs:
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add resources/figures/
-          git commit -m "Update CloudWatch dashboard figures" || echo "No changes to commit"
+          git commit -m "Update CloudWatch dashboard figures"
           git push

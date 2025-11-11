@@ -25,23 +25,23 @@ jobs:
 
       - name: Extract widget JSONs
         run: |
+          # Feedback widget
           jq -c '.DashboardBody | fromjson | .widgets[]
-          | select(.title=="PositiveRate:Feedback")
-          | .properties
-          | {metrics, stat, period, region, title, start:"-PT3H", end:"P0D"}' dashboard.json > widget-feedback.json
+            | select(.properties.title=="PositiveRate:feedback")
+            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT3H", end:"P0D"}' dashboard.json > widget-feedback.json
 
+          # Task status widget
           jq -c '.DashboardBody | fromjson | .widgets[]
-          | select(.title=="PositiveRate:task_status")
-          | .properties
-          | {metrics, stat, period, region, title, start:"-PT3H", end:"P0D"}' dashboard.json > widget-task_status.json
-      
+            | select(.properties.title=="PositiveRate:task_status")
+            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT3H", end:"P0D"}' dashboard.json > widget-task_status.json
+
       - name: Inspect widget JSONs
         run: |
           echo "=== Feedback Widget ==="
           cat widget-feedback.json | jq
           echo "=== Task Status Widget ==="
           cat widget-task_status.json | jq
-      
+
       - name: Generate PNGs
         run: |
           aws cloudwatch get-metric-widget-image \
@@ -59,11 +59,11 @@ jobs:
       - name: Clean up temporary files
         run: |
           rm dashboard.json widget-feedback.json widget-task_status.json
-      
+
       - name: Commit & push updated figures
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add resources/figures/
-          git commit -m "Update CloudWatch dashboard figures"
+          git commit -m "Update CloudWatch dashboard figures" || echo "No changes to commit"
           git push

@@ -35,6 +35,13 @@ jobs:
           | .properties
           | {metrics, stat, period, region, title, start:"-PT3H", end:"P0D"}' dashboard.json > widget-task_status.json
       
+      - name: Inspect widget JSONs
+        run: |
+          echo "=== Feedback Widget ==="
+          cat widget-feedback.json | jq
+          echo "=== Task Status Widget ==="
+          cat widget-task_status.json | jq
+      
       - name: Generate PNGs
         run: |
           aws cloudwatch get-metric-widget-image \

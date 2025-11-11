@@ -21,11 +21,6 @@ jobs:
         with:
           version: 2
 
-      - name: Ensure AWS CLI v2 is first in PATH
-        run: |
-          export PATH=$HOME/.local/bin:$PATH
-          aws --version
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -35,10 +30,12 @@ jobs:
 
       - name: Get CloudWatch dashboard image
         run: |
-          $Home/.local/bin/aws cloudwatch get-metric-widget-image \
+          export PATH=$HOME/.local/bin:$PATH
+          aws --version
+          aws cloudwatch get-metric-widget-image \
             --metric-widget file://.github/workflows/feedback-widget.json \
             --output-file resources/figures/dashboard-feedback.png
-          $Home/.local/bin/aws cloudwatch get-metric-widget-image \
+          aws cloudwatch get-metric-widget-image \
             --metric-widget file://.github/workflows/taskstatus-widget.json \
             --output-file resources/figures/dashboard-taskstatus.png
 

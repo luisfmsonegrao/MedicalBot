@@ -27,7 +27,9 @@ jobs:
         run: |
           aws cloudwatch get-metric-widget-image \
             --metric-widget file://.github/workflows/feedback-widget.json \
-            > resources/figures/dashboard-feedback.png
+            --output json \
+            --query 'MetricWidgetImage' \
+            | base64 --decode > resources/figures/dashboard-feedback.png
           aws cloudwatch get-metric-widget-image \
             --metric-widget file://.github/workflows/taskstatus-widget.json \
             > resources/figures/dashboard-taskstatus.png

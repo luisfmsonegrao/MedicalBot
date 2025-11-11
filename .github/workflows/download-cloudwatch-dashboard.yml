@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@
+        uses: actions/checkout@v4
         
       - name: Install AWS CLI v2
         uses: unfor19/install-aws-cli-action@v1

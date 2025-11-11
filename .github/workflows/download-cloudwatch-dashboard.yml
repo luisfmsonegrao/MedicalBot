@@ -23,6 +23,10 @@ jobs:
             --dashboard-name medicalbot-monitoring \
             --output json > dashboard.json
 
+      - name: Print dashboard JSON
+        run: |
+          cat dashboard.json | jq
+
       - name: Extract widget JSONs
         run: |
           jq -c '.DashboardBody | fromjson | .widgets[]

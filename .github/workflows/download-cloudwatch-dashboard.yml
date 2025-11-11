@@ -25,11 +25,14 @@ jobs:
 
       - name: Extract widget JSONs
         run: |
-          # Extract PositiveRate:Feedback widget
-          jq -c '.DashboardBody | fromjson | .widgets[] | select(.title=="PositiveRate:Feedback")' dashboard.json > widget-feedback.json
-          # Extract PositiveRate:task_status widget
-          jq -c '.DashboardBody | fromjson | .widgets[] | select(.title=="PositiveRate:task_status")' dashboard.json > widget-task_status.json
+          jq -c '.DashboardBody | fromjson | .widgets[]
+          | select(.title=="PositiveRate:Feedback")
+          | {metrics, stat, period, region, title, start:"-PT3H", end:"P0D"}' dashboard.json > widget-feedback.json
 
+          jq -c '.DashboardBody | fromjson | .widgets[]
+          | select(.title=="PositiveRate:task_status")
+          | {metrics, stat, period, region, title, start:"-PT3H", end:"P0D"}' dashboard.json > widget-task_status.json
+      
       - name: Generate PNGs
         run: |
           aws cloudwatch get-metric-widget-image \
@@ -51,7 +54,7 @@ jobs:
           git add resources/figures/
           git commit -m "Update CloudWatch dashboard figures"
           git push
-          
+
       - name: Clean up temporary files
         run: |
           rm dashboard.json widget-feedback.json widget-task_status.json

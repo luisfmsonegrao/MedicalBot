@@ -26,7 +26,7 @@
   - [Question answering + RAG](#Question-answering-+-RAG)
   - [Data retrieval and aggregation](#Data-retrieval-and-aggregation)
   - [Using **MedicalBot**](#Using-MedicalBot)
-  - [Live performance monitoric]("Live-performance-monitoring)
+  - [Live performance monitoring]("Live-performance-monitoring)
   - [Upcoming features](#Upcoming-features)
 
   ### Repo contents
@@ -100,7 +100,7 @@
   
   **Note**: **MedicalBot** is protected by an API key, which you must have in order to query the agent.
 
-  ### Live Monitoring
+  ### Live performance monitoring
   ![MedicalBot PositiveRateFeedback](./resources/figures/dashboard-feedback.png)
 
   ![MedicalBot PositiveRateTaskCompletion](./resources/figures/dashboard-taskstatus.png)

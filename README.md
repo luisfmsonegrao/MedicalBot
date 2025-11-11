@@ -114,6 +114,8 @@
   - enable usage of user interaction history (e.g. for context tracking)
   - enable usage of user feedback and task completion metrics for system tuning
   - enable storage and usage of other performance metrics:
+    - model confidence:
+        - entropy of predicted sequence
     - Implicit feedback:
         - session length/duration statistics
         - rephrasing rate

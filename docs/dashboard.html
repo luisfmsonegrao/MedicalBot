@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MedicalBot CloudWatch Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    .dashboard {
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .widget {
+      text-align: center;
+    }
+    img {
+      border: 1px solid #ccc;
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>MedicalBot CloudWatch Dashboard (Last 24h)</h1>
+  <div class="dashboard">
+    <div class="widget">
+      <h2>PositiveRate:Feedback</h2>
+      <img src="./resources/figures/dashboard-feedback.png" alt="PositiveRate Feedback">
+    </div>
+    <div class="widget">
+      <h2>PositiveRate:Task Status</h2>
+      <img src="./resources/figures/dashboard-taskstatus.png" alt="Task Status">
+    </div>
+  </div>
+</body>
+</html>

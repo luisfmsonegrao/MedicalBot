@@ -103,7 +103,6 @@
   ### Live performance monitoring
   ![MedicalBot PositiveRateFeedback](./resources/figures/dashboard-feedback.png)
 
-
   ![MedicalBot PositiveRateTaskCompletion](./resources/figures/dashboard-taskstatus.png)
 
 

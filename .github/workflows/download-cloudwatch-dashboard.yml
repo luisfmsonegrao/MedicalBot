@@ -21,6 +21,11 @@ jobs:
         with:
           version: 2
 
+      - name: Ensure AWS CLI v2 is first in PATH
+        run: |
+          export PATH=$HOME/.local/bin:$PATH
+          aws --version
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:

@@ -27,7 +27,7 @@ jobs:
         run: |
           aws cloudwatch get-metric-widget-image \
             --metric-widget file://.github/workflows/feedback-widget.json \
-            --output json \
+            --output text \
             --query 'MetricWidgetImage' \
             | base64 --decode > resources/figures/dashboard-feedback.png
           aws cloudwatch get-metric-widget-image \

@@ -39,7 +39,7 @@ def get_task(query):
 
     Database query - convert query to SQL query for table {PATIENT_DATA_TABLE_NAME}. Strictly obey the table schema: {table_schema}.\n Use the following JSON format:
     {{
-        "task": 'db_query'.
+        "task": 'db_query',
         "features":  SQL statement
     }}
     If the query is an aggregation operation, give the appropriate name to the new column.
@@ -48,6 +48,7 @@ def get_task(query):
     Query: "{query}"
     """
     answer = call_llm(prompt)
+    answer = clean_json(answer)
     try:
         task = json.loads(answer)
     except JSONDecodeError as e:
@@ -55,3 +56,10 @@ def get_task(query):
         features = answer.split('"features":')[1].split("}")[0].strip()
         raise IntentClassificationError(task_type,features,e)
     return task
+
+def clean_json(answer):
+    """
+    Remove all newlines from answer
+    """
+    answer = answer.replace('\n', '')
+    return answer

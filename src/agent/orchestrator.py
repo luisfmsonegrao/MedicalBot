@@ -19,6 +19,7 @@ def orchestrate(query,query_id,session_id):
         answer = str(e)
         task_status = False
         error_name = type(e).__name__
+        task = e.task_type
     
     if task_status:
         features = task.get('features',{})

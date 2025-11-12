@@ -51,5 +51,6 @@ def get_task(query):
     try:
         task = json.loads(answer)
     except JSONDecodeError as e:
-        raise LLMJSONError(e)
+        task_type = answer.split("task:")[1].split(",")[0].strip()
+        raise LLMJSONError(task_type,e)
     return task

@@ -9,5 +9,6 @@ class ModelPredictionError(Exception):
         super().__init__(f"Model Prediction failed:\n Reason: {type(original_exception).__name__}\n Message: {str(original_exception)}")
 
 class LLMJSONError(JSONDecodeError):
-    def __init__(self, original_exception):
+    def __init__(self, task_type, original_exception):
+        self.task_type = task_type
         super().__init__(f"LLM generated invalid JSON:\n Reason: {type(original_exception).__name__}\n Message: {str(original_exception)}")

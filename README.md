@@ -27,7 +27,7 @@
   - [Data retrieval and aggregation](#Data-retrieval-and-aggregation)
   - [Using **MedicalBot**](#Using-MedicalBot)
   - [Monitoring](#Monitoring)
-  - [Upcoming features](#Upcoming-features)
+  - [ToDo](#ToDo)
 
   ### Repo contents
   - `\src\agent` contains the **MedicalBot** source code.
@@ -119,10 +119,9 @@
 
   
   
-  ### Upcoming features
-  A series of features will be added to **MedicalBot** in the future:
+  ### ToDo
+  **MedicalBot** current ToDo list:
   - enable usage of user interaction history (e.g. for context tracking)
-  - enable usage of user feedback and task completion metrics for system tuning
   - enable storage and usage of other performance metrics:
     - model confidence:
         - entropy of predicted sequence
@@ -132,6 +131,7 @@
         - etc.
 
     - Latency metrics
-  - implement version control of dataset
+  - enable usage of monitoring metrics for system tuning
+  - place dataset under version control
 
 

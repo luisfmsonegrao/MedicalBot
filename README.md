@@ -26,7 +26,7 @@
   - [Question answering + RAG](#Question-answering-+-RAG)
   - [Data retrieval and aggregation](#Data-retrieval-and-aggregation)
   - [Using **MedicalBot**](#Using-MedicalBot)
-  - [Monitoring Dashboard](#Monitoring-dashboard)
+  - [Monitoring](#Monitoring)
   - [Upcoming features](#Upcoming-features)
 
   ### Repo contents
@@ -69,7 +69,7 @@
   - `scikit-learn` to train decision tree classifier on patient data
   - `mlflow` to track and deploy the classification model
   - `AWS Secrets Manager` for api key management.
-  - `GitHub Actions` to automate deployment of changes to a **MedicalBot**
+  - `GitHub Actions` to automate deployment of code changes, download cloudwatch monitoring plots
 
 
   ### Patient outcome classification model
@@ -101,8 +101,17 @@
   **Note**: **MedicalBot** is protected by an API key, which you must have in order to query the agent.
 
   ### Monitoring Dashboard
-  Positive feedback rate and task completion rate are tracked hourly in a monitoring dashboard which you can access by clicking the image below:
-
+  Currently monitored **MedicalBot** metrics are:
+    Explicit Feedback:
+     - Positive feedback rate per task type
+     
+    Implicit Feedback:
+     - Mean session duration
+     
+    System performance:
+     - Task completion rate per task type
+    
+  Click the image below to open a Monitoring Dashboard in GitHub Pages:
   [![MedicalBot Dashboard](https://luisfmsonegrao.github.io/MedicalBot/monitoring/figures/dashboard-feedback.png)](https://luisfmsonegrao.github.io/MedicalBot/monitoring/dashboard.html)
 
 

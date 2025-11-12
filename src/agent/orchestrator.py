@@ -12,44 +12,45 @@ def orchestrate(query,query_id,session_id):
     """
     task_status = True
     error_name = ''
+    context = []
     try:
         task = get_task(query) # maybe this step can use smaller model specialized to text classification
     except LLMJSONError as e:
         answer = str(e)
         task_status = False
         error_name = type(e).__name__
-        
-    features = task.get('features',{})
-    context = []
-    task = task.get('task')
-    if task == 'prediction':
-        #status, message = validate_features(features)
-        #if status:
-            #try:
-                #pred = get_prediction(features)
-            #except ModelPredictionError as e:
-            #    answer = str(e)
-            #    task_status = False
-            #    error_name = type(e).__name__
-            #else:
-            #    answer = f"Model prediction: {pred[0]}"
-        #else:
-            #answer = message
-        answer = f"Model prediction are not supported in AWS Lambda due to layer size limit. Agent will be containerized soon."
-        task_status = False
-
-    elif task == 'question_answering':
-        context = retrieve_context(query)
-        llm_query = contextualize_query(query,context)
-        answer = call_llm(llm_query)
     
-    elif task == 'db_query':
-        try:
-            answer = get_data(features)
-        except AthenaQueryError as e:
-            answer = str(e)
+    if task_status:
+        features = task.get('features',{})
+        task = task.get('task')
+        if task == 'prediction':
+            #status, message = validate_features(features)
+            #if status:
+                #try:
+                    #pred = get_prediction(features)
+                #except ModelPredictionError as e:
+                #    answer = str(e)
+                #    task_status = False
+                #    error_name = type(e).__name__
+                #else:
+                #    answer = f"Model prediction: {pred[0]}"
+            #else:
+                #answer = message
+            answer = f"Model prediction are not supported in AWS Lambda due to layer size limit. Agent will be containerized soon."
             task_status = False
-            error_name = type(e).__name__
+
+        elif task == 'question_answering':
+            context = retrieve_context(query)
+            llm_query = contextualize_query(query,context)
+            answer = call_llm(llm_query)
+        
+        elif task == 'db_query':
+            try:
+                answer = get_data(features)
+            except AthenaQueryError as e:
+                answer = str(e)
+                task_status = False
+                error_name = type(e).__name__
         
     save_interaction(
         query,

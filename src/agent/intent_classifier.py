@@ -1,6 +1,6 @@
 import json
 from json import JSONDecodeError
-from .custom_errors import LLMJSONError
+from .custom_errors import IntentClassificationError
 from .table_schema_retriever import get_table_schema
 from .agent_config import MODEL_FEATURES, ATHENA_DATABASE_NAME, PATIENT_DATA_TABLE_NAME
 from .llm_caller import call_llm
@@ -52,5 +52,5 @@ def get_task(query):
         task = json.loads(answer)
     except JSONDecodeError as e:
         task_type = answer.split("task:")[1].split(",")[0].strip()
-        raise LLMJSONError(task_type,e)
+        raise IntentClassificationError(task_type,e)
     return task

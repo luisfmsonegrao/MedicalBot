@@ -59,7 +59,7 @@ jobs:
             --metric-widget file://widget-meanlength.json \
             --output text \
             --query 'MetricWidgetImage' \
-            | base64 --decode > docs/monitoring/figures/dashboard-meanlength.png
+            | base64 --decode > docs/monitoring/figures/dashboard-meansessionlength.png
 
       - name: Clean up temporary files
         run: |

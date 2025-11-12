@@ -102,15 +102,19 @@
 
   ### Monitoring
   The following metrics are tracked hourly in `CloudWatch`:
+
+  Usage:
+    - total queries
+    - total sessions
   
   Explicit Feedback:
-   - Positive feedback rate per task type
+    - Positive feedback rate per task type
    
   Implicit Feedback:
-   - Mean session duration
+    - Mean session duration
    
   System performance:
-   - Task completion rate per task type
+    - Task completion rate per task type
     
   Click the image below to open a Monitoring Dashboard in `GitHub Pages`:
   [![MedicalBot Dashboard](https://luisfmsonegrao.github.io/MedicalBot/monitoring/figures/dashboard-feedback.png)](https://luisfmsonegrao.github.io/MedicalBot/monitoring/dashboard.html)

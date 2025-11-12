@@ -57,6 +57,6 @@ def calculate_mean_count(items,metric):
     metric_data.append({
             "MetricName": metric_name,
             "Value": mean_count,
-            "Unit": "Mean Counts"
+            "Unit": "Count"
         })
     return metric_data

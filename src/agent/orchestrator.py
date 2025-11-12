@@ -4,7 +4,7 @@ from .llm_caller import call_llm
 from .data_retriever import get_data
 from .context_retriever import contextualize_query, retrieve_context
 from .interaction_saver import save_interaction
-from .custom_errors import AthenaQueryError, ModelPredictionError
+from .custom_errors import AthenaQueryError, LLMJSONError, ModelPredictionError
 
 def orchestrate(query,query_id,session_id):
     """
@@ -12,7 +12,13 @@ def orchestrate(query,query_id,session_id):
     """
     task_status = True
     error_name = ''
-    task = get_task(query)#maybe this step can use smaller model specialized to text classification
+    try:
+        task = get_task(query) # maybe this step can use smaller model specialized to text classification
+    except LLMJSONError as e:
+        answer = str(e)
+        task_status = False
+        error_name = type(e).__name__
+        
     features = task.get('features',{})
     context = []
     task = task.get('task')

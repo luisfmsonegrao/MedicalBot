@@ -1,4 +1,6 @@
-from config import MONITORING_VARIABLES
+from config import POSITIVE_RATE_METRICS
+from collections import Counter
+
 
 def calculate_positive_rate(items,metric):
     """
@@ -13,9 +15,9 @@ def calculate_positive_rate(items,metric):
         if task_type not in metric_counts:
             metric_counts[task_type] = {"positive": 0, "negative": 0}
         
-        if metric_value == MONITORING_VARIABLES[metric]['positive']:
+        if metric_value == POSITIVE_RATE_METRICS[metric]['positive']:
             metric_counts[task_type]["positive"] += 1
-        elif metric_value == MONITORING_VARIABLES[metric]['negative']:
+        elif metric_value == POSITIVE_RATE_METRICS[metric]['negative']:
             metric_counts[task_type]["negative"] += 1
 
     metric_data = []
@@ -35,3 +37,18 @@ def calculate_positive_rate(items,metric):
             "Unit": "Percent"
         })
     return metric_data
+
+def calculate_mean_count(items,metric):
+    """
+    Calculate the mean count per distinct value of metric
+    """
+    counts = Counter()
+    for item in items:
+        value = item.get(metric)
+        if value:
+            counts[value] += 1
+    if not counts:
+        return 0
+    total_counts = sum(counts.values())
+    total_values = len(counts)
+    return total_counts / total_values

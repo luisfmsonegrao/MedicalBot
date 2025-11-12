@@ -42,7 +42,7 @@ def calculate_mean_count(items,metric):
     """
     Calculate the mean count per distinct value of metric
     """
-    metric_name = f"MeanCount:{metric}"
+    metric_name = f"MeanLength:{metric}"
     metric_data = []
     counts = Counter()
     for item in items:

@@ -15,14 +15,11 @@ def chat_fn(user_message, session_id, history):
     """
     query_id = str(uuid.uuid4())
     r = requests.post(QUERY_API_URL, headers=headers, json={"session_id": session_id, "query_id": query_id, "query": user_message})
-    print(r)
     data = r.json()
     answer = data.get("answer", "Error")
     answer, df = format_answer(answer)
     history.append((user_message, answer))
     query_id_map[len(history) - 1] = query_id
-    print(f"ANS: {answer}")
-    print(f"DF: {df}")
     return history, history, df
 
 def format_answer(answer):

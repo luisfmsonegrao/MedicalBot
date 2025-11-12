@@ -57,7 +57,7 @@ with gr.Blocks() as demo:
     """
     Define Gradio App
     """
-    session_id = str(uuid.uuid4())
+    session_id = gr.State(str(uuid.uuid4()))
     gr.Markdown("# 👩‍⚕️🩺 MedicalBot")
     chatbot = gr.Chatbot()
     dataframe = gr.DataFrame(label="Results Table", interactive=True)

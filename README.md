@@ -101,7 +101,8 @@
   **Note**: **MedicalBot** is protected by an API key, which you must have in order to query the agent.
 
   ### Monitoring
-  Currently monitored **MedicalBot** metrics are:
+  The following metrics are tracked hourly in `CloudWatch`:
+  
   Explicit Feedback:
    - Positive feedback rate per task type
    

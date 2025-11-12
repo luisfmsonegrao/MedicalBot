@@ -127,7 +127,6 @@
     - model confidence:
         - entropy of predicted sequence
     - Implicit feedback:
-        - session length/duration statistics
         - rephrasing rate
         - sentiment analysis of next queries
         - etc.

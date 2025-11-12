@@ -104,16 +104,21 @@
   The following metrics are tracked hourly in `CloudWatch`:
 
   Usage:
+
     - total queries
+    
     - total sessions
   
   Explicit Feedback:
+  
     - Positive feedback rate per task type
    
   Implicit Feedback:
+  
     - Mean session duration
    
   System performance:
+  
     - Task completion rate per task type
     
   Click the image below to open a Monitoring Dashboard in `GitHub Pages`:

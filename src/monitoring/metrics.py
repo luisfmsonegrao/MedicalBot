@@ -42,6 +42,8 @@ def calculate_mean_count(items,metric):
     """
     Calculate the mean count per distinct value of metric
     """
+    metric_name = f"MeanCount:{metric}"
+    metric_data = []
     counts = Counter()
     for item in items:
         value = item.get(metric)
@@ -51,4 +53,10 @@ def calculate_mean_count(items,metric):
         return 0
     total_counts = sum(counts.values())
     total_values = len(counts)
-    return total_counts / total_values
+    mean_count = total_counts / total_values
+    metric_data.append({
+            "MetricName": metric_name,
+            "Value": mean_count,
+            "Unit": "Percent"
+        })
+    return metric_data

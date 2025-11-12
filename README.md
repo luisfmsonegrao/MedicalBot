@@ -100,18 +100,18 @@
   
   **Note**: **MedicalBot** is protected by an API key, which you must have in order to query the agent.
 
-  ### Monitoring Dashboard
+  ### Monitoring
   Currently monitored **MedicalBot** metrics are:
-    Explicit Feedback:
-     - Positive feedback rate per task type
-     
-    Implicit Feedback:
-     - Mean session duration
-     
-    System performance:
-     - Task completion rate per task type
+  Explicit Feedback:
+   - Positive feedback rate per task type
+   
+  Implicit Feedback:
+   - Mean session duration
+   
+  System performance:
+   - Task completion rate per task type
     
-  Click the image below to open a Monitoring Dashboard in GitHub Pages:
+  Click the image below to open a Monitoring Dashboard in `GitHub Pages`:
   [![MedicalBot Dashboard](https://luisfmsonegrao.github.io/MedicalBot/monitoring/figures/dashboard-feedback.png)](https://luisfmsonegrao.github.io/MedicalBot/monitoring/dashboard.html)
 
 

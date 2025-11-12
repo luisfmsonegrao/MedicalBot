@@ -37,8 +37,8 @@ jobs:
 
           # MeanLength:session_id widget
           jq -c '.DashboardBody | fromjson | .widgets[]
-            | select(.properties.title=="MeanLength:session_id")
-            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT24H", end:"P0D"}' dashboard.json > widget-meanlength.json
+            | select(.properties.title=="MeanLength:Session")
+            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT24H", end:"P0D"}' dashboard.json > widget-meansessionlength.json
 
 
       - name: Generate PNGs
@@ -56,7 +56,7 @@ jobs:
             | base64 --decode > docs/monitoring/figures/dashboard-taskstatus.png
 
           aws cloudwatch get-metric-widget-image \
-            --metric-widget file://widget-meanlength.json \
+            --metric-widget file://widget-meansessionlength.json \
             --output text \
             --query 'MetricWidgetImage' \
             | base64 --decode > docs/monitoring/figures/dashboard-meansessionlength.png

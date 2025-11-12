@@ -6,7 +6,7 @@ from .context_retriever import contextualize_query, retrieve_context
 from .interaction_saver import save_interaction
 from .custom_errors import AthenaQueryError, ModelPredictionError
 
-def orchestrate(query,query_id):
+def orchestrate(query,query_id,session_id):
     """
     Orchestrate DataDoctor agent
     """
@@ -44,6 +44,16 @@ def orchestrate(query,query_id):
             answer = str(e)
             task_status = False
             error_name = type(e).__name__
-
-    save_interaction(query,answer,context,task,query_id,features,task_status,error_name)
+        
+    save_interaction(
+        query,
+        answer,
+        context,
+        task,
+        query_id,
+        session_id,
+        features,
+        task_status,
+        error_name
+    )
     return answer

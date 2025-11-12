@@ -40,7 +40,8 @@ def calculate_positive_rate(items,metric):
 
 def calculate_mean_count(items,metric):
     """
-    Calculate the mean count per distinct value of metric
+    Calculate the mean count per distinct value of metric.
+    e.g. mean number of queries per session
     """
     metric_name = f"MeanLength:{metric}"
     metric_data = []
@@ -57,6 +58,18 @@ def calculate_mean_count(items,metric):
     metric_data.append({
             "MetricName": metric_name,
             "Value": mean_count,
+            "Unit": "Count"
+        })
+    return metric_data
+
+def calculate_total_count(items,metric):
+    metric_name = f"TotalCount:{metric}"
+    metric_data = []
+    values = {item[metric] for item in items if metric in item}
+    count = len(values)
+    metric_data.append({
+            "MetricName": metric_name,
+            "Value": count,
             "Unit": "Count"
         })
     return metric_data

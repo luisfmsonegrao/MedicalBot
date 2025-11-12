@@ -40,6 +40,15 @@ jobs:
             | select(.properties.title=="MeanLength:Session")
             | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT24H", end:"P0D"}' dashboard.json > widget-meansessionlength.json
 
+          # TotalCount:Queries widget
+          jq -c '.DashboardBody | fromjson | .widgets[]
+            | select(.properties.title=="TotalCount:Queries")
+            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT24H", end:"P0D"}' dashboard.json > widget-totalcountqueries.json
+
+          # TotalCount:Sessions widget
+          jq -c '.DashboardBody | fromjson | .widgets[]
+            | select(.properties.title=="TotalCount:Sessions")
+            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT24H", end:"P0D"}' dashboard.json > widget-totalcountsessions.json
 
       - name: Generate PNGs
         run: |
@@ -61,9 +70,21 @@ jobs:
             --query 'MetricWidgetImage' \
             | base64 --decode > docs/monitoring/figures/dashboard-meansessionlength.png
 
+          aws cloudwatch get-metric-widget-image \
+            --metric-widget file://widget-totalcountqueries.json \
+            --output text \
+            --query 'MetricWidgetImage' \
+            | base64 --decode > docs/monitoring/figures/dashboard-totalcountqueries.png
+
+          aws cloudwatch get-metric-widget-image \
+            --metric-widget file://widget-totalcountsessions.json \
+            --output text \
+            --query 'MetricWidgetImage' \
+            | base64 --decode > docs/monitoring/figures/dashboard-totalcountsessions.png
+
       - name: Clean up temporary files
         run: |
-          rm dashboard.json widget-feedback.json widget-task_status.json widget-meansessionlength.json
+          rm dashboard.json widget-feedback.json widget-task_status.json widget-meansessionlength.json widget-totalcountsessions.json widget-totalcountqueries.json
 
       - name: Commit & push updated figures
         run: |

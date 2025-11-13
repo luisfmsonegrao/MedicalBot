@@ -50,13 +50,11 @@ def calculate_mean(items,metric):
     for item in items:
         task_type = item.get("task_type")
         if task_type not in metric_sums:
-            metric_sums[task_type]['count'] = 1
-            metric_sums[task_type]['value'] = float(item.get(metric))
-        else:
-            metric_sums[task_type]['count'] += 1
-            metric_sums[task_type]['value'] += float(item.get(metric))
+            metric_sums[task_type] = {'count':0, 'value':0}
+        metric_sums[task_type]['count'] += 1
+        metric_sums[task_type]['value'] += float(item.get(metric))
 
-    for taks_type,v in metric_sums.items():
+    for task_type,v in metric_sums.items():
         mean_value = v['value']/v['count']
         metric_data.append({
             "MetricName": metric_name,

@@ -55,6 +55,11 @@ jobs:
             | select(.properties.title=="Mean:InteractionDuration")
             | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT24H", end:"P0D"}' dashboard.json > widget-meaninteractionduration.json
 
+          # Mean:Duration widget
+          jq -c '.DashboardBody | fromjson | .widgets[]
+            | select(.properties.title=="Mean:Duration")
+            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT24H", end:"P0D"}' dashboard.json > widget-meanduration.json
+
       - name: Generate PNGs
         run: |
           aws cloudwatch get-metric-widget-image \
@@ -93,9 +98,15 @@ jobs:
             --query 'MetricWidgetImage' \
             | base64 --decode > docs/monitoring/figures/dashboard-meaninteractionduration.png
 
+          aws cloudwatch get-metric-widget-image \
+            --metric-widget file://widget-meanduration.json \
+            --output text \
+            --query 'MetricWidgetImage' \
+            | base64 --decode > docs/monitoring/figures/dashboard-meanduration.png
+
       - name: Clean up temporary files
         run: |
-          rm dashboard.json widget-feedback.json widget-task_status.json widget-meansessionlength.json widget-totalcountsessions.json widget-totalcountqueries.json widget-meaninteractionduration.json
+          rm dashboard.json widget-feedback.json widget-task_status.json widget-meansessionlength.json widget-totalcountsessions.json widget-totalcountqueries.json widget-meaninteractionduration.json widget-meanduration.png
 
       - name: Commit & push updated figures
         run: |

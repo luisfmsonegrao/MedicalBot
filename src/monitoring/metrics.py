@@ -78,7 +78,10 @@ def calculate_mean_durations(items, metric):
         if item[metric] != 0: # durations will only be zero if corresponding tasks are not run, or task fails.
             metric_sum += item[metric]
             metric_count += 1
-    mean_value = metric_sum / metric_count
+    if metric_count != 0:
+        mean_value = metric_sum / metric_count
+    else:
+        mean_value = 0
     metric_data.append({
         "MetricName": metric_name,
         "Value": mean_value,

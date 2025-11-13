@@ -1,9 +1,11 @@
 import json
 import boto3
 from .agent_config import BEDROCK_MODEL_ID
+from .time_decorator import measure_duration
 
 bedrock = boto3.client('bedrock-runtime', region_name='us-east-1')
 
+@measure_duration
 def call_llm(query):
     """
     Query foundation LLM

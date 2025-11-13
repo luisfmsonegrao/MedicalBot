@@ -4,12 +4,14 @@ import pandas as pd
 from os.path import dirname
 from .agent_config import MODEL_FEATURES
 from .custom_errors import ModelPredictionError
+from .time_decorator import measure_duration
 
 file_path = os.path.abspath(__file__)
 root_dir = dirname(dirname(dirname(file_path)))
 model_path = os.path.join(root_dir,"models\\COPD_Classifier")
 model = joblib.load(model_path)
 
+@measure_duration
 def get_prediction(features):
     """
     Predict Chronic Obstructive Pulmonary Disease class based on user's query

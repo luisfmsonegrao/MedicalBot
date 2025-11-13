@@ -19,22 +19,20 @@ def chat_fn(user_message, session_id, history):
     answer = data.get("answer", "Error")
     answer_text = answer.get('text')
     answer_data = answer.get('data')
-    answer_text, answer_data = format_answer(answer_text,answer_data)
+    answer_data = format_answer(answer_data)
     history.append((user_message, answer_text))
     query_id_map[len(history) - 1] = query_id
     return history, history, answer_data
 
-def format_answer(answer_text,answer_data):
+def format_answer(answer_data):
     """
     Format answers that should be presented in tabular format.
     """
     if answer_data:
         answer_df = pd.DataFrame(answer_data)
-        answer_str = f"Here is the data for query {answer_text}:"
     else:
         answer_df = pd.DataFrame()
-        answer_str = answer_text
-    return answer_str, answer_df
+    return answer_df
 
 
 def feedback_fn(event_data: gr.LikeData):

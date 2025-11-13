@@ -15,8 +15,11 @@ def orchestrate(query,query_id,session_id):
     task_status = True
     error_name = ''
     context = []
+    intent_duration = prediction_duration = context_duration = llm_duration = dbquery_duration = 0
+
     try:
-        task = get_task(query) # maybe this step can use smaller model specialized to text classification
+        task, intent_duration = get_task(query) # maybe this step can use smaller model specialized to text classification
+
     except IntentClassificationError as e:
         answer = {'text': str(e), 'data': ''}
         task_status = False
@@ -31,7 +34,7 @@ def orchestrate(query,query_id,session_id):
             #feature_status, missing_features = validate_features(features)
             #if feature_status:
                 #try:
-                    #pred = get_prediction(features)
+                    #pred, prediction_duration = get_prediction(features)
                 #except ModelPredictionError as e:
                 #    answer = {'text': str(e), 'data': ''}
                 #    task_status = False
@@ -45,20 +48,29 @@ def orchestrate(query,query_id,session_id):
             task_status = False
 
         elif task == 'question_answering':
-            context = retrieve_context(query)
+            context, context_duration = retrieve_context(query)
             llm_query = contextualize_query(query,context)
-            answer = {'text': call_llm(llm_query), 'data': ''}
+            answer_text, llm_duration = call_llm(llm_query)
+            answer = {'text': answer_text, 'data': ''}
         
         elif task == 'db_query':
             try:
-                data = get_data(features)
-                answer = {'text': features, 'data': data}
+                data, dbquery_duration = get_data(features)
+                answer = {'text': f"Here's the data for query {features}:", 'data': data}
             except AthenaQueryError as e:
                 answer = {'text': str(e), 'data': ''}
                 task_status = False
                 error_name = type(e).__name__
         
     duration = time.perf_counter() - start_time
+    durations_dict = {'total_duration': duration, 
+                      'intent_duration': intent_duration,
+                      'prediction_duration': prediction_duration,
+                      'context_duration': context_duration,
+                      'llm_duration': llm_duration,
+                      'dbquery_duration': dbquery_duration
+                      }
+    
     save_interaction(
         query,
         answer,
@@ -68,7 +80,7 @@ def orchestrate(query,query_id,session_id):
         session_id,
         features,
         task_status,
-        duration,
+        durations_dict,
         error_name
     )
     return answer

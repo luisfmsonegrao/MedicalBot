@@ -87,6 +87,7 @@ def calculate_mean_durations(items, metric):
         "Value": mean_value,
         "Unit": "Seconds"
     })
+    return metric_data
 
 
 

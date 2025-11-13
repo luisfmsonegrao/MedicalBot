@@ -4,10 +4,11 @@ from .custom_errors import IntentClassificationError
 from .table_schema_retriever import get_table_schema
 from .agent_config import MODEL_FEATURES, ATHENA_DATABASE_NAME, PATIENT_DATA_TABLE_NAME
 from .llm_caller import call_llm
+from .time_decorator import measure_duration
 
 table_schema = get_table_schema(ATHENA_DATABASE_NAME,PATIENT_DATA_TABLE_NAME)
 
-
+@measure_duration
 def get_task(query):
     """
     Classify intent of user's query

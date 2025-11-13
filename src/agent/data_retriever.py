@@ -3,9 +3,10 @@ import time
 import pandas as pd
 from .agent_config import AWS_REGION, ATHENA_DATABASE_NAME, ATHENA_OUTPUT_PATH
 from .custom_errors import AthenaQueryError
-
+from .time_decorator import measure_duration
 athena = boto3.client('athena',region_name=AWS_REGION)
 
+@measure_duration
 def get_data(query):
     """
     Query patient data from Amazon Athena database

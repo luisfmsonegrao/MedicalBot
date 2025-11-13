@@ -4,7 +4,8 @@ from collections import Counter
 
 def calculate_positive_rate(items,metric):
     """
-    Calculate positive rate for binary metrics
+    Calculate positive rate for binary metrics, per task type.
+    e.g. positive rate of user feedback or task completion
     """
     metric_name = f"PositiveRate:{metric}"
     metric_counts = {}
@@ -38,9 +39,37 @@ def calculate_positive_rate(items,metric):
         })
     return metric_data
 
+def calculate_mean(items,metric):
+    """
+    Calculate mean value of metric, per task type.
+    e.g. mean duration of question answering tasks
+    """
+    metric_name = f"Mean:{metric}"
+    metric_sums = {}
+    metric_data = []
+    for item in items:
+        task_type = item.get("task_type")
+        if task_type not in metric_sums:
+            metric_sums[task_type]['count'] = 1
+            metric_sums[task_type]['value'] = float(item.get(metric))
+        else:
+            metric_sums[task_type]['count'] += 1
+            metric_sums[task_type]['value'] += float(item.get(metric))
+
+    for taks_type,v in metric_sums.items():
+        mean_value = v['value']/v['count']
+        metric_data.append({
+            "MetricName": metric_name,
+            "Dimensions": [{"Name": "TaskType", "Value": task_type}],
+            "Value": mean_value,
+            "Unit": "Seconds"
+        })
+    return metric_data
+
+
 def calculate_mean_count(items,metric):
     """
-    Calculate the mean count per distinct value of metric.
+    Calculate mean count per distinct value of metric.
     e.g. mean number of queries per session
     """
     metric_name = f"MeanLength:{metric}"
@@ -51,7 +80,13 @@ def calculate_mean_count(items,metric):
         if value:
             counts[value] += 1
     if not counts:
-        return 0
+        metric_data.append({
+            "MetricName": metric_name,
+            "Value": 0,
+            "Unit": "Count"
+        })
+        return metric_data
+    
     total_counts = sum(counts.values())
     total_values = len(counts)
     mean_count = total_counts / total_values
@@ -63,6 +98,10 @@ def calculate_mean_count(items,metric):
     return metric_data
 
 def calculate_total_count(items,metric):
+    """
+    Calculate total count per metric.
+    e.g. total number of queries or sessions
+    """
     metric_name = f"TotalCount:{metric}"
     metric_data = []
     values = {item[metric] for item in items if metric in item}

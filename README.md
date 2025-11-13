@@ -114,11 +114,12 @@
    
   Implicit Feedback:
   
-  - Mean session duration
+  - Mean number of queries per session
    
   System performance:
   
   - Task completion rate per task type
+  - Mean query duration
     
   Click the image below to open a Monitoring Dashboard in `GitHub Pages`:
   [![MedicalBot Dashboard](https://luisfmsonegrao.github.io/MedicalBot/monitoring/figures/dashboard-feedback.png)](https://luisfmsonegrao.github.io/MedicalBot/monitoring/dashboard.html)

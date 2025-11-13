@@ -1,8 +1,9 @@
 from config import POSITIVE_RATE_METRICS
 from collections import Counter
 
+#ToDo: I am implementing the same metric multiple times. DRY. make generic metric functions
 
-def calculate_positive_rate(items,metric):
+def calculate_positive_rate_per_task(items,metric):
     """
     Calculate positive rate for binary metrics, per task type.
     e.g. positive rate of user feedback or task completion
@@ -39,7 +40,7 @@ def calculate_positive_rate(items,metric):
         })
     return metric_data
 
-def calculate_mean(items,metric):
+def calculate_mean_per_task(items,metric):
     """
     Calculate mean value of metric, per task type.
     e.g. mean duration of question answering tasks
@@ -63,6 +64,27 @@ def calculate_mean(items,metric):
             "Unit": "Seconds"
         })
     return metric_data
+
+def calculate_mean_durations(items, metric):
+    """
+    Calculate mean value of metric.
+    e.g. mean duration of athena data retrieval
+    """
+    metric_name = f"Mean:{metric}"
+    metric_data = []
+    metric_sum = 0
+    metric_count = 0
+    for item in items:
+        if item[metric] != 0: # durations will only be zero if corresponding tasks are not run, or task fails.
+            metric_sum += item[metric]
+            metric_count += 1
+    mean_value = metric_sum / metric_count
+    metric_data.append({
+        "MetricName": metric_name,
+        "Value": mean_value,
+        "Unit": "Seconds"
+    })
+
 
 
 def calculate_mean_count(items,metric):

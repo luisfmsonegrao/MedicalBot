@@ -15,7 +15,7 @@ def orchestrate(query,query_id,session_id):
     task_status = True
     error_name = ''
     context = []
-    intent_duration = prediction_duration = context_duration = llm_duration = dbquery_duration = 0
+    intent_duration = pred_duration = context_duration = qa_duration = dbquery_duration = 0
 
     try:
         task, intent_duration = get_task(query) # maybe this step can use smaller model specialized to text classification
@@ -34,7 +34,7 @@ def orchestrate(query,query_id,session_id):
             #feature_status, missing_features = validate_features(features)
             #if feature_status:
                 #try:
-                    #pred, prediction_duration = get_prediction(features)
+                    #pred, pred_duration = get_prediction(features)
                 #except ModelPredictionError as e:
                 #    answer = {'text': str(e), 'data': ''}
                 #    task_status = False
@@ -50,7 +50,7 @@ def orchestrate(query,query_id,session_id):
         elif task == 'question_answering':
             context, context_duration = retrieve_context(query)
             llm_query = contextualize_query(query,context)
-            answer_text, llm_duration = call_llm(llm_query)
+            answer_text, qa_duration = call_llm(llm_query)
             answer = {'text': answer_text, 'data': ''}
         
         elif task == 'db_query':
@@ -65,9 +65,9 @@ def orchestrate(query,query_id,session_id):
     duration = time.perf_counter() - start_time
     durations_dict = {'total_duration': duration, 
                       'intent_duration': intent_duration,
-                      'prediction_duration': prediction_duration,
+                      'pred_duration': pred_duration,
                       'context_duration': context_duration,
-                      'llm_duration': llm_duration,
+                      'qa_duration': qa_duration,
                       'dbquery_duration': dbquery_duration
                       }
     

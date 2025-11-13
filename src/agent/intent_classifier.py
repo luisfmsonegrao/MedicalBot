@@ -48,7 +48,7 @@ def get_task(query):
 
     Query: "{query}"
     """
-    answer = call_llm(prompt)
+    answer,_ = call_llm(prompt)
     answer = clean_json(answer)
     try:
         task = json.loads(answer)

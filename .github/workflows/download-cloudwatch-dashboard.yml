@@ -106,7 +106,7 @@ jobs:
 
       - name: Clean up temporary files
         run: |
-          rm dashboard.json widget-feedback.json widget-task_status.json widget-meansessionlength.json widget-totalcountsessions.json widget-totalcountqueries.json widget-meaninteractionduration.json widget-meanduration.png
+          rm dashboard.json widget-feedback.json widget-task_status.json widget-meansessionlength.json widget-totalcountsessions.json widget-totalcountqueries.json widget-meaninteractionduration.json widget-meanduration.json
 
       - name: Commit & push updated figures
         run: |

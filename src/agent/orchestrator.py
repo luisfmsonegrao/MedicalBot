@@ -5,11 +5,13 @@ from .data_retriever import get_data
 from .context_retriever import contextualize_query, retrieve_context
 from .interaction_saver import save_interaction
 from .custom_errors import AthenaQueryError, IntentClassificationError, ModelPredictionError
+import time
 
 def orchestrate(query,query_id,session_id):
     """
     Orchestrate MedicalBot agent
     """
+    start_time = time.perf_counter()
     task_status = True
     error_name = ''
     context = []
@@ -56,6 +58,7 @@ def orchestrate(query,query_id,session_id):
                 task_status = False
                 error_name = type(e).__name__
         
+    duration = time.perf_counter() - start_time
     save_interaction(
         query,
         answer,
@@ -65,6 +68,7 @@ def orchestrate(query,query_id,session_id):
         session_id,
         features,
         task_status,
+        duration,
         error_name
     )
     return answer

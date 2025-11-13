@@ -19,12 +19,15 @@ def save_interaction(
         session_id,
         features,
         task_status,
-        error_name=''):
+        duration,
+        error_name=''
+        ):
     """
     Save interaction to DynamoDB
     """
     embedding = embed_query(query)
     embedding = [Decimal(str(x)) for x in embedding]
+    duration = Decimal(str(duration))
     init_time = int(time.time())
     interaction_cache.put_item(
         Item={
@@ -40,6 +43,7 @@ def save_interaction(
             "task_type": task,
             "task_status": task_status,
             "error_name": error_name,
+            "duration": duration,
             "model_metadata": json.dumps(MODEL_METADATA),
             "text_embedding_model_id": TEXT_EMBEDDING_MODEL_ID,
             "ttl": init_time + CACHE_TTL,

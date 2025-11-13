@@ -8,7 +8,7 @@ from .custom_errors import AthenaQueryError, IntentClassificationError, ModelPre
 
 def orchestrate(query,query_id,session_id):
     """
-    Orchestrate DataDoctor agent
+    Orchestrate MedicalBot agent
     """
     task_status = True
     error_name = ''
@@ -16,7 +16,7 @@ def orchestrate(query,query_id,session_id):
     try:
         task = get_task(query) # maybe this step can use smaller model specialized to text classification
     except IntentClassificationError as e:
-        answer = str(e)
+        answer = {'text': str(e), 'data': ''}
         task_status = False
         error_name = type(e).__name__
         task = e.task_type
@@ -26,31 +26,33 @@ def orchestrate(query,query_id,session_id):
         features = task.get('features',{})
         task = task.get('task')
         if task == 'prediction':
-            #status, message = validate_features(features)
-            #if status:
+            #feature_status, missing_features = validate_features(features)
+            #if feature_status:
                 #try:
                     #pred = get_prediction(features)
                 #except ModelPredictionError as e:
-                #    answer = str(e)
+                #    answer = {'text': str(e), 'data': ''}
                 #    task_status = False
                 #    error_name = type(e).__name__
                 #else:
-                #    answer = f"Model prediction: {pred[0]}"
+                #    answer = {'text': f"Model prediction: {pred[0]}; Feature values: {features}", 'data': ''}
             #else:
-                #answer = message
-            answer = f"Model prediction are not supported in AWS Lambda due to layer size limit. Agent will be containerized soon."
+                #answer = {'text': f"Missing required features: {missing_features}. Please provide them in your query.", 'data': ''}
+
+            answer = {'text': f"Model prediction are not supported in AWS Lambda due to layer size limit. Agent will be containerized soon.", 'data': ''}
             task_status = False
 
         elif task == 'question_answering':
             context = retrieve_context(query)
             llm_query = contextualize_query(query,context)
-            answer = call_llm(llm_query)
+            answer = {'text': call_llm(llm_query), 'data': ''}
         
         elif task == 'db_query':
             try:
-                answer = get_data(features)
+                data = get_data(features)
+                answer = {'text': features, 'data': data}
             except AthenaQueryError as e:
-                answer = str(e)
+                answer = {'text': str(e), 'data': ''}
                 task_status = False
                 error_name = type(e).__name__
         

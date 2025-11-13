@@ -26,9 +26,7 @@ def validate_features(features):
     Check if all necessary features are present
     """
     status = True
-    message = ''
-    missing = [f for f in MODEL_FEATURES if features.get(f) in (None, "", "null")]
-    if missing:
+    missing_features = [f for f in MODEL_FEATURES if features.get(f) in (None, "", "null")]
+    if missing_features:
         status = False
-        message = f"Missing required features: {missing}. Please provide them in your query."
-    return status, message
+    return status, missing_features

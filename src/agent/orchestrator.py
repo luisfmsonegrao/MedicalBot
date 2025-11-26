@@ -45,9 +45,6 @@ def orchestrate(query,query_id,session_id):
             else:
                 answer = {'text': f"Missing required features: {missing_features}. Please provide them in your query.", 'data': ''}
 
-            #answer = {'text': f"Model prediction are not supported in AWS Lambda due to layer size limit. Agent will be containerized soon.", 'data': ''}
-            task_status = False
-
         elif task == 'question_answering':
             context, context_duration = retrieve_context(query)
             llm_query = contextualize_query(query,context)

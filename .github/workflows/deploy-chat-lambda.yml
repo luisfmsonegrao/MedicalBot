@@ -46,7 +46,7 @@ jobs:
 
       - name: Push Docker image to ECR
         run: |
-          docker push aws_account_id.dkr.ecr.us-east-1.amazonaws.com/medicalbot-agent:latest
+          docker push ${{vars.AWS_ACCOUNT_ID}}.dkr.ecr.us-east-1.amazonaws.com/medicalbot-agent:latest
 
       - name: Update Lambda function to use new image
         run: |

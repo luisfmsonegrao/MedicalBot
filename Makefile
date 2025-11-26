@@ -20,13 +20,13 @@ install-mlflow:
 run:
 	$(POETRY) run $(PYTHON) -m src.agent_ui.medicalbot_ui
 
-train_model: install-mlflow 
+train_model: 
 	cd mlflow-project && $(POETRY) run mlflow run . -e train --env-manager=local -P max_depth=$(MAX_DEPTH) -P criterion=$(CRITERION)  --experiment-name "COPD_classifier_experiments"
 
-register_model: install-mlflow
+register_model:
 	cd mlflow-project && $(POETRY) run mlflow run . -e register_promote --env-manager=local
 
-deploy_model: install-mlflow
+deploy_model:
 	cd mlflow-project && $(POETRY) run mlflow run . -e deploy --env-manager=local
 
 

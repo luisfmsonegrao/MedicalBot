@@ -7,7 +7,6 @@ on:
       - "src/agent/**"
       - "src/agent_lambda/**"
       - "models/**"
-      - ".github/workflows/deploy-chat-lambda.yml"
 
 jobs:
   deploy:

@@ -37,7 +37,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t medicalbot-agent .
+          docker build -f ../../agent.Dockerfile -t medicalbot-agent .
 
 
       - name: Tag Docker image for ECR

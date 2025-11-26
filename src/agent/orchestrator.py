@@ -5,6 +5,7 @@ from .data_retriever import get_data
 from .context_retriever import contextualize_query, retrieve_context
 from .interaction_saver import save_interaction
 from .custom_errors import AthenaQueryError, IntentClassificationError, ModelPredictionError
+from .copd_classifier import get_prediction, validate_features
 import time
 
 def orchestrate(query,query_id,session_id):
@@ -31,20 +32,20 @@ def orchestrate(query,query_id,session_id):
         features = task.get('features',{})
         task = task.get('task')
         if task == 'prediction':
-            #feature_status, missing_features = validate_features(features)
-            #if feature_status:
-                #try:
-                    #pred, pred_duration = get_prediction(features)
-                #except ModelPredictionError as e:
-                #    answer = {'text': str(e), 'data': ''}
-                #    task_status = False
-                #    error_name = type(e).__name__
-                #else:
-                #    answer = {'text': f"Model prediction: {pred[0]}; Feature values: {features}", 'data': ''}
-            #else:
-                #answer = {'text': f"Missing required features: {missing_features}. Please provide them in your query.", 'data': ''}
+            feature_status, missing_features = validate_features(features)
+            if feature_status:
+                try:
+                    pred, pred_duration = get_prediction(features)
+                except ModelPredictionError as e:
+                    answer = {'text': str(e), 'data': ''}
+                    task_status = False
+                    error_name = type(e).__name__
+                else:
+                    answer = {'text': f"Model prediction: {pred[0]}; Feature values: {features}", 'data': ''}
+            else:
+                answer = {'text': f"Missing required features: {missing_features}. Please provide them in your query.", 'data': ''}
 
-            answer = {'text': f"Model prediction are not supported in AWS Lambda due to layer size limit. Agent will be containerized soon.", 'data': ''}
+            #answer = {'text': f"Model prediction are not supported in AWS Lambda due to layer size limit. Agent will be containerized soon.", 'data': ''}
             task_status = False
 
         elif task == 'question_answering':

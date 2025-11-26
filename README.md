@@ -38,7 +38,7 @@
   - `\notebooks` contains jupyter notebooks used for various ends, such as exploring the dataset or testing the agent's functionalities.
   - `\resources\layers` contains necessary aws lambda layers.
   - `\resources\figures` contains schemas of the **MedicalBot**
-  - `\.github\workflows` contains yml files to deploy changes to agent code automatically on merges to `main`
+  - `\.github\workflows` contains yml files that define CI/CD workflows
 
 
   ### **MedicalBot** current schema
@@ -69,7 +69,7 @@
   - `scikit-learn` to train decision tree classifier on patient data
   - `mlflow` to track and deploy the classification model
   - `AWS Secrets Manager` for api key management.
-  - `GitHub Actions` to automate deployment of code changes, download cloudwatch monitoring plots
+  - `GitHub Actions` for DevOps workflows
 
 
   ### Patient outcome classification model

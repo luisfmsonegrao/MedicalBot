@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
     paths:
       - "src/agent/**"
-      - "src/aws_lambda/chat_lambda_function.py"
+      - "src/agent_lambda/**"
       - "models/**"
 
 jobs:
@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -21,27 +22,53 @@ jobs:
         with:
           python-version: "3.12"
 
-      #- name: Install Poetry
-      #  run: pip install poetry
 
-      #- name: Export dependencies
-      #  run: poetry export -f requirements.txt --output requirements.txt --without-hashes --without ui
-
-      - name: Package Lambda
-        run: |
-          mkdir -p build/src/
-          mkdir -p build/src/aws_lambda/
-          mkdir -p build/models/
-          cp src/aws_lambda/chat_lambda_function.py build/src/aws_lambda/lambda_function.py
-          cp -r src/agent build/src/
-          cp -r models/ build/
-          cd build && zip -r ../lambda_package.zip .
-
-      - name: Deploy to AWS Lambda
-        uses: appleboy/lambda-action@v0.2.0
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
         with:
-          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: "us-east-1"
-          function_name: "datadoctor-chat"
-          zip_file: "lambda_package.zip"
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+          aws-account-id: ${{ vars.AWS_ACCOUNT_ID}}
+
+      - name: Login to ECR
+        run: |
+          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $aws-account-id.dkr.ecr.us-east-1.amazonaws.com
+
+      - name: Build Docker image
+        run: |
+          docker build -t medicalbot-agent .
+
+
+      - name: Tag Docker image for ECR
+        run: |
+          docker tag medicalbot-agent:latest $aws-account-id.dkr.ecr.us-east-1.amazonaws.com/medicalbot-agent:latest
+
+      - name: Push Docker image to ECR
+        run: |
+          docker push aws-account-id.dkr.ecr.us-east-1.amazonaws.com/medicalbot-agent:latest
+
+      - name: Update Lambda function to use new image
+        run: |
+          aws lambda update-function-code \
+            --function-name medicalbot \
+            --image-uri $aws-account-id.dkr.ecr.us-east-1.amazonaws.com/medicalbot-agent:latest
+
+#      - name: Package Lambda
+#        run: |
+#          mkdir -p build/src/
+#          mkdir -p build/src/agent_lambda/
+#          mkdir -p build/models/
+#          cp src/agent_lambda/chat_lambda_function.py build/src/agent_lambda/lambda_function.py
+#          cp -r src/agent build/src/
+#          cp -r models/ build/
+#          cd build && zip -r ../lambda_package.zip .
+
+#      - name: Deploy to AWS Lambda
+#        uses: appleboy/lambda-action@v0.2.0
+#        with:
+#          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#          aws_region: "us-east-1"
+#          function_name: "datadoctor-chat"
+#          zip_file: "lambda_package.zip"

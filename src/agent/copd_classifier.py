@@ -8,7 +8,7 @@ from .time_decorator import measure_duration
 
 file_path = os.path.abspath(__file__)
 root_dir = dirname(dirname(dirname(file_path)))
-model_path = os.path.join(root_dir,"models\\COPD_Classifier")
+model_path = os.path.join(root_dir,"models/COPD_Classifier")
 model = joblib.load(model_path)
 
 @measure_duration

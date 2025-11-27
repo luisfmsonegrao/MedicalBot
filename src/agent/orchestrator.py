@@ -1,5 +1,4 @@
 from .intent_classifier import get_task
-#.copd_classifier import get_prediction, validate_features
 from .llm_caller import call_llm
 from .data_retriever import get_data
 from .context_retriever import contextualize_query, retrieve_context

@@ -126,7 +126,9 @@
   ### Deployment
 
   MedicalBot is deployed as an AWS Lambda function based on a docker image published in `ECR`.
+  
   Deployment is automated with `Github Actions` on merging to `main`.
+  
   Canary deployment is used to derisk depoyment of updates/new versions.
 
   

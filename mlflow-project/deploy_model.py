@@ -19,7 +19,7 @@ def get_model_metadata():
     version = prod_model.version
     run_id = prod_model.run_id
     metadata = {
-        "Model_name": MODEL_NAME,
+        "model_name": MODEL_NAME,
         "version": version,
         "run_id": run_id    
     }

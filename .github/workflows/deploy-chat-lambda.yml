@@ -43,7 +43,7 @@ jobs:
 
       - name: Tag Docker image for ECR
         run: |
-          docker tag medicalbot-agent:canary ${{vars.AWS_ACCOUNT_ID}}.dkr.ecr.us-east-1.amazonaws.com/medicalbot-agent:canary
+          docker tag medicalbot-agent ${{vars.AWS_ACCOUNT_ID}}.dkr.ecr.us-east-1.amazonaws.com/medicalbot-agent:canary
 
       - name: Push Docker image to ECR
         run: |

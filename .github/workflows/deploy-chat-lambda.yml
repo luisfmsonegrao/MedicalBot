@@ -51,7 +51,7 @@ jobs:
       - name: Update Lambda function
         run: |
           IMAGE_DIGEST=$(aws ecr describe-images \
-            --repository-name medicalbot \
+            --repository-name medicalbot-agent \
             --image-ids imageTag=canary \
             --query 'imageDetails[0].imageDigest' \
             --output text)

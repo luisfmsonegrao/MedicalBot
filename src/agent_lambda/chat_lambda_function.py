@@ -1,5 +1,6 @@
 import json
-from src.agent.orchestrator import orchestrate 
+from src.agent.orchestrator import orchestrate
+from src.agent.interaction_saver import save_interaction
 
 def lambda_handler(event, context):
     """
@@ -15,7 +16,9 @@ def lambda_handler(event, context):
                 "statusCode": 400,
                 "body": json.dumps({"error": "Missing 'query' field"})
             }
-        answer = orchestrate(user_query,query_id,session_id)
+        (answer,metadata),time = orchestrate(user_query,query_id,session_id)
+        metadata["durations_dict"]["total_duration"] = time
+        save_interaction(**metadata)
         return {
             "statusCode": 200,
             "headers": {

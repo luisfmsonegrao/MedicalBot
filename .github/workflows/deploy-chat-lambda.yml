@@ -54,6 +54,7 @@ jobs:
           aws lambda update-function-code \
             --function-name medicalbot \
             --image-uri ${{vars.AWS_ACCOUNT_ID}}.dkr.ecr.us-east-1.amazonaws.com/medicalbot-agent:latest
+          sleep 5
 
       - name: Publish new Lambda version
         id: publish

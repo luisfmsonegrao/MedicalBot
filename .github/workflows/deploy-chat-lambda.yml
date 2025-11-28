@@ -7,6 +7,8 @@ on:
       - "src/agent/**"
       - "src/agent_lambda/**"
       - "models/**"
+      - "pyproject.toml"
+      - "poetry.lock"
 
 jobs:
   deploy:

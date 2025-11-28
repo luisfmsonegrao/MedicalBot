@@ -5,6 +5,5 @@ data/markdowns/
 /aws_lambda/
 mlruns/
 commands.txt
-poetry.lock
 resources/figures/dashboard-feedback.png
 resources/figures/dashboard-taskstatus.png

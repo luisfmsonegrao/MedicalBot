@@ -27,6 +27,7 @@
   - [Data retrieval and aggregation](#Data-retrieval-and-aggregation)
   - [Using **MedicalBot**](#Using-MedicalBot)
   - [Monitoring](#Monitoring)
+  - [Deployment](#Deployment)
   - [ToDo](#ToDo)
 
   ### Repo contents
@@ -122,7 +123,11 @@
   Click the image below to open a Monitoring Dashboard in `GitHub Pages`:
   [![MedicalBot Dashboard](https://luisfmsonegrao.github.io/MedicalBot/monitoring/figures/dashboard-feedback.png)](https://luisfmsonegrao.github.io/MedicalBot/monitoring/dashboard.html)
 
+  ### Deployment
 
+  MedicalBot is deployed as an AWS Lambda function based on a docker image published in `ECR`.
+  Deployment is automated with `Github Actions` on merging to `main`.
+  Canary deployment is used to derisk depoyment of updates/new versions.
 
   
   

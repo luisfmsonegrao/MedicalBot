@@ -49,8 +49,21 @@ jobs:
         run: |
           docker push ${{vars.AWS_ACCOUNT_ID}}.dkr.ecr.us-east-1.amazonaws.com/medicalbot-agent:latest
 
-      - name: Update Lambda function to use new image
+      - name: Update Lambda function
         run: |
           aws lambda update-function-code \
             --function-name medicalbot \
             --image-uri ${{vars.AWS_ACCOUNT_ID}}.dkr.ecr.us-east-1.amazonaws.com/medicalbot-agent:latest
+
+      - name: Publish new Lambda version
+        id: publish
+        run: |
+            VERSION=$(aws lambda publish-version --function-name medicalbot --query Version --output text)
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Canary release
+        run: |
+          aws lambda update-alias \
+            --function-name medicalbot \
+            --name production \
+            --routing-config "{\"AdditionalVersionWeights\": {\"${{ steps.publish.outputs.version }}\": 0.5}}"

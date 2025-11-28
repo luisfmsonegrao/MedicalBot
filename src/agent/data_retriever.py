@@ -1,6 +1,5 @@
 import boto3
 import time
-import pandas as pd
 from .agent_config import AWS_REGION, ATHENA_DATABASE_NAME, ATHENA_OUTPUT_PATH
 from .custom_errors import AthenaQueryError
 from .time_decorator import measure_duration

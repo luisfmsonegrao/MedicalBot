@@ -2,16 +2,17 @@ from .intent_classifier import get_task
 from .llm_caller import call_llm
 from .data_retriever import get_data
 from .context_retriever import contextualize_query, retrieve_context
-from .interaction_saver import save_interaction
 from .custom_errors import AthenaQueryError, IntentClassificationError, ModelPredictionError
 from .copd_classifier import get_prediction, validate_features
+from .agent_config import MODEL_METADATA
+from .time_decorator import measure_duration
 import time
 
+@measure_duration
 def orchestrate(query,query_id,session_id):
     """
     Orchestrate MedicalBot agent
     """
-    start_time = time.perf_counter()
     task_status = True
     error_name = ''
     context = []
@@ -59,25 +60,26 @@ def orchestrate(query,query_id,session_id):
                 task_status = False
                 error_name = type(e).__name__
         
-    duration = time.perf_counter() - start_time
-    durations_dict = {'total_duration': duration, 
-                      'intent_duration': intent_duration,
+    durations_dict = {'intent_duration': intent_duration,
                       'pred_duration': pred_duration,
                       'context_duration': context_duration,
                       'qa_duration': qa_duration,
                       'dbquery_duration': dbquery_duration
                       }
     
-    save_interaction(
-        query,
-        answer,
-        context,
-        task,
-        query_id,
-        session_id,
-        features,
-        task_status,
-        durations_dict,
-        error_name
-    )
-    return answer
+    metadata = {
+        "query":query,
+        "results":answer,
+        "timestamp":int(time.time()),
+        "context":context,
+        "task":task,
+        "query_id":query_id,
+        "session_id":session_id,
+        "features":features,
+        "task_status":task_status,
+        "durations_dict":durations_dict,
+        "error_name":error_name,
+        "model_metadata":MODEL_METADATA
+    }
+
+    return answer, metadata

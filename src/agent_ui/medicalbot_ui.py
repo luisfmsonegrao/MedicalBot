@@ -15,6 +15,7 @@ def chat_fn(user_message, session_id, history):
     """
     query_id = str(uuid.uuid4())
     r = requests.post(QUERY_API_URL, headers=headers, json={"session_id": session_id, "query_id": query_id, "query": user_message})
+    print(r)
     data = r.json()
     answer = data.get("answer", "Error")
     answer_text = answer.get('text')

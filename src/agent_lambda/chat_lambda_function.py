@@ -6,7 +6,7 @@ def lambda_handler(event, context):
     """
     Handle requests to AWS Lambda function
     """
-    print("NOT CANARY!")
+    print("YES CANARY!")
     try:
         body = json.loads(event.get("body", "{}"))
         session_id = body.get("session_id","")

@@ -43,17 +43,17 @@ jobs:
 
       - name: Tag Docker image for ECR
         run: |
-          docker tag medicalbot-agent:latest ${{vars.AWS_ACCOUNT_ID}}.dkr.ecr.us-east-1.amazonaws.com/medicalbot-agent:latest
+          docker tag medicalbot-agent:canary ${{vars.AWS_ACCOUNT_ID}}.dkr.ecr.us-east-1.amazonaws.com/medicalbot-agent:canary
 
       - name: Push Docker image to ECR
         run: |
-          docker push ${{vars.AWS_ACCOUNT_ID}}.dkr.ecr.us-east-1.amazonaws.com/medicalbot-agent:latest
+          docker push ${{vars.AWS_ACCOUNT_ID}}.dkr.ecr.us-east-1.amazonaws.com/medicalbot-agent:canary
 
       - name: Update Lambda function
         run: |
           aws lambda update-function-code \
             --function-name medicalbot \
-            --image-uri ${{vars.AWS_ACCOUNT_ID}}.dkr.ecr.us-east-1.amazonaws.com/medicalbot-agent:latest
+            --image-uri ${{vars.AWS_ACCOUNT_ID}}.dkr.ecr.us-east-1.amazonaws.com/medicalbot-agent:canary
           sleep 20
 
       - name: Publish new Lambda version

@@ -77,7 +77,7 @@ jobs:
             --routing-config "{\"AdditionalVersionWeights\": {\"${{ steps.publish.outputs.version }}\": 0.5}}"
         
       - name: Trigger promotion workflow immediately
-        uses: peter-evans/workflow-dispatch@v2
+        uses: benc-uk/workflow-dispatch@v1
         with:
           workflow: "Promote Lambda Canary.yml"
           ref: main

@@ -20,21 +20,15 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Download new version artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: medicalbot-new-version
-
-      - name: Read version
-        id: read
+            - name: Read Lambda version from repo environment variable
         run: |
-          VERSION=$(cat new_version.txt)
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          VERSION=${{ vars.LAMBDA_VERSION }}
+          echo "Promoting Lambda version $VERSION to 100% traffic"
 
-      - name: Promote new version to 100%
+      - name: Promote Lambda to 100% traffic
         run: |
           aws lambda update-alias \
             --function-name medicalbot \
             --name production \
-            --function-version ${{ steps.read.outputs.version }} \
+            --function-version ${{ vars.LAMBDA_VERSION }} \
             --routing-config "{}"

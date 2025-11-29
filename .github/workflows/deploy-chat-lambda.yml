@@ -75,8 +75,11 @@ jobs:
             --name production \
             --routing-config "{\"AdditionalVersionWeights\": {\"${{ steps.publish.outputs.version }}\": 0.5}}"
         
-      - name: Upload new version artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: medicalbot-new-version
-          path: new_version.txt
+      - name: Set Lambda version as repo-level environment variable
+        run: |
+          curl -X PATCH \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            https://api.github.com/repos/${{ github.repository }}/actions/variables/LAMBDA_VERSION \
+            -d "{\"value\":\"${{ steps.publish.outputs.version }}\"}"

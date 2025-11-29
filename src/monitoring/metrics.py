@@ -158,7 +158,7 @@ def calculate_total_count(items,metric):
         count = len(elements)
         metric_data.append({
                 "MetricName": metric_name,
-                "Dimension": [
+                "Dimensions": [
                     {"Name": "Version", "Value": version}
                 ],
                 "Value": count,

@@ -1,18 +1,20 @@
-name: Promote Canary After Delay
+name: Promote Lambda Canary
 
 on:
-  workflow_run:
-    workflows: ["Deploy Chat Lambda"]
-    types: [completed]
+  workflow_dispatch:
+    inputs:
+      lambda_version:
+        description: "Lambda version to promote"
+        required: true
+      delay_minutes:
+        description: "Delay before 100% promotion (minutes)"
+        required: true
 
 jobs:
-  wait-and-promote:
+  promote:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Wait 1 minutes
-        run: sleep 60
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -20,15 +22,14 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Read Lambda version from repo environment variable
+      - name: Wait before promotion
         run: |
-            VERSION=${{ vars.LAMBDA_VERSION }}
-            echo "Promoting Lambda version $VERSION to 100% traffic"
+          sleep $(( ${{ github.event.inputs.delay_minutes }} * 60 ))
 
-      - name: Promote Lambda to 100% traffic
+      - name: Promote Lambda to 100%
         run: |
-            aws lambda update-alias \
+          aws lambda update-alias \
             --function-name medicalbot \
             --name production \
-            --function-version ${{ vars.LAMBDA_VERSION }} \
+            --function-version ${{ github.event.inputs.lambda_version }} \
             --routing-config "{}"

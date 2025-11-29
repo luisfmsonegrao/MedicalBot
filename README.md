@@ -147,6 +147,6 @@
     - Latency metrics
   - enable usage of monitoring metrics for system tuning
   - place dataset under version control
-  - add traffic expansion and rollback mechanisms to canary release
+  - add rollback mechanisms to canary release
 
 

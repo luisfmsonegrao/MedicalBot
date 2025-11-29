@@ -20,7 +20,8 @@ def save_interaction(*,
         task_status,
         durations_dict,
         error_name='',
-        model_metadata
+        model_metadata,
+        lambda_version
         ):
     """
     Save interaction to DynamoDB
@@ -45,6 +46,7 @@ def save_interaction(*,
             "model_metadata": json.dumps(model_metadata),
             "text_embedding_model_id": TEXT_EMBEDDING_MODEL_ID,
             "ttl": timestamp + CACHE_TTL,
+            "lambda_version": lambda_version,
             **durations_dict
         }
     )

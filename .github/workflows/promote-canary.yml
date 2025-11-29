@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Wait 30 minutes
-        run: sleep 1800
+      - name: Wait 1 minutes
+        run: sleep 60
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2

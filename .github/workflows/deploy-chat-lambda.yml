@@ -65,20 +65,22 @@ jobs:
       - name: Publish new Lambda version
         id: publish
         run: |
-            VERSION=$(aws lambda publish-version --function-name medicalbot --query Version --output text)
-            echo "$VERSION" > new_version.txt
-            echo "version=$VERSION" >> $GITHUB_OUTPUT
+            PREVIOUS_VERSION=$(aws lambda get-alias --function-name medicalbot --name production --query 'FunctionVersion' --output text)
+            echo "previous_version=$PREVIOUS_VERSION" >> $GITHUB_OUTPUT
+            NEW_VERSION=$(aws lambda publish-version --function-name medicalbot --query Version --output text)
+            echo "$NEW_VERSION" > new_version.txt
+            echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
 
       - name: Canary release
         run: |
           aws lambda update-alias \
             --function-name medicalbot \
             --name production \
-            --routing-config "{\"AdditionalVersionWeights\": {\"${{ steps.publish.outputs.version }}\": 0.5}}"
+            --routing-config "{\"AdditionalVersionWeights\": {\"${{ steps.publish.outputs.new_version }}\": 0.5}}"
         
       - name: Trigger promotion workflow immediately
         uses: benc-uk/workflow-dispatch@v1
         with:
           workflow: "Promote Lambda Canary"
           ref: main
-          inputs: '{"lambda_version": "${{ steps.publish.outputs.version }}","delay_minutes": "1"}'
+          inputs: '{"previous_lambda_version": "${{steps.publish.outputs.previous_version}}", "new_lambda_version": "${{ steps.publish.outputs.new_version }}","delay_minutes": "1"}'

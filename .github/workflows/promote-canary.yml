@@ -3,7 +3,10 @@ name: Promote Lambda Canary
 on:
   workflow_dispatch:
     inputs:
-      lambda_version:
+      previous_lambda_version:
+        description: "Lambda function to discontinue"
+        required: true
+      new_lambda_version:
         description: "Lambda version to promote"
         required: true
       delay_minutes:
@@ -31,5 +34,5 @@ jobs:
           aws lambda update-alias \
             --function-name medicalbot \
             --name production \
-            --function-version ${{ github.event.inputs.lambda_version }} \
+            --function-version ${{ github.event.inputs.new_lambda_version }} \
             --routing-config "{}"

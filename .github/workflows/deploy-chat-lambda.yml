@@ -79,7 +79,7 @@ jobs:
         run: |
           curl -X PATCH \
             -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Authorization: Bearer ${{ secrets.GH_PAT }}" \
             -H "Content-Type: application/json" \
             https://api.github.com/repos/${{ github.repository }}/actions/variables/LAMBDA_VERSION \
             -d "{\"value\":\"${{ steps.publish.outputs.version }}\"}"

@@ -9,6 +9,7 @@ on:
       - "models/**"
       - "pyproject.toml"
       - "poetry.lock"
+      - ".github/workflows/deploy-chat-lambda.yml"
 
 jobs:
   deploy:

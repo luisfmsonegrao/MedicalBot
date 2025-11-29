@@ -79,6 +79,8 @@ jobs:
       - name: Set Lambda version as repo-level environment variable
         run: |
           VERSION=${{ steps.publish.outputs.version }}
+          echo $VERSION
+          echo ${{ github.repository}}
           curl -X PATCH \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.GH_PAT }}" \

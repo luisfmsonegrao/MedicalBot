@@ -79,6 +79,6 @@ jobs:
       - name: Trigger promotion workflow immediately
         uses: benc-uk/workflow-dispatch@v1
         with:
-          workflow: "Promote Lambda Canary.yml"
+          workflow: "Promote Lambda Canary"
           ref: main
           inputs: '{"lambda_version": ${{ steps.publish.outputs.version }},"delay_minutes": 1}'

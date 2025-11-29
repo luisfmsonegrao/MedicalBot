@@ -29,10 +29,40 @@ jobs:
         run: |
           sleep $(( ${{ github.event.inputs.delay_minutes }} * 60 ))
 
+      - name: Fetch metric for canary promotion/rollback
+        id: get_metric
+        run: |
+          DELAY_MINUTES=${{ github.events.inputs.delay_minutes }}
+          VALUE=$(aws cloudwatch get-metric-statistics \
+            --namespace medicalbot/production_monitoring \
+            --metric-name PositiveRate:task_status \
+            --dimensions Name=task_type,Value=question_answering Name=version,Value=${{ github.event.inputs.new_lambda_version }} \
+            --statistics Average \
+            --period 60 \
+            --start-time $(date -u -d "-$DELAY_MINUTES minutes" +%Y-%m-%dT%H:%M:%SZ) \
+            --end-time $(date -u +%Y-%m-%dT%H:%M:%SZ) \
+            --query 'Datapoints[0].Average' \
+            --output text)
+          
+          echo "canary_metric=$VALUE" >> $GITHUB_OUTPUT
+
       - name: Promote Lambda to 100%
         run: |
-          aws lambda update-alias \
-            --function-name medicalbot \
-            --name production \
-            --function-version ${{ github.event.inputs.new_lambda_version }} \
-            --routing-config "{}"
+          CANARY_RATE=${{ steps.get_metric.outputs.canary_metric }}
+          echo "Canary PositiveRate:task_status: $CANARY_RATE"
+
+          if [ "$CANARY_RATE" = "None" ] || (( $(echo "$CANARY_RATE < 50" | bc -l) )); then
+              echo "Canary PositiveRate:task_status is missing or below 50%, rolling back to previous version."
+              aws lambda update-alias \
+                --function-name medicalbot \
+                --name production \
+                --function-version ${{ github.event.inputs.previous_lambda_version }} \
+                --routing-config "{}"
+              exit 1
+          else
+          echo "Canary PositiveRate:task_status >= 50%, promoting new version to 100%."
+            aws lambda update-alias \
+                --function-name medicalbot \
+                --name production \
+                --function-version ${{ github.event.inputs.new_lambda_version }} \
+                --routing-config "{}"

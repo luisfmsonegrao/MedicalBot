@@ -1,4 +1,5 @@
 import json
+import os
 from src.agent.orchestrator import orchestrate
 from src.agent.interaction_saver import save_interaction
 
@@ -6,6 +7,7 @@ def lambda_handler(event, context):
     """
     Handle requests to AWS Lambda function
     """
+    lambda_version = os.environ["AWS_LAMBDA_FUNCTION_VERSION"]
     try:
         body = json.loads(event.get("body", "{}"))
         session_id = body.get("session_id","")
@@ -18,6 +20,7 @@ def lambda_handler(event, context):
             }
         (answer,metadata),time = orchestrate(user_query,query_id,session_id)
         metadata["durations_dict"]["total_duration"] = time
+        metadata["lambda_version"] = lambda_version
         save_interaction(**metadata)
         return {
             "statusCode": 200,

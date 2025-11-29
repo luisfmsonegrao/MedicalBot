@@ -1,15 +1,16 @@
 name: Deploy Chat Lambda
 
 on:
-  push:
-    branches: [ "main" ]
-    paths:
-      - "src/agent/**"
-      - "src/agent_lambda/**"
-      - "models/**"
-      - "pyproject.toml"
-      - "poetry.lock"
-      - ".github/workflows/deploy-chat-lambda.yml"
+  workflow_dispatch:
+#  push:
+#    branches: [ "main" ]
+#    paths:
+#      - "src/agent/**"
+#      - "src/agent_lambda/**"
+#      - "models/**"
+#      - "pyproject.toml"
+#      - "poetry.lock"
+#      - ".github/workflows/deploy-chat-lambda.yml"
 
 jobs:
   deploy:

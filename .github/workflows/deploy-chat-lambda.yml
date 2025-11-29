@@ -65,6 +65,7 @@ jobs:
         id: publish
         run: |
             VERSION=$(aws lambda publish-version --function-name medicalbot --query Version --output text)
+            echo "$VERSION" > new_version.txt
             echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Canary release
@@ -73,3 +74,9 @@ jobs:
             --function-name medicalbot \
             --name production \
             --routing-config "{\"AdditionalVersionWeights\": {\"${{ steps.publish.outputs.version }}\": 0.5}}"
+        
+      - name: Upload new version artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: medicalbot-new-version
+          path: new_version.txt

@@ -1,0 +1,40 @@
+name: Promote Canary After Delay
+
+on:
+  workflow_run:
+    workflows: ["Deploy Chat Lambda"]
+    types: [completed]
+
+jobs:
+  wait-and-promote:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Wait 30 minutes
+        run: sleep 1800
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Download new version artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: medicalbot-new-version
+
+      - name: Read version
+        id: read
+        run: |
+          VERSION=$(cat new_version.txt)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Promote new version to 100%
+        run: |
+          aws lambda update-alias \
+            --function-name medicalbot \
+            --name production \
+            --function-version ${{ steps.read.outputs.version }} \
+            --routing-config "{}"

@@ -81,4 +81,4 @@ jobs:
         with:
           workflow: "Promote Lambda Canary"
           ref: main
-          inputs: '{"lambda_version": "${{ steps.publish.outputs.version }}"","delay_minutes": "1"}'
+          inputs: '{"lambda_version": "${{ steps.publish.outputs.version }}","delay_minutes": "1"}'

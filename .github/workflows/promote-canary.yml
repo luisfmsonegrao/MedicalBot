@@ -32,7 +32,7 @@ jobs:
       - name: Fetch metric for canary promotion/rollback
         id: get_metric
         run: |
-          DELAY_MINUTES=${{ github.events.inputs.delay_minutes }}
+          DELAY_MINUTES=${{ github.event.inputs.delay_minutes }}
           VALUE=$(aws cloudwatch get-metric-statistics \
             --namespace medicalbot/production_monitoring \
             --metric-name PositiveRate:task_status \

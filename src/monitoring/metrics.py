@@ -97,7 +97,10 @@ def calculate_mean_value(items, metric):
             metric_agg[version]["count"] += 1
     
     for version, data in metric_agg.items():
-        metric_value = data["value"] / data["count"]
+        if data["count"] != 0:
+            metric_value = data["value"] / data["count"]
+        else:
+            metric_value = 0
         metric_data.append({
             "MetricName": metric_name,
             "Dimensions": [

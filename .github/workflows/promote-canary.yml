@@ -66,3 +66,4 @@ jobs:
                 --name production \
                 --function-version ${{ github.event.inputs.new_lambda_version }} \
                 --routing-config "{}"
+          fi

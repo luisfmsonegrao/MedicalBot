@@ -1,16 +1,15 @@
 name: Deploy Chat Lambda
 
 on:
-  workflow_dispatch:
-#  push:
-#    branches: [ "main" ]
-#    paths:
-#      - "src/agent/**"
-#      - "src/agent_lambda/**"
-#      - "models/**"
-#      - "pyproject.toml"
-#      - "poetry.lock"
-#      - ".github/workflows/deploy-chat-lambda.yml"
+  push:
+    branches: [ "main" ]
+    paths:
+      - "src/agent/**"
+      - "src/agent_lambda/**"
+      - "models/**"
+      - "pyproject.toml"
+      - "poetry.lock"
+      - ".github/workflows/deploy-chat-lambda.yml"
 
 jobs:
   deploy:
@@ -84,4 +83,4 @@ jobs:
         with:
           workflow: "Promote Lambda Canary"
           ref: main
-          inputs: '{"previous_lambda_version": "${{steps.publish.outputs.previous_version}}", "new_lambda_version": "${{ steps.publish.outputs.new_version }}","delay_minutes": "5"}'
+          inputs: '{"previous_lambda_version": "${{steps.publish.outputs.previous_version}}", "new_lambda_version": "${{ steps.publish.outputs.new_version }}","delay_minutes": "60"}'

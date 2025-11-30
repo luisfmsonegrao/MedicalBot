@@ -97,16 +97,15 @@ def calculate_mean_value(items, metric):
             metric_agg[version]["count"] += 1
     
     for version, data in metric_agg.items():
-        for count, value in data.items():
-            metric_value = value / count
-            metric_data.append({
-                "MetricName": metric_name,
-                "Dimensions": [
-                    {"Name": "Version", "Value": version}
-                ],
-                "Value": metric_value,
-                "Unit": "Seconds"
-            })
+        metric_value = data["value"] / data["count"]
+        metric_data.append({
+            "MetricName": metric_name,
+            "Dimensions": [
+                {"Name": "Version", "Value": version}
+            ],
+            "Value": metric_value,
+            "Unit": "Seconds"
+        })
     return metric_data
 
 

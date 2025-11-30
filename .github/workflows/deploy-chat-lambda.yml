@@ -84,4 +84,4 @@ jobs:
         with:
           workflow: "Promote Lambda Canary"
           ref: main
-          inputs: '{"previous_lambda_version": "${{steps.publish.outputs.previous_version}}", "new_lambda_version": "${{ steps.publish.outputs.new_version }}","delay_minutes": "60"}'
+          inputs: '{"previous_lambda_version": "${{steps.publish.outputs.previous_version}}", "new_lambda_version": "${{ steps.publish.outputs.new_version }}","delay_minutes": "5"}'

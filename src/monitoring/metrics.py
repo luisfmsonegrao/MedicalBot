@@ -39,51 +39,6 @@ def calculate_positive_rate(items, metric, values, group_fields=None):
         })
     return metric_data
 
-
-def calculate_positive_rate_per_task(items,metric):
-    """
-    Calculate positive rate for binary metrics, per task type.
-    e.g. positive rate of user feedback or task completion
-    """
-    metric_name = f"PositiveRate:{metric}"
-    metric_agg = {}
-    for item in items:
-        task_type = item.get("task_type", "Unknown")
-        version = item.get("lambda_version","Unknown")
-        metric_value = item.get(metric, "NA")
-        if version not in metric_agg:
-            metric_agg[version]={}
-
-        if task_type not in metric_agg[version]:
-            metric_agg[version][task_type] = {"positive": 0, "negative": 0}
-        
-        if metric_value == POSITIVE_RATE_METRICS[metric]['positive']:
-            metric_agg[version][task_type]["positive"] += 1
-
-        elif metric_value == POSITIVE_RATE_METRICS[metric]['negative']:
-            metric_agg[version][task_type]["negative"] += 1
-
-    metric_data = []
-    for version, data in metric_agg.items():
-        for task_type, counts in data.items():
-            pos = counts["positive"]
-            neg = counts["negative"]
-            
-            if pos + neg == 0:
-                positive_rate = 0 # ToDo> Change this to enable distinguishing bad metrics from zero usage.
-            else:
-                positive_rate = (pos / (pos + neg)) * 100
-            
-            metric_data.append({
-                "MetricName": metric_name,
-                "Dimensions": [
-                    {"Name": "Version", "Value": version},
-                    {"Name": "TaskType", "Value": task_type}],
-                "Value": positive_rate,
-                "Unit": "Percent"
-            })
-    return metric_data
-
 def calculate_mean_per_task(items,metric):
     """
     Calculate mean value of metric, per task type.
@@ -108,8 +63,8 @@ def calculate_mean_per_task(items,metric):
             metric_data.append({
                 "MetricName": metric_name,
                 "Dimensions": [
-                    {"Name": "Version", "Value": version},
-                    {"Name": "TaskType", "Value": task_type}
+                    {"Name": "lambda_version", "Value": version},
+                    {"Name": "task_type", "Value": task_type}
                     ],
                 "Value": mean_value,
                 "Unit": "Seconds"
@@ -141,7 +96,7 @@ def calculate_mean_value(items, metric):
         metric_data.append({
             "MetricName": metric_name,
             "Dimensions": [
-                {"Name": "Version", "Value": version}
+                {"Name": "lambda_version", "Value": version}
             ],
             "Value": metric_value,
             "Unit": "Seconds"
@@ -172,7 +127,7 @@ def calculate_mean_count(items,metric):
         metric_data.append({
                 "MetricName": metric_name,
                 "Dimensions": [
-                    {"Name": "Version", "Value": version}
+                    {"Name": "lambda_version", "Value": version}
                 ],
                 "Value": mean_count,
                 "Unit": "Count"
@@ -198,7 +153,7 @@ def calculate_total_count(items,metric):
         metric_data.append({
                 "MetricName": metric_name,
                 "Dimensions": [
-                    {"Name": "Version", "Value": version}
+                    {"Name": "lamdba_version", "Value": version}
                 ],
                 "Value": count,
                 "Unit": "Count"

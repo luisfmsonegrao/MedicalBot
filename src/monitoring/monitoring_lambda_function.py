@@ -1,7 +1,7 @@
 import boto3
 import time
 from interaction_loader import load_data
-from metrics import calculate_positive_rate_per_task, calculate_mean_count, calculate_total_count, calculate_mean_per_task, calculate_mean_value
+from metrics import calculate_positive_rate, calculate_mean_count, calculate_total_count, calculate_mean_per_task, calculate_mean_value
 from config import TIME_DELTA, NAMESPACE, POSITIVE_RATE_METRICS, MEAN_COUNT_METRICS, TOTAL_COUNT_METRICS, MEAN_PER_TASK_METRICS, MEAN_METRICS
 
 dynamodb = boto3.resource('dynamodb')
@@ -15,12 +15,13 @@ def lambda_handler(event, context):
     start_time = end_time - TIME_DELTA
     items = load_data(start_time,end_time) 
     for metric in POSITIVE_RATE_METRICS.keys():
-        metric_data = calculate_positive_rate_per_task(items,metric)
+        metric_data = calculate_positive_rate(items,metric,POSITIVE_RATE_METRICS[metric],("TaskType","Version"))
         if metric_data:
             cloudwatch.put_metric_data(
                 Namespace=NAMESPACE,
                 MetricData=metric_data
             )
+        metric_data = calculate_positive_rate(items,metric,POSITIVE_RATE_METRICS[metric],("TaskType",))
     for metric in MEAN_COUNT_METRICS:
         metric_data = calculate_mean_count(items,metric)
         if metric_data:

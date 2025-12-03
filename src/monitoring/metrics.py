@@ -1,7 +1,43 @@
 from config import POSITIVE_RATE_METRICS
-from collections import Counter
+from collections import Counter, defaultdict
 
 #ToDo: I am implementing the same metric multiple times. DRY. make generic metric functions
+
+def aggregate_pos_neg(items,metric,values,group_fields):
+    agg = defaultdict(lambda: {k: 0 for k in values.keys()})
+    for r in items:
+        if group_fields:
+            key = tuple(r[f] for f in group_fields)
+        else:
+            key = ("TOTAL",)
+        if r[metric] == values['positive']:
+            agg[key]["positive"] += 1
+        elif r[metric] == values['negative']:
+            agg[key]["negative"] += 1
+    return agg
+
+
+def calculate_positive_rate(items, metric, values, group_fields=None):
+    if group_fields is None:
+        group_fields = ()
+    metric_name = f"PositiveRate:{metric}"
+    metric_data = []
+    agg = aggregate_pos_neg(items,metric,values,group_fields)
+    group_metrics = {}
+    for (group,counts) in agg.items():
+        try:
+            group_metrics[group] = counts["positive"]/(counts["positive"]+counts["negative"])
+        except ZeroDivisionError as e:
+            continue
+
+    for (group,metric_value) in group_metrics.items():
+        metric_data.append({
+            "MetricName": metric_name,
+            "Dimensions": [{"Name":dim_name,"Value":dim_value} for (dim_name,dim_value) in zip(group_fields,group)],
+            "Value": metric_value,
+            "Unit": "Percent"
+        })
+
 
 def calculate_positive_rate_per_task(items,metric):
     """

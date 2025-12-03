@@ -147,7 +147,7 @@ def aggregate_ids_and_counts(items,metric,group_fields):#ToDo: Refactor/Rename
             key = tuple(item[f] for f in group_fields)
         else:
             key = ("TOTAL",)
-        agg[key]["ids"].add(items[metric])
+        agg[key]["ids"].add(item[metric])
         agg[key]["count"]+=1
     return agg
 

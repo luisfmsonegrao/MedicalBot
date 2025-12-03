@@ -16,6 +16,17 @@ def aggregate_pos_neg(items,metric,values,group_fields):
             agg[key]["negative"] += 1
     return agg
 
+def aggregate_values(items,metric,group_fields):
+    agg = defaultdict(lambda: {"count":0, "value":0})
+    for item in items:
+        if group_fields:
+            key = tuple(item[f] for f in group_fields)
+        else:
+            key = ("TOTAL",)
+        agg[key]["count"] += 1
+        agg[key]["value"] += item[metric]
+    return agg
+
 
 def calculate_positive_rate(items, metric, values, group_fields=None):
     if group_fields is None:
@@ -24,9 +35,9 @@ def calculate_positive_rate(items, metric, values, group_fields=None):
     metric_data = []
     agg = aggregate_pos_neg(items,metric,values,group_fields)
     group_metrics = {}
-    for (group,counts) in agg.items():
+    for (group,data) in agg.items():
         try:
-            group_metrics[group] = counts["positive"]/(counts["positive"]+counts["negative"])
+            group_metrics[group] = data["positive"]/(data["positive"]+data["negative"])
         except ZeroDivisionError as e:
             continue
 
@@ -38,6 +49,28 @@ def calculate_positive_rate(items, metric, values, group_fields=None):
             "Unit": "Percent"
         })
     return metric_data
+
+def calculate_mean(items,metric,group_fields=None):
+    if group_fields is None:
+        group_fields = ()
+    metric_name = f"Mean:{metric}"
+    metric_data = []
+    agg = aggregate_values(items,metric,group_fields)
+    group_metrics = {}
+    for (group,data) in agg.items():
+        try:
+            group_metrics[group] = data["value"]/(data["count"])
+        except ZeroDivisionError as e:
+            continue
+    for (group,metric_value) in group_metrics.items():
+        metric_data.append({
+            "MetricName": metric_name,
+            "Dimensions": [{"Name":dim_name,"Value":dim_value} for (dim_name,dim_value) in zip(group_fields,group)],
+            "Value": metric_value,
+            "Unit": "Seconds"
+        })
+    return metric_data
+
 
 def calculate_mean_per_task(items,metric):
     """

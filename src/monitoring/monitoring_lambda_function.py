@@ -15,13 +15,13 @@ def lambda_handler(event, context):
     start_time = end_time - TIME_DELTA
     items = load_data(start_time,end_time) 
     for metric in POSITIVE_RATE_METRICS.keys():
-        version_metric_data = calculate_positive_rate(items,metric,POSITIVE_RATE_METRICS[metric],("task_type","lambda_version"))
+        version_metric_data = calculate_positive_rate(items,metric,POSITIVE_RATE_METRICS[metric],group_fields=("task_type","lambda_version"))
         if version_metric_data:
             cloudwatch.put_metric_data(
                 Namespace=NAMESPACE,
                 MetricData=version_metric_data
             )
-        metric_data = calculate_positive_rate(items,metric,POSITIVE_RATE_METRICS[metric],("task_type",))
+        metric_data = calculate_positive_rate(items,metric,POSITIVE_RATE_METRICS[metric],group_fields=("task_type",))
         if metric_data:
             cloudwatch.put_metric_data(
                 Namespace=NAMESPACE,
@@ -42,14 +42,14 @@ def lambda_handler(event, context):
                 MetricData=metric_data
             )
     for metric in MEAN_PER_TASK_METRICS:
-        metric_data = calculate_mean(items,metric,("task_type",))
+        metric_data = calculate_mean(items,metric,group_fields=("task_type",))
         if metric_data:
             cloudwatch.put_metric_data(
                 Namespace=NAMESPACE,
                 MetricData=metric_data
             )
     for metric in MEAN_METRICS:
-        metric_data = calculate_mean_value(items,metric)
+        metric_data = calculate_mean(items,metric)
         if metric_data:
             cloudwatch.put_metric_data(
                 Namespace=NAMESPACE,

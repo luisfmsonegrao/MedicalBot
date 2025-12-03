@@ -121,7 +121,7 @@
   - Mean query duration
     
   Click the image below to open a Monitoring Dashboard in `GitHub Pages`:
-  [![MedicalBot Dashboard](https://luisfmsonegrao.github.io/MedicalBot/monitoring/figures/dashboard-feedback.png)](https://luisfmsonegrao.github.io/MedicalBot/monitoring/dashboard.html)
+  [![MedicalBot Dashboard](https://luisfmsonegrao.github.io/MedicalBot/monitoring/figures/dashboard-totalcountqueries.png)](https://luisfmsonegrao.github.io/MedicalBot/monitoring/dashboard.html)
 
   ### Deployment
 

@@ -34,9 +34,9 @@ jobs:
         run: |
           DELAY_MINUTES=${{ github.event.inputs.delay_minutes }}
           VALUE=$(aws cloudwatch get-metric-statistics \
-            --namespace medicalbot/production_monitoring \
+            --namespace medicalbot/prod \
             --metric-name PositiveRate:task_status \
-            --dimensions Name=TaskType,Value=question_answering Name=Version,Value=${{ github.event.inputs.new_lambda_version }} \
+            --dimensions Name=task_type,Value=question_answering Name=lambda_version,Value=${{ github.event.inputs.new_lambda_version }} \
             --statistics Average \
             --period 60 \
             --start-time $(date -u -d "-$DELAY_MINUTES minutes" +%Y-%m-%dT%H:%M:%SZ) \

@@ -1,7 +1,7 @@
 import boto3
 import time
 from interaction_loader import load_data
-from metrics import calculate_positive_rate, calculate_mean_length, calculate_total_count, calculate_mean, calculate_mean_value
+from metrics import calculate_positive_rate, calculate_mean_length, calculate_total_count, calculate_mean
 from config import TIME_DELTA, NAMESPACE, POSITIVE_RATE_METRICS, MEAN_COUNT_METRICS, TOTAL_COUNT_METRICS, MEAN_PER_TASK_METRICS, MEAN_METRICS
 
 dynamodb = boto3.resource('dynamodb')

@@ -82,6 +82,10 @@ def calculate_mean(items,metric,*,group_fields=None):
     return metric_data
 
 def calculate_mean_length(items,metric,*,group_fields=None):
+    """
+    Calculate mean count per distinct value of metric.
+    e.g. mean number of queries per session
+    """
     if group_fields is None:
         group_fields = ()
     metric_name = f"MeanLength:{metric}"

@@ -5,14 +5,14 @@ from collections import Counter, defaultdict
 
 def aggregate_pos_neg(items,metric,values,group_fields):
     agg = defaultdict(lambda: {k: 0 for k in values.keys()})
-    for r in items:
+    for item in items:
         if group_fields:
-            key = tuple(r[f] for f in group_fields)
+            key = tuple(item[f] for f in group_fields)
         else:
             key = ("TOTAL",)
-        if r[metric] == values['positive']:
+        if item[metric] == values['positive']:
             agg[key]["positive"] += 1
-        elif r[metric] == values['negative']:
+        elif item[metric] == values['negative']:
             agg[key]["negative"] += 1
     return agg
 
@@ -37,6 +37,7 @@ def calculate_positive_rate(items, metric, values, group_fields=None):
             "Value": metric_value,
             "Unit": "Percent"
         })
+    return metric_data
 
 
 def calculate_positive_rate_per_task(items,metric):

@@ -20,7 +20,7 @@ jobs:
       - name: Fetch CloudWatch dashboard JSON
         run: |
           aws cloudwatch get-dashboard \
-            --dashboard-name medicalbot-monitoring \
+            --dashboard-name medicalbot-monitoring-prod \
             --output json > dashboard.json
 
       - name: Extract widget JSONs
@@ -28,37 +28,37 @@ jobs:
           # Feedback widget
           jq -c '.DashboardBody | fromjson | .widgets[]
             | select(.properties.title=="PositiveRate:feedback")
-            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT24H", end:"P0D"}' dashboard.json > widget-feedback.json
+            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT3H", end:"P0D"}' dashboard.json > widget-feedback.json
 
           # Task status widget
           jq -c '.DashboardBody | fromjson | .widgets[]
             | select(.properties.title=="PositiveRate:task_status")
-            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT24H", end:"P0D"}' dashboard.json > widget-task_status.json
+            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT3H", end:"P0D"}' dashboard.json > widget-task_status.json
 
-          # MeanLength:session_id widget
+          # MeanLength:Session widget
           jq -c '.DashboardBody | fromjson | .widgets[]
             | select(.properties.title=="MeanLength:Session")
-            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT24H", end:"P0D"}' dashboard.json > widget-meansessionlength.json
+            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT3H", end:"P0D"}' dashboard.json > widget-meansessionlength.json
 
           # TotalCount:Queries widget
           jq -c '.DashboardBody | fromjson | .widgets[]
             | select(.properties.title=="TotalCount:Queries")
-            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT24H", end:"P0D"}' dashboard.json > widget-totalcountqueries.json
+            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT3H", end:"P0D"}' dashboard.json > widget-totalcountqueries.json
 
           # TotalCount:Sessions widget
           jq -c '.DashboardBody | fromjson | .widgets[]
             | select(.properties.title=="TotalCount:Sessions")
-            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT24H", end:"P0D"}' dashboard.json > widget-totalcountsessions.json
+            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT3H", end:"P0D"}' dashboard.json > widget-totalcountsessions.json
 
           # Mean:InteractionDuration widget
           jq -c '.DashboardBody | fromjson | .widgets[]
             | select(.properties.title=="Mean:InteractionDuration")
-            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT24H", end:"P0D"}' dashboard.json > widget-meaninteractionduration.json
+            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT3H", end:"P0D"}' dashboard.json > widget-meaninteractionduration.json
 
           # Mean:Duration widget
           jq -c '.DashboardBody | fromjson | .widgets[]
             | select(.properties.title=="Mean:Duration")
-            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT24H", end:"P0D"}' dashboard.json > widget-meanduration.json
+            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT3H", end:"P0D"}' dashboard.json > widget-meanduration.json
 
       - name: Generate PNGs
         run: |

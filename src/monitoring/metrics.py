@@ -1,4 +1,3 @@
-from config import POSITIVE_RATE_METRICS
 from collections import Counter, defaultdict
 #ToDo: I am implementing the same metric multiple times. DRY. make generic metric functions
 

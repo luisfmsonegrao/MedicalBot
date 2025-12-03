@@ -21,12 +21,14 @@ def lambda_handler(event, context):
                 Namespace=NAMESPACE,
                 MetricData=version_metric_data
             )
+        print("Finished Version Metrics")
         metric_data = calculate_positive_rate(items,metric,POSITIVE_RATE_METRICS[metric],("TaskType",))
         if metric_data:
             cloudwatch.put_metric_data(
                 Namespace=NAMESPACE,
                 MetricData=metric_data
             )
+        print("Finished task metrics")
     for metric in MEAN_COUNT_METRICS:
         metric_data = calculate_mean_count(items,metric)
         if metric_data:
@@ -55,4 +57,6 @@ def lambda_handler(event, context):
                 Namespace=NAMESPACE,
                 MetricData=metric_data
             )
+
+    print("Sucess")
     return {"status": "success"}

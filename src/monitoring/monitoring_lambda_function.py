@@ -15,14 +15,14 @@ def lambda_handler(event, context):
     start_time = end_time - TIME_DELTA
     items = load_data(start_time,end_time) 
     for metric in POSITIVE_RATE_METRICS.keys():
-        version_metric_data = calculate_positive_rate(items,metric,POSITIVE_RATE_METRICS[metric],("TaskType","Version"))
+        version_metric_data = calculate_positive_rate(items,metric,POSITIVE_RATE_METRICS[metric],("task_type","lambda_version"))
         if version_metric_data:
             cloudwatch.put_metric_data(
                 Namespace=NAMESPACE,
                 MetricData=version_metric_data
             )
         print("Finished Version Metrics")
-        metric_data = calculate_positive_rate(items,metric,POSITIVE_RATE_METRICS[metric],("TaskType",))
+        metric_data = calculate_positive_rate(items,metric,POSITIVE_RATE_METRICS[metric],("task_type",))
         if metric_data:
             cloudwatch.put_metric_data(
                 Namespace=NAMESPACE,

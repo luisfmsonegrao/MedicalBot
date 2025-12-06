@@ -4,7 +4,7 @@ def test_get_prediction():
     valid_features = {"age":22,"sex":"Female","smoker":"Yes","bmi":18}
     prediction,_ = get_prediction(valid_features)
     classes = ['A','B','C','D']
-    assert len(prediction)==1
+    assert len(prediction) == 1
     assert prediction.__class__.__name__ == "ndarray"
     assert prediction[0] in classes
 

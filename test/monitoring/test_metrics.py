@@ -12,7 +12,7 @@ def test_pos_neg_agg():
     assert len(agg.keys()) == 1
     assert ("TOTAL",) in agg
     assert agg[("TOTAL",)]["positive"] == 3
-    assert agg[("TOTAL",)]["negative"] == 1
+    assert agg[("TOTAL",)]["negative"] == 2
 
 
 

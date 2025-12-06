@@ -131,7 +131,7 @@
   
   Deployment is automated with `Github Actions` on merging to `main`.
   
-  Canary deployment is used to derisk depoyment of updates/new versions.
+  Canary deployment is used to derisk depoyment of updates/new versions. 50% of traffic is initially routed to the canary version, and if health checks are OK after 60 minutes, all traffic is shifted to canary version. If health checks are NOK, traffic is shifted back to previous version.
 
   
   
@@ -147,8 +147,8 @@
         - etc.
 
     - Latency metrics
+      
   - enable usage of monitoring metrics for system tuning
   - place dataset under version control
-  - add rollback mechanisms to canary release
 
 

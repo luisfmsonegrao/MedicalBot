@@ -40,6 +40,7 @@
   - `\resources\layers` contains necessary aws lambda layers.
   - `\resources\figures` contains schemas of the **MedicalBot**
   - `\.github\workflows` contains yml files that define CI/CD workflows
+  - `\test` contains unit tests
 
 
   ### **MedicalBot** current schema
@@ -71,6 +72,7 @@
   - `mlflow` to track and deploy the classification model
   - `AWS Secrets Manager` for api key management.
   - `GitHub Actions` for DevOps workflows
+  - `pytest` for unit testing
 
 
   ### Patient outcome classification model

@@ -19,7 +19,7 @@ def orchestrate(query,query_id,session_id):
     intent_duration = pred_duration = context_duration = qa_duration = dbquery_duration = 0
 
     try:
-        task, intent_duration = get_task(query) # maybe this step can use smaller model specialized to text classification
+        task, intent_duration = get_task(query)
 
     except IntentClassificationError as e:
         answer = {'text': str(e), 'data': ''}

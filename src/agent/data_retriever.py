@@ -1,16 +1,21 @@
 import boto3
 import time
-from .agent_config import AWS_REGION, ATHENA_DATABASE_NAME, ATHENA_OUTPUT_PATH
+from .agent_config import AWS_REGION, ATHENA_DATABASE_NAME, ATHENA_OUTPUT_PATH, PATIENT_DATA_TABLE_NAME
 from .custom_errors import AthenaQueryError
 from .time_decorator import measure_duration
+from .table_schema_retriever import get_table_schema
+from langchain.tools import tool
+
+table_schema = get_table_schema(ATHENA_DATABASE_NAME,PATIENT_DATA_TABLE_NAME)
 athena = boto3.client('athena',region_name=AWS_REGION)
 
-@measure_duration
+@tool("get_data", description=f"""Query data from Amazon Athena table {PATIENT_DATA_TABLE_NAME}. Strictly obey the table schema: {table_schema}. If there are variables not in the table schema, don't use them.""")
 def get_data(query):
     """
     Query patient data from Amazon Athena database
     """
 
+    print(query)
     response = athena.start_query_execution(
         QueryString=query,
         QueryExecutionContext={'Database': ATHENA_DATABASE_NAME},

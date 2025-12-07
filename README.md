@@ -137,6 +137,7 @@
   
   ### ToDo
   **MedicalBot** current ToDo list:
+  - refactoring agent orchestration with `LangChain`
   - enable usage of user interaction history (e.g. for context tracking)
   - enable storage and usage of other performance metrics:
     - model confidence:

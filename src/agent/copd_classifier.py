@@ -19,18 +19,19 @@ feature_schema = """
     - bmi: float
 """
 
-@tool("get_prediction",
-      description=f"""Predict Chronic Obstructive Pulmonary Disease class based on the feature values extracted from the user query. 
-      Required features: {feature_schema}
-      If the user query has missing or invalid feature values, attribute None value to those features.""")
+tool_name = "get_prediction"
+tool_description =f"""Use {tool_name} to predict Chronic Obstructive Pulmonary Disease class based on the feature values extracted from the user query. Feature schema: {feature_schema}.
+                      If there are missing or invalid feature values, don't use the tool. Instead, prompt user to provide those values. """
+
+@tool(tool_name, description=tool_description)
 def get_prediction(features):
     """
     Predict Chronic Obstructive Pulmonary Disease class based on feature values.
     """
-    print(features)
     status, missing_features = validate_features(features)
     if not status:
-        return f"Please specify values of features: {missing_features}"
+        return f"Please provide values for features {missing_features}."
+    
     X = pd.DataFrame({k: [v] for k, v in features.items()})
     try:
         pred = model.predict(X)

@@ -9,13 +9,14 @@ from langchain.tools import tool
 table_schema = get_table_schema(ATHENA_DATABASE_NAME,PATIENT_DATA_TABLE_NAME)
 athena = boto3.client('athena',region_name=AWS_REGION)
 
-@tool("get_data", description=f"""Query data from Amazon Athena table {PATIENT_DATA_TABLE_NAME}. Strictly obey the table schema: {table_schema}. If there are variables not in the table schema, don't use them.""")
-def get_data(query):
+tool_name = "query_database"
+tool_description =f"""Use {tool_name} to retrieve anonymized data from Athena database {PATIENT_DATA_TABLE_NAME}. Strictly obey the database schema: {table_schema}. If there are variables not in the schema, don't use them."""
+
+@tool(tool_name,description=tool_description)
+def query_database(query):
     """
     Query patient data from Amazon Athena database
     """
-
-    print(query)
     response = athena.start_query_execution(
         QueryString=query,
         QueryExecutionContext={'Database': ATHENA_DATABASE_NAME},

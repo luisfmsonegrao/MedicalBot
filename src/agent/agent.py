@@ -1,19 +1,19 @@
 from langchain.agents import create_agent
 from langchain_aws import ChatBedrock
 from .copd_classifier import make_prediction
-from .data_retriever import get_tabular_data
+from .data_retriever import query_athena_database
 from .context_retriever import get_context_information
+from .agent_config import BEDROCK_MODEL_ID
 
-model_base = "anthropic.claude-3-sonnet-20240229-v1:0"
-model_advanced = "anthropic.claude-3-5-sonnet-20240620-v1:0"
+#model_advanced = "anthropic.claude-3-5-sonnet-20240620-v1:0"
 
 model = ChatBedrock(
-    model = model_base,
+    model = BEDROCK_MODEL_ID,
     max_tokens = 4000,
     temperature = 0.0,
 )
 
-tools = [make_prediction,get_tabular_data,get_context_information]
+tools = [make_prediction,query_athena_database,get_context_information]
 
 system_prompt = """
     You are a medical assistant.

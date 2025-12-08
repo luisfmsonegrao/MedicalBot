@@ -8,7 +8,7 @@ from langchain.tools import tool
 table_schema = get_table_schema(ATHENA_DATABASE_NAME,PATIENT_DATA_TABLE_NAME)
 athena = boto3.client('athena',region_name=AWS_REGION)
 
-tool_name = "get_tabular_data"
+tool_name = "query_athena_database"
 tool_description =f"""Use {tool_name} when the user asks for data.
                       The tool retrieves data from an Athena database {PATIENT_DATA_TABLE_NAME}.
                       The database schema is: {table_schema}
@@ -16,7 +16,7 @@ tool_description =f"""Use {tool_name} when the user asks for data.
                       Convert the user query to SQL without including any fields that are not in the database schema."""
 
 @tool(tool_name,description=tool_description)
-def get_tabular_data(query):
+def query_athena_database(query):
     """
     Query patient data from Amazon Athena database
     """

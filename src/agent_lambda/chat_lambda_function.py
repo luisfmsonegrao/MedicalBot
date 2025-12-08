@@ -1,7 +1,10 @@
-import json
+import json, time
 import os
 from src.agent.orchestrator import orchestrate
+from src.agent.agent import agent
+from src.agent.logging_callback import LoggingCallback
 from src.agent.interaction_saver import save_interaction
+from src.agent.build_metadata import build_metadata
 
 def lambda_handler(event, context):
     """
@@ -18,9 +21,12 @@ def lambda_handler(event, context):
                 "statusCode": 400,
                 "body": json.dumps({"error": "Missing 'query' field"})
             }
-        (answer,metadata),time = orchestrate(user_query,query_id,session_id)
-        metadata["durations_dict"]["total_duration"] = time
-        metadata["lambda_version"] = lambda_version
+        #(answer,metadata),time = orchestrate(user_query,query_id,session_id)
+        callback = LoggingCallback()
+        start_time = time.perf_counter()
+        answer = agent.invoke({"messages": [{"role": "user", "content":user_query}]}, config={"callbacks": [callback]})
+        total_duration = time.perf_counter() - start_time
+        metadata = build_metadata(session_id,query_id,lambda_version,user_query,answer,total_duration,callback)
         save_interaction(**metadata)
         return {
             "statusCode": 200,

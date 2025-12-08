@@ -26,7 +26,7 @@ def contextualize_query(query,context):
 
 tool_name = "get_context_information"
 tool_description = f"""Use {tool_name} when the user asks questions about patients or staff at City General Hospital.
-                       The tool gives you relevant context to answer the question."""
+                       The tool gives you relevant context from patients' medical records."""
 
 @tool(tool_name,description = tool_description)
 def get_context_information(query):

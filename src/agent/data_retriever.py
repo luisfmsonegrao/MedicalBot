@@ -12,6 +12,7 @@ tool_name = "get_tabular_data"
 tool_description =f"""Use {tool_name} when the user asks for data.
                       The tool retrieves data from an Athena database {PATIENT_DATA_TABLE_NAME}.
                       The database schema is: {table_schema}
+                      Do not use {tool_name} for information about specific people.
                       Convert the user query to SQL without including any fields that are not in the database schema."""
 
 @tool(tool_name,description=tool_description)

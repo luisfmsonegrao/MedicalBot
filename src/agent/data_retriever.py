@@ -2,18 +2,20 @@ import boto3
 import time
 from .agent_config import AWS_REGION, ATHENA_DATABASE_NAME, ATHENA_OUTPUT_PATH, PATIENT_DATA_TABLE_NAME
 from .custom_errors import AthenaQueryError
-from .time_decorator import measure_duration
 from .table_schema_retriever import get_table_schema
 from langchain.tools import tool
 
 table_schema = get_table_schema(ATHENA_DATABASE_NAME,PATIENT_DATA_TABLE_NAME)
 athena = boto3.client('athena',region_name=AWS_REGION)
 
-tool_name = "query_database"
-tool_description =f"""Use {tool_name} to retrieve anonymized data from Athena database {PATIENT_DATA_TABLE_NAME}. Strictly obey the database schema: {table_schema}. If there are variables not in the schema, don't use them."""
+tool_name = "get_tabular_data"
+tool_description =f"""Use {tool_name} when the user asks for data.
+                      The tool retrieves data from an Athena database {PATIENT_DATA_TABLE_NAME}.
+                      The database schema is: {table_schema}
+                      Convert the user query to SQL without including any fields that are not in the database schema."""
 
 @tool(tool_name,description=tool_description)
-def query_database(query):
+def get_tabular_data(query):
     """
     Query patient data from Amazon Athena database
     """

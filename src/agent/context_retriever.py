@@ -1,6 +1,5 @@
 import boto3
 from .agent_config import AWS_REGION, KNOWLEDGE_BASE_ID, CONTEXT_WINDOW, SOURCE_URI_STRING
-from .time_decorator import measure_duration
 from langchain.tools import tool
 
 bedrock_agent = boto3.client('bedrock-agent-runtime',region_name=AWS_REGION)
@@ -11,8 +10,7 @@ def contextualize_query(query,context):
     """
 
     system_query = (
-        f"""You are an assistant. 
-        Use information in the context to answer the question.
+        f"""Use the context information to answer the question.
         If you use information from a document, include its document number and its s3 uri in your answer.
         If unsure, say you don't know."""
     )
@@ -26,10 +24,12 @@ def contextualize_query(query,context):
     llm_query += f"Question: {query}" + "\nAnswer:"
     return llm_query
 
-tool_name = "retrieve_context"
-tool_description = f"Use {tool_name} to retrieve context information relevant to answer user query from document records."
+tool_name = "get_context_information"
+tool_description = f"""Use {tool_name} when the user asks questions about patients or staff at City General Hospital.
+                       The tool gives you relevant context to answer the question."""
+
 @tool(tool_name,description = tool_description)
-def retrieve_context(query):
+def get_context_information(query):
     """
     Retrieve relevant context from Amazon Bedrock Knowledge database
     """
@@ -49,8 +49,7 @@ def retrieve_context(query):
             "score": r.get("score"),
             "metadata": r.get("metadata")
         })
-    contextualized_query = contextualize_query(query,contexts)
-    return contextualized_query
+    return contexts
 
 
 

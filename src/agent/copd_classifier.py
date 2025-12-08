@@ -4,7 +4,6 @@ import pandas as pd
 from os.path import dirname
 from .agent_config import MODEL_FEATURES
 from .custom_errors import ModelPredictionError
-from .time_decorator import measure_duration
 from langchain.tools import tool
 
 file_path = os.path.abspath(__file__)
@@ -19,22 +18,23 @@ feature_schema = """
     - bmi: float
 """
 
-tool_name = "get_prediction"
-tool_description =f"""Use {tool_name} to predict Chronic Obstructive Pulmonary Disease class based on the feature values extracted from the user query. Feature schema: {feature_schema}.
-                      If there are missing or invalid feature values, don't use the tool. Instead, prompt user to provide those values. """
+tool_name = "make_prediction"
+tool_description =f"""Use {tool_name} to predict the class of Chronic Obstructive Pulmonary Disease based on the features extracted from the user query. Feature schema: {feature_schema}.
+                      Don't use the tool if there are missing or invalid feature values. Instead, prompt user to provide those values. """
 
 @tool(tool_name, description=tool_description)
-def get_prediction(features):
+def make_prediction(features):
     """
     Predict Chronic Obstructive Pulmonary Disease class based on feature values.
     """
     status, missing_features = validate_features(features)
     if not status:
-        return f"Please provide values for features {missing_features}."
+        return f"Prompt the user to provide valid values for features {missing_features}."
     
     X = pd.DataFrame({k: [v] for k, v in features.items()})
     try:
         pred = model.predict(X)
+        answer = f"Predicted class of Chronic Obstructive Pulmonary disease: {pred[0]}"
     except Exception as e:
         raise ModelPredictionError(e)
     return pred

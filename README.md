@@ -73,6 +73,7 @@
   - `AWS Secrets Manager` for api key management.
   - `GitHub Actions` for DevOps workflows
   - `pytest` for unit testing
+  - Upcoming: `Langchain` orchestration
 
 
   ### Patient outcome classification model

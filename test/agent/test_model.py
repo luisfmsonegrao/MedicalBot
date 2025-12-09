@@ -5,7 +5,7 @@ def test_get_prediction():
     valid_features = PredictionInput(age=22,sex="Female",smoker="Yes",bmi=19)
     prediction = predict_copd(valid_features)
     classes = ['A','B','C','D']
-    assert len(prediction) == 1
-    assert prediction.__class__.__name__ == "ndarray"
-    assert prediction[0] in classes
+    assert len(prediction[-1]) == 1
+    assert prediction.__class__.__name__ == "str"
+    assert prediction[-1] in classes
 

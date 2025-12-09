@@ -21,7 +21,6 @@ system_prompt = """
 agent = create_agent(
     model = model,
     tools = tools,
-    system_prompt = system_prompt,
-    debug=True
+    system_prompt = system_prompt
 )
 

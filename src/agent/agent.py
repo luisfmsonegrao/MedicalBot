@@ -1,23 +1,22 @@
 from langchain.agents import create_agent
 from langchain_aws import ChatBedrock
-from .copd_classifier import make_prediction
-from .data_retriever import query_athena_database
-from .context_retriever import get_context_information
-from .agent_config import BEDROCK_MODEL_ID
-
-#model_advanced = "anthropic.claude-3-5-sonnet-20240620-v1:0"
+from .copd_classifier import prediction_tool
+from .data_retriever import db_query_tool
+from .context_retriever import context_tool
+from .agent_config import BEDROCK_MODEL_ARN, BEDROCK_MODEL_PROVIDER, MAX_TOKENS, TEMPERATURE
 
 model = ChatBedrock(
-    model = BEDROCK_MODEL_ID,
-    max_tokens = 4000,
-    temperature = 0.0,
+    model = BEDROCK_MODEL_ARN,
+    provider=BEDROCK_MODEL_PROVIDER,
+    max_tokens = MAX_TOKENS,
+    temperature = TEMPERATURE,
 )
 
-tools = [make_prediction,query_athena_database,get_context_information]
+tools = [prediction_tool,db_query_tool,context_tool]
 
 system_prompt = """
     You are a medical assistant.
-    Answer the user query, using the tools available to you.
+    Answer the user query.
     Give short answers.
     """
 

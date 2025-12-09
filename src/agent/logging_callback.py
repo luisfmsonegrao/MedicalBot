@@ -12,7 +12,7 @@ class LoggingCallback(BaseCallbackHandler):
 
     def on_tool_start(self, tool, input_str, **kwargs):
         tool_name = tool.get("name")
-        self.logs.append({'tool':tool_name,'input':input_str,'output':None,'duration':None}) #Must be refactored if tool parallelism is allowed
+        self.logs.append({'tool':tool_name,'input':input_str,'output':None,'duration':0}) #Must be refactored if tool parallelism is allowed
         self.active_tools[tool_name] = time.perf_counter()
 
     def on_tool_end(self, output, **kwargs):
@@ -26,7 +26,7 @@ class LoggingCallback(BaseCallbackHandler):
 
     def on_llm_start(self,llm,prompts,**kwargs):
         tool_name = "llm"
-        self.logs.append({'tool':tool_name,'input':prompts,'output':None,'duration':None})
+        self.logs.append({'tool':tool_name,'input':prompts,'output':None,'duration':0})
         self.active_tools[tool_name] = time.perf_counter()
 
     def on_llm_end(self, output,**kwargs):

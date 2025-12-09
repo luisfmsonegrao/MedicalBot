@@ -1,27 +1,25 @@
 import boto3
 import time
+from langchain_core.tools.structured import StructuredTool
+from pydantic import BaseModel, StrictStr
 from .agent_config import AWS_REGION, ATHENA_DATABASE_NAME, ATHENA_OUTPUT_PATH, PATIENT_DATA_TABLE_NAME
 from .custom_errors import AthenaQueryError
 from .table_schema_retriever import get_table_schema
-from langchain.tools import tool
 
 table_schema = get_table_schema(ATHENA_DATABASE_NAME,PATIENT_DATA_TABLE_NAME)
 athena = boto3.client('athena',region_name=AWS_REGION)
 
-tool_name = "query_athena_database"
-tool_description =f"""Use {tool_name} when the user asks for data.
-                      The tool retrieves data from an Athena database {PATIENT_DATA_TABLE_NAME}.
-                      The database schema is: {table_schema}
-                      Do not use {tool_name} for information about specific people.
-                      Convert the user query to SQL without including any fields that are not in the database schema."""
+class QueryInput(BaseModel):
+    sql: StrictStr
 
-@tool(tool_name,description=tool_description)
-def query_athena_database(query):
+tool_name = "query_athena_database"
+def query_athena_database(query: QueryInput):
     """
     Query patient data from Amazon Athena database
     """
+    sql_query = query.sql
     response = athena.start_query_execution(
-        QueryString=query,
+        QueryString=sql_query,
         QueryExecutionContext={'Database': ATHENA_DATABASE_NAME},
         ResultConfiguration={'OutputLocation': ATHENA_OUTPUT_PATH}
     )
@@ -55,3 +53,13 @@ def query_athena_database(query):
     ]
     answer = {k: list(v) for k, v in zip(columns, zip(*rows))}
     return answer
+
+db_query_tool = StructuredTool.from_function(
+    func=query_athena_database,
+    name=tool_name,
+    description = f"""Use {tool_name} when the user asks for data.
+                      The tool retrieves data from an Athena database {PATIENT_DATA_TABLE_NAME}.
+                      The database schema is: {table_schema}
+                      Do not use {tool_name} to answer queries about specific people.
+                      Convert the user query to SQL without including any fields that are not in the database schema."""
+)

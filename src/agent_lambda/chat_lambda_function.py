@@ -1,6 +1,5 @@
 import json, time
 import os
-from src.agent.orchestrator import orchestrate
 from src.agent.agent import agent
 from src.agent.logging_callback import LoggingCallback
 from src.agent.interaction_saver import save_interaction
@@ -12,33 +11,38 @@ def lambda_handler(event, context):
     """
     lambda_version = os.environ["AWS_LAMBDA_FUNCTION_VERSION"]
     try:
-        body = json.loads(event.get("body", "{}"))
-        session_id = body.get("session_id","")
-        query_id = body.get("query_id","")
-        user_query = body.get("query", "")
-        if not user_query:
-            return {
-                "statusCode": 400,
-                "body": json.dumps({"error": "Missing 'query' field"})
-            }
-        #(answer,metadata),time = orchestrate(user_query,query_id,session_id)
-        callback = LoggingCallback()
+        body = json.loads(event.get("body"))
+        session_id = body.get("session_id")
+        query_id = body.get("query_id")
+        user_query = body.get("query")
+    except Exception as e:
+        return {
+            "statusCode": 400,
+            "body": json.dumps({"error": "Invalid request"})
+        }
+    task_status = True
+    error_name = error_description = answer = ""
+    status_code = 200
+    callback = LoggingCallback()
+    try:
         start_time = time.perf_counter()
         answer = agent.invoke({"messages": [{"role": "user", "content":user_query}]}, config={"callbacks": [callback]})
         total_duration = time.perf_counter() - start_time
-        metadata = build_metadata(session_id,query_id,lambda_version,user_query,answer,total_duration,callback)
-        save_interaction(**metadata)
-        return {
-            "statusCode": 200,
-            "headers": {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Headers": "*"
-            },
-            "body": json.dumps({"answer": answer})
-        }
-    
+        answer = getattr(answer['messages'][-1],'content') 
+
     except Exception as e:
-        return {
-            "statusCode": 500,
-            "body": json.dumps({"error": str(e)})
-        }
+        callback.on_chain_end(chain=agent,output=None)
+        error_name = e.__class__.__name__
+        error_description = str(e)
+        status_code = 500
+
+    metadata = build_metadata(session_id,query_id,task_status,lambda_version,user_query,answer,total_duration,error_name,error_description,callback)
+    save_interaction(**metadata)
+    return {
+        "statusCode": status_code,
+        "headers": {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "*"
+        },
+        "body": json.dumps({"answer": answer, "error": error_description})
+    }

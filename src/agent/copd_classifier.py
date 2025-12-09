@@ -1,29 +1,28 @@
 import joblib
 import os
-import pandas as pd
 from os.path import dirname
+import pandas as pd
+from typing import Literal
+from langchain_core.tools.structured import StructuredTool
+from pydantic import BaseModel, Field, StrictInt,StrictFloat
 from .agent_config import MODEL_FEATURES
 from .custom_errors import ModelPredictionError
-from langchain.tools import tool
+
 
 file_path = os.path.abspath(__file__)
 root_dir = dirname(dirname(dirname(file_path)))
 model_path = os.path.join(root_dir,"models/COPD_Classifier")
 model = joblib.load(model_path)
 
-feature_schema = """
-    - age: int
-    - sex: string ("Male"/"Female")
-    - smoker: string ("Yes"/"No")
-    - bmi: float
-"""
+class PredictionInput(BaseModel):
+    age: StrictInt = Field(...)
+    sex: Literal["Male","Female"]
+    smoker: Literal["Yes","No"]
+    bmi: StrictFloat = Field(...)
 
-tool_name = "make_prediction"
-tool_description =f"""Use {tool_name} to predict the class of Chronic Obstructive Pulmonary Disease based on the features extracted from the user query. Feature schema: {feature_schema}.
-                      Don't use the tool if there are missing or invalid feature values. Instead, prompt user to provide those values. """
+tool_name = "predict_copd"
 
-@tool(tool_name, description=tool_description)
-def make_prediction(features):
+def predict_copd(features: PredictionInput):
     """
     Predict Chronic Obstructive Pulmonary Disease class based on feature values.
     """
@@ -31,20 +30,27 @@ def make_prediction(features):
     if not status:
         return f"Prompt the user to provide valid values for features {missing_features}."
     
-    X = pd.DataFrame({k: [v] for k, v in features.items()})
+    X = pd.DataFrame([features.model_dump()])
     try:
-        pred = model.predict(X)
-        answer = f"Predicted class of Chronic Obstructive Pulmonary disease: {pred[0]}"
+        pred = model.predict([1])
+        answer = f"Chronic Obstructive Pulmonary disease class {pred[0]}"
     except Exception as e:
         raise ModelPredictionError(e)
-    return pred
+    return answer
 
 def validate_features(features):
     """
     Check if all necessary features are present
     """
     status = True
-    missing_features = [f for f in MODEL_FEATURES if features.get(f) in (None, "", "null")]
+    missing_features = [f for f in MODEL_FEATURES if getattr(features,f) in (None,"","null")]
     if missing_features:
         status = False
     return status, missing_features
+
+prediction_tool = StructuredTool.from_function(
+    func=predict_copd,
+    name=tool_name,
+    description = f"""Use {tool_name} to predict the class of Chronic Obstructive Pulmonary Disease. 
+                    IF ANY FEATURES ARE NOT EXPLICITLY SPECIFIED BY THE USER IN THE QUERY, DO NOT CALL THIS TOOL."""
+)

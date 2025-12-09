@@ -30,7 +30,7 @@ def lambda_handler(event, context):
         total_duration = time.perf_counter() - start_time
         answer = getattr(answer['messages'][-1],'content') 
     except Exception as e:
-        callback.on_chain_end(chain=agent,output=None)
+        callback.on_chain_end(chain=agent,outputs=None)
         error_name = e.__class__.__name__
         error_description = str(e)
         status_code = 500

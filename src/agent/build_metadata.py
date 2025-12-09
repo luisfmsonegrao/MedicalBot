@@ -25,7 +25,7 @@ def build_metadata(
     metadata['session_id'] = session_id
     metadata['query_id'] = query_id
     metadata['timestamp'] = timestamp
-    metadata['total_duration'] = total_duration
+    metadata['total_duration'] = Decimal(str(total_duration))
     metadata['lambda_version'] = lambda_version
     metadata['query'] = query
     metadata['results'] = answer

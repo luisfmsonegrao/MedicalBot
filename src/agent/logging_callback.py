@@ -1,6 +1,7 @@
 import time
 from collections import defaultdict
 from langchain_core.callbacks import BaseCallbackHandler
+from .agent_tools import context_tool_name,prediction_tool_name,db_query_tool_name
 
 class LoggingCallback(BaseCallbackHandler):
     def __init__(self):
@@ -55,9 +56,11 @@ class LoggingCallback(BaseCallbackHandler):
         if len(used_tools)>1:
             self.task_type='multitool'
         elif len(used_tools)==1:
-            if used_tools[0] == 'get_context_information':
+            if used_tools[0] == context_tool_name:
                 self.task_type = 'question_answering'
-            else:
-                self.task_type = used_tools[0]
+            elif used_tools[0] == prediction_tool_name:
+                self.task_type = 'prediction'
+            elif used_tools[0] == db_query_tool_name:
+                self.task_type = 'db_query'
         else:
             self.task_type = 'generic_question'

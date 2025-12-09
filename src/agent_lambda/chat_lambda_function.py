@@ -36,7 +36,18 @@ def lambda_handler(event, context):
         error_description = str(e)
         status_code = 500
 
-    metadata = build_metadata(session_id,query_id,task_status,lambda_version,user_query,answer,total_duration,error_name,error_description,callback)
+    metadata = build_metadata(
+        session_id,
+        query_id,
+        task_status,
+        lambda_version,
+        user_query,
+        answer,
+        total_duration,
+        error_name,
+        error_description,
+        callback
+        )
     save_interaction(**metadata)
     return {
         "statusCode": status_code,

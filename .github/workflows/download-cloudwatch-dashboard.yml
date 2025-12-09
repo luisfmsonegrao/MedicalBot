@@ -56,9 +56,9 @@ jobs:
             | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT03H", end:"P0D"}' dashboard.json > widget-meaninteractionduration.json
 
           # Mean:Duration widget
-          jq -c '.DashboardBody | fromjson | .widgets[]
-            | select(.properties.title=="Mean:Duration")
-            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT03H", end:"P0D"}' dashboard.json > widget-meanduration.json
+          #jq -c '.DashboardBody | fromjson | .widgets[]
+          #  | select(.properties.title=="Mean:Duration")
+          #  | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT03H", end:"P0D"}' dashboard.json > widget-meanduration.json
 
       - name: Generate PNGs
         run: |
@@ -98,20 +98,51 @@ jobs:
             --query 'MetricWidgetImage' \
             | base64 --decode > docs/monitoring/figures/dashboard-meaninteractionduration.png
 
-          aws cloudwatch get-metric-widget-image \
-            --metric-widget file://widget-meanduration.json \
-            --output text \
-            --query 'MetricWidgetImage' \
-            | base64 --decode > docs/monitoring/figures/dashboard-meanduration.png
+          #aws cloudwatch get-metric-widget-image \
+          #  --metric-widget file://widget-meanduration.json \
+          #  --output text \
+          #  --query 'MetricWidgetImage' \
+          #  | base64 --decode > docs/monitoring/figures/dashboard-meanduration.png
 
       - name: Clean up temporary files
         run: |
-          rm dashboard.json widget-feedback.json widget-task_status.json widget-meansessionlength.json widget-totalcountsessions.json widget-totalcountqueries.json widget-meaninteractionduration.json widget-meanduration.json
+          #rm dashboard.json widget-feedback.json widget-task_status.json widget-meansessionlength.json widget-totalcountsessions.json widget-totalcountqueries.json widget-meaninteractionduration.json widget-meanduration.json
+          rm dashboard.json widget-feedback.json widget-task_status.json widget-meansessionlength.json widget-totalcountsessions.json widget-totalcountqueries.json widget-meaninteractionduration.json
 
-      - name: Commit & push updated figures
+      #- name: Commit & push updated figures
+      #  run: |
+      #    git config user.name "github-actions"
+      #    git config user.email "actions@github.com"
+      #    git add docs/monitoring/figures/
+      #    git commit -m "Update CloudWatch dashboard figures"
+      #    git push
+
+      - name: Config
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
+            
+      - name: Commit
+        run: |
+          git checkout -B dashboard-sync
           git add docs/monitoring/figures/
-          git commit -m "Update CloudWatch dashboard figures"
-          git push
+          git commit -m "Update Cloudwatch dashboards"
+        
+      - name: Push branch
+        run: |
+          git push -u origin dashboard-sync
+    
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: dashboard-sync
+          base: main
+          title: "Update CloudWatch dashboards"
+          commit-message: "Update CloudWatch dashboards"
+          body: "Automated update of CloudWatch dashboards."
+          draft: false
+          labels: |
+            automation
+            dashboards
+          merge-method: squash
+          auto-merge: true

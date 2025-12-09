@@ -48,11 +48,11 @@ def lambda_handler(event, context):
                 Namespace=NAMESPACE,
                 MetricData=metric_data
             )
-    for metric in MEAN_METRICS:
-        metric_data = calculate_mean(items,metric)
-        if metric_data:
-            cloudwatch.put_metric_data(
-                Namespace=NAMESPACE,
-                MetricData=metric_data
-            )
+    #for metric in MEAN_METRICS:
+    #    metric_data = calculate_mean(items,metric)
+    #    if metric_data:
+    #        cloudwatch.put_metric_data(
+    #            Namespace=NAMESPACE,
+    #            MetricData=metric_data
+    #        )
     return {"status": "success"}

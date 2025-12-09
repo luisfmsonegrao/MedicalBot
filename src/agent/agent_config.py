@@ -4,7 +4,13 @@ AWS_REGION = "us-east-1"
 
 KNOWLEDGE_BASE_ID = "A3XBZT3D8Y"
 
-BEDROCK_MODEL_ID = 'anthropic.claude-3-sonnet-20240229-v1:0'
+BEDROCK_MODEL_ARN = "arn:aws:bedrock:us-east-1:142902629668:inference-profile/us.anthropic.claude-3-7-sonnet-20250219-v1:0"
+
+BEDROCK_MODEL_PROVIDER = "anthropic"
+
+MAX_TOKENS = 4000
+
+TEMPERATURE = 0
 
 S3_BUCKET = 'lneg-loka'
 

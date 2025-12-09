@@ -1,9 +1,10 @@
 # **MedicalBot** AI AGENT
 
-**MedicalBot** is a python agentic AI chatbot that uses `claude sonnet 3` to:
+**MedicalBot** is a python agentic AI chatbot that uses `claude sonnet 3.7` to:
   - answer natural language questions based on patients' medical records;
   - predict patient outcomes based on input feature values;
-  - retrieve and aggregate anonymized patient data.
+  - retrieve and aggregate anonymized patient data;
+  - handle multistep combinations of the aforementioned tasks.
 
   Launch **MedicalBot UI**:
 
@@ -50,9 +51,10 @@
   ### Detailed **MedicalBot** description
 
   **MedicalBot** is an agentic AI Chatbot with several features:
-  - answer natural language questions about patients' medical history, leveraging a database of textual patient medical records and citing relevant sources.
-  - predict patient outcomes for Chronic Obstructive Pulmonary Disease class, leveraging the `patient_data` dataset. This is achieved with a Decision Tree Classifier.
-  - retrieve and aggregate anonymized medical data from the `patient_data` dataset.
+  - answer natural language questions about patients' medical history, leveraging a database of textual patient medical records and citing relevant sources;
+  - predict patient outcomes for Chronic Obstructive Pulmonary Disease class, leveraging the `patient_data` dataset. This is achieved with a Decision Tree Classifier;
+  - retrieve and aggregate anonymized medical data from the `patient_data` dataset;
+  - handle complex mutlti-step requests;
   - a `Gradio` GUI for users to interact with **MedicalBot** - send queries and provide feedback on individual answers
 
 
@@ -61,7 +63,7 @@
   - **MedicalBot** source code written with python3.12
   - `Amazon Lambda` to deploy **MedicalBot**
   - `Gradio` User Interface to **MedicalBot**
-  - `claude sonnet 3` foundational model to answer user queries
+  - `claude sonnet 3.7` foundational model to answer user queries
   - `amazon.titan-embed-text-v2:0` embedding model to embedd textual medical records for RAG
   - `Amazon Bedrock Knowlegde Base` vector database to store embeddings and metadata for RAG
   - `Amazon Athena` database to store tabular patient data for querying
@@ -73,7 +75,7 @@
   - `AWS Secrets Manager` for api key management.
   - `GitHub Actions` for DevOps workflows
   - `pytest` for unit testing
-  - Upcoming: `Langchain` orchestration
+  - `Langchain` agent orchestration
 
 
   ### Patient outcome classification model
@@ -138,7 +140,6 @@
   
   ### ToDo
   **MedicalBot** current ToDo list:
-  - refactoring agent orchestration with `LangChain`
   - enable usage of user interaction history (e.g. for context tracking)
   - enable storage and usage of other performance metrics:
     - model confidence:

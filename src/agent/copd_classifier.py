@@ -2,25 +2,15 @@ import joblib
 import os
 from os.path import dirname
 import pandas as pd
-from typing import Literal
-from langchain_core.tools.structured import StructuredTool
-from pydantic import BaseModel, Field, StrictInt,StrictFloat
 from .agent_config import MODEL_FEATURES
 from .custom_errors import ModelPredictionError
+from .tool_input_models import PredictionInput
 
 
 file_path = os.path.abspath(__file__)
 root_dir = dirname(dirname(dirname(file_path)))
 model_path = os.path.join(root_dir,"models/COPD_Classifier")
 model = joblib.load(model_path)
-
-class PredictionInput(BaseModel):
-    age: StrictInt = Field(...)
-    sex: Literal["Male","Female"]
-    smoker: Literal["Yes","No"]
-    bmi: StrictFloat = Field(...)
-
-tool_name = "predict_copd"
 
 def predict_copd(features: PredictionInput):
     """
@@ -32,7 +22,7 @@ def predict_copd(features: PredictionInput):
     
     X = pd.DataFrame([features.model_dump()])
     try:
-        pred = model.predict([1])
+        pred = model.predict(X)
         answer = f"Chronic Obstructive Pulmonary disease class {pred[0]}"
     except Exception as e:
         raise ModelPredictionError(e)
@@ -47,10 +37,3 @@ def validate_features(features):
     if missing_features:
         status = False
     return status, missing_features
-
-prediction_tool = StructuredTool.from_function(
-    func=predict_copd,
-    name=tool_name,
-    description = f"""Use {tool_name} to predict the class of Chronic Obstructive Pulmonary Disease. 
-                    IF ANY FEATURES ARE NOT EXPLICITLY SPECIFIED BY THE USER IN THE QUERY, DO NOT CALL THIS TOOL."""
-)

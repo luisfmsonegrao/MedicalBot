@@ -17,12 +17,13 @@ def chat_fn(user_message, session_id, history):
     r = requests.post(QUERY_API_URL, headers=headers, json={"session_id": session_id, "query_id": query_id, "query": user_message})
     data = r.json()
     answer = data.get("answer", "Error")
-    answer_text = answer.get('text')
-    answer_data = answer.get('data')
-    answer_data = format_answer(answer_data)
-    history.append((user_message, answer_text))
+    #answer_text = answer.get('text')
+    #answer_data = answer.get('data') #Uncomment once tabular data is extracted from agent
+    #answer_data = format_answer(answer_data)
+    history.append((user_message, answer))
     query_id_map[len(history) - 1] = query_id
-    return history, history, answer_data
+    #return history, history, answer_data #Uncomment once tabular data is extracted from agent
+    return history, history, pd.DataFrame()
 
 def format_answer(answer_data):
     """

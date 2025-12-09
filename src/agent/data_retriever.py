@@ -2,17 +2,17 @@ import boto3
 import time
 from .agent_config import AWS_REGION, ATHENA_DATABASE_NAME, ATHENA_OUTPUT_PATH
 from .custom_errors import AthenaQueryError
-from .time_decorator import measure_duration
+from .tool_input_models import QueryInput
+
 athena = boto3.client('athena',region_name=AWS_REGION)
 
-@measure_duration
-def get_data(query):
+def query_athena_database(query: QueryInput):
     """
     Query patient data from Amazon Athena database
     """
-
+    sql_query = query.sql
     response = athena.start_query_execution(
-        QueryString=query,
+        QueryString=sql_query,
         QueryExecutionContext={'Database': ATHENA_DATABASE_NAME},
         ResultConfiguration={'OutputLocation': ATHENA_OUTPUT_PATH}
     )

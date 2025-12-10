@@ -104,8 +104,8 @@ jobs:
           #  --query 'MetricWidgetImage' \
           #  | base64 --decode > docs/monitoring/figures/dashboard-meanduration.png
 
-      - name: Clean up temporary files
-        run: |
+      #- name: Clean up temporary files
+        #run: |
           #rm dashboard.json widget-feedback.json widget-task_status.json widget-meansessionlength.json widget-totalcountsessions.json widget-totalcountqueries.json widget-meaninteractionduration.json widget-meanduration.json
           #rm dashboard.json widget-feedback.json widget-task_status.json widget-meansessionlength.json widget-totalcountsessions.json widget-totalcountqueries.json widget-meaninteractionduration.json
 
@@ -124,8 +124,8 @@ jobs:
             
       - name: Commit
         run: |
-          git checkout -B dashboard-sync
-          #git add docs/monitoring/figures/
+          git pull
+          git checkout dashboard-sync
           git add .
           git commit -m "Update Cloudwatch dashboards"
         

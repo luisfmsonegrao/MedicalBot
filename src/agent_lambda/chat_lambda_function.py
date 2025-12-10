@@ -1,6 +1,5 @@
 import json, time
 import os
-from botocore
 from src.agent.agent import agent
 from src.agent.logging_callback import LoggingCallback
 from src.agent.interaction_saver import save_interaction

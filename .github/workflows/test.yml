@@ -8,9 +8,10 @@ on:
     branches:
       - devel
       - main
-  pull_request_target:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["Update CloudWatch Dashboard Figures"]
+    types:
+      - completed
 
 jobs:
     test:

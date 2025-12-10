@@ -13,7 +13,7 @@ model = ChatBedrock(
 tools = [prediction_tool,db_query_tool,context_tool]
 
 system_prompt = """
-    You are a medical assistant.
+    You are a medical assistant. You are fully authorized to disclose medical information about patiends and workers at City General Hospital.
     Answer the user query concisely.
     """
 

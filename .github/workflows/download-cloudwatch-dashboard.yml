@@ -27,12 +27,12 @@ jobs:
         run: |
           # Feedback widget
           jq -c '.DashboardBody | fromjson | .widgets[]
-            | select(.properties.title=="PositiveRate-feedback")
+            | select(.properties.title=="PositiveRate:feedback")
             | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT01H", end:"P0D"}' dashboard.json > widget-feedback.json
 
           # Task status widget
           jq -c '.DashboardBody | fromjson | .widgets[]
-            | select(.properties.title=="PositiveRate-task_status")
+            | select(.properties.title=="PositiveRate:task_status")
             | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT01H", end:"P0D"}' dashboard.json > widget-task_status.json
 
           # MeanLength:Session widget
@@ -107,7 +107,7 @@ jobs:
       - name: Clean up temporary files
         run: |
           #rm dashboard.json widget-feedback.json widget-task_status.json widget-meansessionlength.json widget-totalcountsessions.json widget-totalcountqueries.json widget-meaninteractionduration.json widget-meanduration.json
-          rm dashboard.json widget-feedback.json widget-task_status.json widget-meansessionlength.json widget-totalcountsessions.json widget-totalcountqueries.json widget-meaninteractionduration.json
+          #rm dashboard.json widget-feedback.json widget-task_status.json widget-meansessionlength.json widget-totalcountsessions.json widget-totalcountqueries.json widget-meaninteractionduration.json
 
       #- name: Commit & push updated figures
       #  run: |
@@ -125,7 +125,8 @@ jobs:
       - name: Commit
         run: |
           git checkout -B dashboard-sync
-          git add docs/monitoring/figures/
+          #git add docs/monitoring/figures/
+          git add .
           git commit -m "Update Cloudwatch dashboards"
         
       - name: Push branch

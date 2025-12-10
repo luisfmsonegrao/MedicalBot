@@ -119,21 +119,6 @@ jobs:
       #    git add docs/monitoring/figures/
       #    git commit -m "Update CloudWatch dashboard figures"
       #    git push
-
-      - name: Config
-        run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-            
-      - name: Commit
-        run: |
-          git checkout dashboard-sync
-          git add .
-          git commit -m "Update Cloudwatch dashboards"
-        
-      - name: Push branch
-        run: |
-          git push -u origin dashboard-sync
     
       - name: Create PR
         uses: peter-evans/create-pull-request@v6
@@ -143,7 +128,6 @@ jobs:
           title: "Update CloudWatch dashboards"
           commit-message: "Update CloudWatch dashboards"
           body: "Automated update of CloudWatch dashboards."
-          draft: false
           labels: |
             automation
             dashboards

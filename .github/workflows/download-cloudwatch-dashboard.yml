@@ -124,7 +124,6 @@ jobs:
             
       - name: Commit
         run: |
-          git pull
           git checkout dashboard-sync
           git add .
           git commit -m "Update Cloudwatch dashboards"

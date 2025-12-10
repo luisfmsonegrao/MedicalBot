@@ -9,6 +9,9 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: dashboard-sync
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2

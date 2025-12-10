@@ -27,10 +27,14 @@ def lambda_handler(event, context):
     try:
         start_time = time.perf_counter()
         answer = agent.invoke({"messages": [{"role": "user", "content":user_query}]}, config={"callbacks": [callback]})
+        print(f"Ans1:{answer}")
         total_duration = time.perf_counter() - start_time
-        answer = getattr(answer['messages'][-1],'content') 
+        answer = getattr(answer['messages'][-1],'content')
+        print(f"Ans2:{answer}")
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Error:{e}")
+        task_status = False
+        total_duration = 0
         callback.on_chain_end(chain=agent,outputs=None)
         error_name = e.__class__.__name__
         error_description = str(e)

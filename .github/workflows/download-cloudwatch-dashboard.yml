@@ -125,14 +125,3 @@ jobs:
             dashboards
           merge-method: squash
           auto-merge: true
-
-      - name: Trigger test workflow
-        uses: octokit/request-action@v6
-        with:
-          route: POST /repos/:owner/:repo/actions/workflows/test.yml/dispatches
-          owner: ${{ github.repository_owner }}
-          repo: ${{ github.repository }}
-          workflow_id: test.yml
-          ref: dashboard-sync
-          inputs: |
-            branch: dashboard-sync

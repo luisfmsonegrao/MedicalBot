@@ -1,5 +1,6 @@
 import json, time
 import os
+from botocore
 from src.agent.agent import agent
 from src.agent.logging_callback import LoggingCallback
 from src.agent.interaction_saver import save_interaction
@@ -32,7 +33,9 @@ def lambda_handler(event, context):
         answer = getattr(answer['messages'][-1],'content')
         print(f"Ans2:{answer}")
     except Exception as e:
-        print(f"Error:{e}")
+        print(f"Error: {e}, class: {e.__class__}, name: {e.__class__.__name__}")
+        if hasattr(e,"response"):
+            print(f"Response: {e.response}")
         task_status = False
         total_duration = 0
         callback.on_chain_end(chain=agent,outputs=None)

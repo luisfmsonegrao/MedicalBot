@@ -107,18 +107,10 @@ jobs:
           #  --query 'MetricWidgetImage' \
           #  | base64 --decode > docs/monitoring/figures/dashboard-meanduration.png
 
-      #- name: Clean up temporary files
-        #run: |
+      - name: Clean up temporary files
+        run: |
           #rm dashboard.json widget-feedback.json widget-task_status.json widget-meansessionlength.json widget-totalcountsessions.json widget-totalcountqueries.json widget-meaninteractionduration.json widget-meanduration.json
-          #rm dashboard.json widget-feedback.json widget-task_status.json widget-meansessionlength.json widget-totalcountsessions.json widget-totalcountqueries.json widget-meaninteractionduration.json
-
-      #- name: Commit & push updated figures
-      #  run: |
-      #    git config user.name "github-actions"
-      #    git config user.email "actions@github.com"
-      #    git add docs/monitoring/figures/
-      #    git commit -m "Update CloudWatch dashboard figures"
-      #    git push
+          rm dashboard.json widget-feedback.json widget-task_status.json widget-meansessionlength.json widget-totalcountsessions.json widget-totalcountqueries.json widget-meaninteractionduration.json
     
       - name: Create PR
         uses: peter-evans/create-pull-request@v6

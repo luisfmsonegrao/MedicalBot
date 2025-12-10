@@ -127,6 +127,7 @@ jobs:
           labels: |
             automation
             dashboards
+          auto-update: true
           delete-branch: true
           merge-method: squash
           auto-merge: true

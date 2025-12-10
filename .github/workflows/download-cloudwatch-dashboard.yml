@@ -3,6 +3,10 @@ name: Update CloudWatch Dashboard Figures
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   update-figures:
     runs-on: ubuntu-latest
@@ -11,7 +15,11 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: dashboard-sync
+          ref: main
+
+      - name: Create new branch
+        run: |
+          git checkout -b dashboard-sync
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
@@ -31,37 +39,37 @@ jobs:
           # Feedback widget
           jq -c '.DashboardBody | fromjson | .widgets[]
             | select(.properties.title=="PositiveRate:Feedback")
-            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT01H", end:"P0D"}' dashboard.json > widget-feedback.json
+            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT24H", end:"P0D"}' dashboard.json > widget-feedback.json
 
           # Task status widget
           jq -c '.DashboardBody | fromjson | .widgets[]
             | select(.properties.title=="PositiveRate:TaskStatus")
-            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT01H", end:"P0D"}' dashboard.json > widget-task_status.json
+            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT24H", end:"P0D"}' dashboard.json > widget-task_status.json
 
           # MeanLength:Session widget
           jq -c '.DashboardBody | fromjson | .widgets[]
             | select(.properties.title=="MeanLength:Session")
-            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT01H", end:"P0D"}' dashboard.json > widget-meansessionlength.json
+            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT24H", end:"P0D"}' dashboard.json > widget-meansessionlength.json
 
           # TotalCount:Queries widget
           jq -c '.DashboardBody | fromjson | .widgets[]
             | select(.properties.title=="TotalCount:Queries")
-            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT01H", end:"P0D"}' dashboard.json > widget-totalcountqueries.json
+            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT24H", end:"P0D"}' dashboard.json > widget-totalcountqueries.json
 
           # TotalCount:Sessions widget
           jq -c '.DashboardBody | fromjson | .widgets[]
             | select(.properties.title=="TotalCount:Sessions")
-            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT3H", end:"P0D"}' dashboard.json > widget-totalcountsessions.json
+            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT24H", end:"P0D"}' dashboard.json > widget-totalcountsessions.json
 
           # Mean:InteractionDuration widget
           jq -c '.DashboardBody | fromjson | .widgets[]
             | select(.properties.title=="Mean:InteractionDuration")
-            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT01H", end:"P0D"}' dashboard.json > widget-meaninteractionduration.json
+            | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT24H", end:"P0D"}' dashboard.json > widget-meaninteractionduration.json
 
           # Mean:Duration widget
           #jq -c '.DashboardBody | fromjson | .widgets[]
           #  | select(.properties.title=="Mean:Duration")
-          #  | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT01H", end:"P0D"}' dashboard.json > widget-meanduration.json
+          #  | {metrics: .properties.metrics, stat: "Average", period: 300, region: "us-east-1", title: .properties.title, start:"-PT24H", end:"P0D"}' dashboard.json > widget-meanduration.json
 
       - name: Generate PNGs
         run: |
@@ -112,9 +120,10 @@ jobs:
           #rm dashboard.json widget-feedback.json widget-task_status.json widget-meansessionlength.json widget-totalcountsessions.json widget-totalcountqueries.json widget-meaninteractionduration.json widget-meanduration.json
           rm dashboard.json widget-feedback.json widget-task_status.json widget-meansessionlength.json widget-totalcountsessions.json widget-totalcountqueries.json widget-meaninteractionduration.json
     
-      - name: Create PR
+      - name: Create PR (auto-merge + auto-delete branch)
         uses: peter-evans/create-pull-request@v6
         with:
+          token: ${{ secrets.cloudwatch }} 
           branch: dashboard-sync
           base: main
           title: "Update CloudWatch dashboards"
@@ -123,5 +132,6 @@ jobs:
           labels: |
             automation
             dashboards
+          delete-branch: true
           merge-method: squash
           auto-merge: true

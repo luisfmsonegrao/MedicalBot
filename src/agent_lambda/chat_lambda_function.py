@@ -27,19 +27,17 @@ def lambda_handler(event, context):
     try:
         start_time = time.perf_counter()
         answer = agent.invoke({"messages": [{"role": "user", "content":user_query}]}, config={"callbacks": [callback]})
-        print(f"Ans1:{answer}")
         total_duration = time.perf_counter() - start_time
         answer = getattr(answer['messages'][-1],'content')
-        print(f"Ans2:{answer}")
     except Exception as e:
-        print(f"Error: {e}, class: {e.__class__}, name: {e.__class__.__name__}")
-        if hasattr(e,"response"):
-            print(f"Response: {e.response}")
+        error_name = e.__class__.__name__
+        if error_name == "ThrottlingException":
+            error_description = "Your request exceeded AWS Bedrock rate limits. Try splitting your request into smaller requests."
+        else:
+            error_description = str(e)
         task_status = False
         total_duration = 0
         callback.on_chain_end(chain=agent,outputs=None)
-        error_name = e.__class__.__name__
-        error_description = str(e)
         status_code = 500
 
     metadata = build_metadata(

@@ -8,6 +8,9 @@ on:
     branches:
       - devel
       - main
+  pull_request_target:
+    branches:
+      - main
 
 jobs:
     test:

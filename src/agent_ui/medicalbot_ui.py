@@ -17,10 +17,8 @@ def chat_fn(user_message, session_id, history):
     r = requests.post(QUERY_API_URL, headers=headers, json={"session_id": session_id, "query_id": query_id, "query": user_message})
     body = r.json()
     answer = body.get("answer")
-    print(f"A: {answer}")
     if not answer:
         answer = body.get("error")
-    print(f"Error: {answer}")
     #answer_text = answer.get('text')
     #answer_data = answer.get('data') #Uncomment once tabular data is extracted from agent
     #answer_data = format_answer(answer_data)

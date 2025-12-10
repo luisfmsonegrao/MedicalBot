@@ -15,7 +15,7 @@ def calculate_positive_rate(items, metric, values,*,group_fields=None):
     group_metrics = {}
     for (group,data) in agg.items():
         try:
-            group_metrics[group] = data["positive"]/(data["positive"]+data["negative"])
+            group_metrics[group] = 100*data["positive"]/(data["positive"]+data["negative"])
         except ZeroDivisionError as e:
             continue
 

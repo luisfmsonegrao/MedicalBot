@@ -130,23 +130,14 @@ jobs:
             dashboards
           auto-update: true
 
-      - name: Merge PR via GitHub API
+      - name: Merge PR via GitHub CLI
+        env:
+          GH_TOKEN: ${{ secrets.cloudwatch }}
         run: |
           PR_NUMBER=$(gh pr list --head dashboard-sync --json number --jq '.[0].number')
           if [ -n "$PR_NUMBER" ]; then
             echo "Merging PR #$PR_NUMBER"
-            curl -X PUT \
-              -H "Authorization: token ${{ secrets.cloudwatch }}" \
-              -H "Accept: application/vnd.github+json" \
-              https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER/merge \
-              -d '{"merge_method":"squash"}'
+            gh pr merge "$PR_NUMBER" --squash --repo ${{ github.repository }} --delete-branch
           else
             echo "No PR found to merge"
           fi
-
-      - name: Delete branch
-        run: |
-          curl -X DELETE \
-            -H "Authorization: token ${{ secrets.cloudwatch }}" \
-            -H "Accept: application/vnd.github+json" \
-            https://api.github.com/repos/${{ github.repository }}/git/refs/heads/dashboard-sync || echo "Branch already deleted"

@@ -124,6 +124,7 @@
   
   - Task completion rate per task type
   - Mean query duration
+  - Mean duration per component
     
   Click the image below to open a Monitoring Dashboard in `GitHub Pages`:
   [![MedicalBot Dashboard](https://luisfmsonegrao.github.io/MedicalBot/monitoring/figures/dashboard-feedback.png)](https://luisfmsonegrao.github.io/MedicalBot/monitoring/dashboard.html)
@@ -140,7 +141,10 @@
   
   ### ToDo
   **MedicalBot** current ToDo list:
-  - enable usage of user interaction history (e.g. for context tracking)
+  
+  - add session memory (e.g. for context tracking)
+  - stream agent thinking back to user for interpretability/observability
+  - enabled more granular negative feedback (e.g. refusal,factual errors, verbosity, etc.)
   - enable storage and usage of other performance metrics:
     - model confidence:
         - entropy of predicted sequence
@@ -151,7 +155,5 @@
 
     - Latency metrics
       
-  - enable usage of monitoring metrics for system tuning
   - place dataset under version control
-
 

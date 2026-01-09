@@ -96,7 +96,7 @@
   
   The user can interact with **MedicalBot** through a `Gradio` UI. To launch the GUI, just run:
 
-   ```python -m src.agent_ui.medicalbot_ui``
+   ```poetry run python -m src.agent_ui``
   
 
   A typical interaction with the **MedicalBot** will look like this:

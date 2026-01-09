@@ -14,7 +14,7 @@
 
   Run UI:
   
-   ```poetry run python -m src.agent_ui.medicalbot_ui```
+   ```poetry run python -m src.agent_ui```
 
    **Note**: You must have an API key before using **MedicalBot**
 

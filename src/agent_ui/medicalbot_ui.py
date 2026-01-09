@@ -70,8 +70,4 @@ with gr.Blocks() as demo:
     msg.submit(chat_fn, [msg, session_id, chatbot], [chatbot, chatbot, dataframe])
     chatbot.like(feedback_fn)
 
-if __name__ == "__main__":
-    demo.launch(share=True)
-
-
 
